@@ -37,14 +37,14 @@
                                 <h2 class="h4 card-text mb-3 text-center">Расходы и прибыль</h2>
                                 <!-- Оптовая цена -->
                                 <div class="form-floating mb-3">
-                                    <input type="number" class="form-control" id="wholesale-price" placeholder="Оптовая цена" aria-label="Оптовая цена">
+                                    <input type="number" min="0" step="0.01" class="form-control" id="wholesale-price" placeholder="Оптовая цена" aria-label="Оптовая цена">
                                     <label for="wholesale-price">Оптовая цена</label>
                                 </div>
                                 <!-- Фиксированная прибыль-->
                                 <div class="fix">
                                     <div class="input-group mb-3">
                                         <div class="form-floating">
-                                            <input type="number" class="form-control" id="fixed__number" placeholder="Издержка 1" value="1000" aria-label="Издержка 1">
+                                            <input type="number" min="0" step="0.01" class="form-control" id="fixed__number" placeholder="Издержка 1" value="1000" aria-label="Издержка 1">
                                             <label for="fixed__placeholder">1. Издержка 1, руб.</label>
                                         </div>
                                         <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-label="Изменить" aria-expanded="false"></button>
@@ -61,7 +61,7 @@
                                 <div class="percent mb-3">
                                     <div class="input-group mb-2">
                                         <div class="form-floating">
-                                            <input type="number" class="form-control" id="percent__number" placeholder="Прибыль" value="5">
+                                            <input type="number" min="0" step="0.01" class="form-control" id="percent__number" placeholder="Прибыль" value="5">
                                             <label for="percent__placeholder">2. Издержка 2, %</label>
                                         </div>
                                         <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
@@ -74,7 +74,7 @@
                                         </ul>
                                     </div>
                                     <div class="form-floating mb-2">
-                                        <input type="number" class="form-control" id="fixed-income" placeholder="Издержка 2, руб." value="1000" readonly>
+                                        <input type="number" min="0" step="0.01" class="form-control" id="fixed-income" placeholder="Издержка 2, руб." value="1000" readonly>
                                         <label for="fixed-income">Издержка 2, руб.</label>
                                     </div>                                 
                                 </div>
@@ -109,7 +109,7 @@
                                         <div class="percent mb-3">
                                             <div class="input-group mb-2">
                                                 <div class="form-floating">
-                                                    <input type="number" class="form-control" id="percent__number" placeholder="Прибыль" value="5">
+                                                    <input type="number" min="0" step="0.01" class="form-control" id="percent__number" placeholder="Прибыль" value="5">
                                                     <label for="percent__placeholder">1. Комиссия за размещение, %</label>
                                                 </div>
                                                 <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
@@ -138,7 +138,7 @@
                                         <div class="percent mb-3">
                                             <div class="input-group mb-2">
                                                 <div class="form-floating">
-                                                    <input type="number" class="form-control" id="percent__number" placeholder="Тариф за размещение 1" value="500">
+                                                    <input type="number" min="0" step="0.01" class="form-control" id="percent__number" placeholder="Тариф за размещение 1" value="500">
                                                     <label for="percent__placeholder">1. Тариф за размещение, руб.</label>
                                                 </div>
                                                 <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
