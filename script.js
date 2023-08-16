@@ -47,15 +47,6 @@ let costs = [ // Расходы и прибыль
         value: 200
     }
 ];
-/* Каждый объект расходов и прибыли должен иметь значение,
-/* поэтому если расход указан в процентах, то он пересчитывается в числовое значение
-*/
-costs.forEach(function(cost) {
-    if (cost["type"] === "percent") {
-        cost["value"] = wholesalePrice * cost["percent"]/100;
-        console.log(cost);
-    }
-})
 
 /* Комиссии
 /* name: Наименование
@@ -105,6 +96,16 @@ let sumCosts = 0; // Сумма расходов и прибыли
 let sumCommissions = 0; // Сумма комиссий маркетплейса
 let sumFees = 0; // Сумма тарифов маркетплейса
 
+/* Каждый объект расходов и прибыли должен иметь значение,
+/* поэтому если расход указан в процентах, то он пересчитывается в числовое значение
+*/
+costs.forEach(function(cost) {
+    if (cost["type"] === "percent") {
+        cost["value"] = wholesalePrice * cost["percent"]/100;
+        console.log(cost);
+    }
+})
+
 /* Сумма расходов и прибыли
 /* В sumCosts суммируются все значения value из расходов и прибылей costs. */
 console.log("- Расходы и прибыль:")
@@ -146,6 +147,9 @@ console.log("- Оптовая цена: " + wholesalePrice);
 let result = (wholesalePrice + sumCosts + sumFees) / (1 - sumCommissions / 100);
 result = result.toFixed(2);
 console.log("- Результат: " + result);
+
+const retailPriceValue = document.querySelector(".retail-price__value");
+retailPriceValue.value = result;
 }
 
 
@@ -211,7 +215,8 @@ function addCost() {
             addCostFixedFormFloating.append(addCostFixedInput, addCostFixedLabel);
 
             costs.push({name:costName});
-            addCostFixedInput.addEventListener('change', function () {
+            // Надо что-то придумать с айдишниками
+            addCostFixedInput.addEventListener('input', function () {
                 costName = addCostFixedInput.ariaLabel;
                 console.log("change: " + costName);
                 let addCostIndex = costs.find(findCost => findCost.name === costName);
