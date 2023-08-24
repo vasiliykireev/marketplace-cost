@@ -11,37 +11,44 @@ let wholesalePrice = 10000 ; // Оптовая цена
 /* value - значение расхода или прибыли, число
 */
 let costs = [ // Расходы и прибыль
-    {
+    {   
+        id: 1,
         name: "Прибыль",
         type: "percent",
         percent: 20
     },
     /*{
+        id: 2,
         name: "Персонал 1",
         type: "fix",
         value: 200
     },
     {
+        id: 3,
         name: "Персонал 2",
         type: "fix",
         value: 300
     },
     {
+        id: 4,
         name: "Маркетинг 1",
         type: "percent",
         percent: 3
     },
     {
+        id: 5,
         name: "Маркетинг 2",
         type: "percent",
         percent: 2
     },*/
     {
+        id: 6,
         name: "Маркетинг 3",
         type: "percent",
         percent: 3
     },
     {
+        id: 7,
         name: "Логистика",
         type: "fix",
         value: 200
@@ -54,11 +61,13 @@ let costs = [ // Расходы и прибыль
 /* percent - значение процента комиссии, число */
 let commissions = [
     {
+        id: 1,
         name: "Размещение",
         type: "commission",
         percent: 2
     },
     {
+        id: 2,
         name: "Продвижение",
         type: "commission",
         percent: 5
@@ -71,16 +80,19 @@ let commissions = [
 /* value - значение расхода или прибыли, число */
 let fees = [
         {
+            id: 1,
             name: "Обработка",
             type: "fee",
             value: 20
         },
         {
+            id: 2,
             name: "Логистика",
             type: "fee",
             value: 300
         },
         {
+            id: 3,
             name: "Последняя миля",
             type: "fee",
             value: 500
@@ -96,44 +108,38 @@ let sumCosts = 0; // Сумма расходов и прибыли
 let sumCommissions = 0; // Сумма комиссий маркетплейса
 let sumFees = 0; // Сумма тарифов маркетплейса
 
-/* Каждый объект расходов и прибыли должен иметь значение,
-/* поэтому если расход указан в процентах, то он пересчитывается в числовое значение
-*/
-costs.forEach(function(cost) {
-    if (cost["type"] === "percent") {
-        cost["value"] = wholesalePrice * cost["percent"]/100;
+costs.forEach(function(cost) { // Каждый объект расходов и прибыли должен иметь значение, поэтому 
+    if (cost["type"] === "percent") { // Если расход указан в процентах,
+        cost["value"] = wholesalePrice * cost["percent"]/100; // то он пересчитывается в числовое значение.
         console.log(cost);
     }
 })
-
-/* Сумма расходов и прибыли
-/* В sumCosts суммируются все значения value из расходов и прибылей costs. */
+/* Сумма расходов и прибыли */
 console.log("- Расходы и прибыль:")
-costs.forEach(function(cost) {
-    sumCosts = sumCosts + Number(cost["value"]);
+costs.forEach(function(cost) { // Сумма всех расходов и прибыли
+    sumCosts = sumCosts + Number(cost["value"]); // В sumCosts суммируются все значения value из расходов и прибылей costs.
     console.log("name: " + cost["name"] + ", value: " + cost["value"]);
     console.log("sumCosts: " + sumCosts)
 })
 console.log("sumCosts (final): " + sumCosts);
 
 /* Сумма комиссий */
-/* В sumCommissions суммируются все значения percent из комиссий commissions.
-/* Сумма не может быть больше 100, иначе получится отрицательное число,
-/* потому что сумма комиссий не может превышать стоимость товара
-*/
 console.log("- Комиссии:")
-commissions.forEach(function(commission) {
-    sumCommissions = sumCommissions + commission["percent"];
+commissions.forEach(function(commission) { // Сумма всех комиссий
+    sumCommissions = sumCommissions + Number(commission["percent"]); // В sumCommissions суммируются все значения percent из комиссий commissions.
+    if (sumCommissions > 99) { // Сумма не может быть больше 99,
+        // потому что тогда в расчетах получится отрицательное число,
+        // потому что сумма комиссий не может превышать стоимость товара
+        console.alert("Сумма комиссий не может быть 100 или больше процентов.")
+    }
     console.log(commission["name"] + ": " + commission["percent"]);
 })
 console.log(sumCommissions);
 
 /* Сумма тарифов */
-/* В sumFees суммируются все значения value из тарифов fees.
-*/
 console.log("- Тарифы:")
-fees.forEach(function(fee) {
-    sumFees = sumFees + fee["value"];
+fees.forEach(function(fee) { // Сумма всех тарифов
+    sumFees = sumFees + fee["value"]; // В sumFees суммируются все значения value из тарифов fees.
     console.log(fee["name"] + ": " + fee["value"]);
 })
 console.log(sumFees);
@@ -141,17 +147,13 @@ console.log(sumFees);
 console.log("- Оптовая цена: " + wholesalePrice);
 
 /* Розничная цена */
-/* Розничная цена равна сумме оптовой цены, расходов и прибыли и тарифов маркетплейса,
-деленых на разницу 1 (100%) и суммы процентов комиссий маркетплейсов
-*/
-let result = (wholesalePrice + sumCosts + sumFees) / (1 - sumCommissions / 100);
+let result = (wholesalePrice + sumCosts + sumFees) / (1 - sumCommissions / 100); // Розничная цена равна сумме оптовой цены, расходов и прибыли и тарифов маркетплейса, деленых на разницу 1 (100%) и суммы процентов комиссий маркетплейсов
 result = result.toFixed(2);
 console.log("- Результат: " + result);
 
 const retailPriceValue = document.querySelector(".retail-price__value");
 retailPriceValue.value = result;
 }
-
 
 retailPrice();
 
@@ -167,13 +169,13 @@ const divCosts = document.querySelector(".costs");
 const buttonAddCost = document.querySelector(".add__cost");
 buttonAddCost.addEventListener('click', function () {addNewData("cost");});
 
-const divComissions = document.querySelector(".commissions");
+const divCommissions = document.querySelector(".commissions");
 const buttonAddComission = document.querySelector(".add__commission");
 buttonAddComission.addEventListener('click', function () {addNewData("commission");});
 
-const divTariffs = document.querySelector(".tariffs");
-const buttonAddTariff= document.querySelector(".add__tariff");
-buttonAddTariff.addEventListener('click', function () {addNewData("tariff");});
+const divFees = document.querySelector(".fees");
+const buttonAddFee= document.querySelector(".add__fee");
+buttonAddFee.addEventListener('click', function () {addNewData("fee");});
 
 function addNewData(type) {
     switch (type) {
@@ -182,12 +184,12 @@ function addNewData(type) {
             let newCostName = addName(type, newCost);
         break;
         case "commission":
-            let newComission = addElement(type, divComissions);
-            let newComissionName = addName(type, newComission);
+            let newCommission = addElement(type, divCommissions);
+            let newCommissionName = addName(type, newCommission);
         break;
-        case "tariff":
-            let newTariff = addElement(type, divTariffs);
-            let newTariffName = addName(type, newTariff);
+        case "fee":
+            let newFee = addElement(type, divFees);
+            let newFeeName = addName(type, newFee);
 
         break;
         default:
@@ -209,19 +211,34 @@ function addName(type, place, name) {
     if (name !== undefined) {
         newNameFormControl.value = name;
     }
+    newNameFormControl.focus();
     let newNameFormControlLabel = addFormControlLabel(type + "__form-control-label", newNameFormFloating);
     let newNameButtonSave = addButtonSave(type + "button-save", newNameInputGroup);
-    newNameButtonSave.addEventListener('click', function () {
-        let costName = newNameFormControl.value;
-        if (costName.length === 0) {
-            console.warn("Нужно добавить ошибку в валидации из-за пустого имени");
-            newNameInputGroup.remove();
-        } else {
-            place.append(costName);
-            newNameInputGroup.remove();
+    newNameButtonSave.addEventListener('click', function (event) {
+        let newName = newNameFormControl.value;
+        saveName(newName, place, newNameInputGroup);
+    })
+    newNameFormControl.addEventListener("keypress", function(event) {
+        let newName = newNameFormControl.value;
+        if (event.key === "Enter") {
+            saveName(newName, place, newNameInputGroup);
         }
     })
     return newNameInputGroup;
+}
+
+function saveName(name, place, remove) {
+    if (name.length === 0) {
+        console.warn("Нужно добавить ошибку в валидации из-за пустого имени");
+        place.remove();
+    } else {
+        place.append(name);
+        remove.remove();
+    }
+    console.log(name);
+    console.log(name.length);
+    console.log(place);
+
 }
 
 function addInputGroup(className, place) {
@@ -263,6 +280,31 @@ function addButtonSave(className, place) {
     return element;
 }
 
+function showCosts () {
+    costs.forEach(function(cost) {
+        let newCost = addElement("cost", divCosts);
+        newCost.append(cost["id"], ". ", cost["name"], " = ", cost["value"]);
+        if (cost["type"] === "percent") {
+            newCost.append(" (", cost["percent"], " %)");
+        }
+    })
+}
+
+function showCommissions () {
+    commissions.forEach(function(commission) {
+        let newCommision = addElement("commission", divCommissions);
+        newCommision.append(commission["id"], ". ", commission["name"], " = ", commission["percent"], " %");
+    })
+}
+
+function showFees () {
+    fees.forEach(function(fee) {
+        let newFee = addElement("fee", divFees);
+        newFee.append(fee["id"], ". ", fee["name"], " = ", fee["value"], " руб.");
+    })
+}
+
+/* --- */
 function addCost() {
     /* Добавить название */
     const addCostInputGroup = document.createElement("div");
