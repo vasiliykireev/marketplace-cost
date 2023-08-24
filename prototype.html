@@ -135,11 +135,11 @@
                                 <div class="card mt-2 mb-3">
                                     <div class="card-body">
                                         <h2 class="h4 card-text mb-3 text-center">Тарифы маркетплейса</h2>
-                                        <!-- Процент -->
-                                        <div class="percent mb-3">
+                                        <!-- Тариф -->
+                                        <div class="tariff mb-3">
                                             <div class="input-group mb-2">
                                                 <div class="form-floating">
-                                                    <input type="number" min="0" step="0.01" class="form-control" id="percent__number" placeholder="Тариф за размещение 1" value="500">
+                                                    <input type="number" min="0" step="0.01" class="tariff__number form-control" id="tariff__number" placeholder="Тариф за размещение 1" value="500">
                                                     <label for="percent__placeholder">1. Тариф за размещение, руб.</label>
                                                 </div>
                                                 <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
@@ -147,7 +147,34 @@
                                                     <li><a class="dropdown-item" href="#">Переименовать</a></li>
                                                     <li><a class="dropdown-item text-danger" href="#">Удалить</a></li>
                                                 </ul>
-                                            </div>                           
+                                            </div>
+                                        </div>
+                                        <div class="tariff mb-3">
+                                            <div class="input-group mb-2">
+                                                <div class="form-floating">
+                                                    <input type="number" min="0" step="0.01" class="tariff__number form-control" id="tariff__number" placeholder="Тариф за логистику" value="3">
+                                                    <label for="percent__placeholder">2. Тариф за логистику, %.</label>
+                                                </div>
+                                                <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                                <ul class="dropdown-menu dropdown-menu-end">
+                                                    <li><a class="dropdown-item" href="#">Переименовать</a></li>
+                                                    <li><a class="dropdown-item text-danger" href="#">Удалить</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="input-group">
+                                                <div class="form-floating">
+                                                    <input type="number" min="0" step="0.01" class="tariff__min form-control" id="tariff-min" placeholder="Не менее, руб." value="10">
+                                                    <label for="tariff-min">Не менее, руб.</label>
+                                                </div>
+                                                <div class="form-floating">
+                                                    <input type="number" min="0" step="0.01" class="tariff__max form-control" id="tariff-max" placeholder="Не более, руб." value="100">
+                                                    <label for="tariff-max">Не более, руб.</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-floating">
+                                                <input type="number" min="0" step="0.01" class="form-control-plaintext" id="fixed-income" placeholder="2. Тариф за логистику, руб." value="90" readonly>
+                                                <label for="fixed-income">2. Тариф за логистику, руб.</label>
+                                            </div>    
                                         </div>
                                         <!-- Кнопка добавить -->
                                         <div class="add mb-3">

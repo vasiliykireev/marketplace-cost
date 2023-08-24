@@ -165,9 +165,103 @@ inputWholesalePrice.value = wholesalePrice;
 /* Добавить расход */
 const divCosts = document.querySelector(".costs");
 const buttonAddCost = document.querySelector(".add__cost");
-buttonAddCost.addEventListener('click', function () {
-    addCost();
-});
+buttonAddCost.addEventListener('click', function () {addNewData("cost");});
+
+const divComissions = document.querySelector(".commissions");
+const buttonAddComission = document.querySelector(".add__commission");
+buttonAddComission.addEventListener('click', function () {addNewData("commission");});
+
+const divTariffs = document.querySelector(".tariffs");
+const buttonAddTariff= document.querySelector(".add__tariff");
+buttonAddTariff.addEventListener('click', function () {addNewData("tariff");});
+
+function addNewData(type) {
+    switch (type) {
+        case "cost":
+            let newCost = addElement(type, divCosts);
+            let newCostName = addName(type, newCost);
+        break;
+        case "commission":
+            let newComission = addElement(type, divComissions);
+            let newComissionName = addName(type, newComission);
+        break;
+        case "tariff":
+            let newTariff = addElement(type, divTariffs);
+            let newTariffName = addName(type, newTariff);
+
+        break;
+        default:
+            console.error("Ошибка при попытке добавления неизвестного типа!")
+    }
+}
+
+function addElement(className, place) {
+    const element = document.createElement("div");
+    element.classList.add(className, "mb-3");
+    place.append(element);
+    return element;
+}
+
+function addName(type, place, name) {
+    let newNameInputGroup = addInputGroup(type + "__name", place);
+    let newNameFormFloating = addFormFloating(type + "__form-floating", newNameInputGroup);
+    let newNameFormControl = addFormControl(type + "__form-control", newNameFormFloating);
+    if (name !== undefined) {
+        newNameFormControl.value = name;
+    }
+    let newNameFormControlLabel = addFormControlLabel(type + "__form-control-label", newNameFormFloating);
+    let newNameButtonSave = addButtonSave(type + "button-save", newNameInputGroup);
+    newNameButtonSave.addEventListener('click', function () {
+        let costName = newNameFormControl.value;
+        if (costName.length === 0) {
+            console.warn("Нужно добавить ошибку в валидации из-за пустого имени");
+            newNameInputGroup.remove();
+        } else {
+            place.append(costName);
+            newNameInputGroup.remove();
+        }
+    })
+    return newNameInputGroup;
+}
+
+function addInputGroup(className, place) {
+    const element = document.createElement("div");
+    element.classList.add(className, "input-group");
+    place.append(element);
+    return element;
+}
+
+function addFormFloating(className, place) {
+    const element = document.createElement("div");
+    element.classList.add(className, "form-floating");
+    place.append(element);
+    return element;
+}
+
+function addFormControl(className, place) {
+    const element = document.createElement("input");
+    element.classList.add(className, "form-control");
+    place.append(element);
+    return element;
+}
+
+function addFormControlLabel(className, place) {
+    const element = document.createElement("label");
+    element.classList.add(className);
+    element.innerText = "Название";
+    place.append(element);
+    return element;
+}
+
+function addButtonSave(className, place) {
+    const element = document.createElement("button");
+    element.classList.add("new-cost__button", "btn", "btn-primary");
+    element.setAttribute("type", "button");
+    element.setAttribute("aria-label", "Сохранить");
+    element.innerHTML = '<i class="bi bi-check"></i>';
+    place.append(element);
+    return element;
+}
 
 function addCost() {
     /* Добавить название */
@@ -225,12 +319,12 @@ function addCost() {
                 console.log(costs);
                 retailPrice();
             });
-            removeName(addCostInputGroup);
+            removeElement(addCostInputGroup);
         }
     })
 };
 
-function removeName(element) {
+function removeElement(element) {
 element.remove();
 };
 
