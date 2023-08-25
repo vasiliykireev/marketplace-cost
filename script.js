@@ -5,7 +5,8 @@ let marketplaceCostData = {};
 let wholesalePrice = 10000 ; // Оптовая цена
 
 /* Расходы и прибыль
-/* name: Наименование
+/* id: порядковый номер, число
+/* name: Наименование, строка
 /* type: percent - процент от оптовой цены, fix - фиксированное значение
 /* percent - значение процента от оптовой цены, число
 /* value - значение расхода или прибыли, число
@@ -56,9 +57,11 @@ let costs = [ // Расходы и прибыль
 ];
 
 /* Комиссии
-/* name: Наименование
+/* id: порядковый номер, число
+/* name: Наименование, строка
 /* type: commission - комиссия маркетплейса
-/* percent - значение процента комиссии, число */
+/* percent - значение процента комиссии, число
+*/
 let commissions = [
     {
         id: 1,
@@ -75,7 +78,8 @@ let commissions = [
 ];
 
 /* Тарифы */
-/* name: Наименование
+/* id: порядковый номер, число
+/* name: Наименование, строка
 /* type: fee - тариф маркетплейса
 /* value - значение расхода или прибыли, число */
 let fees = [
@@ -99,6 +103,8 @@ let fees = [
         }
     ];
 
+let currency = " руб.";
+
 /* --- */
 
 /* Расчеты */
@@ -111,20 +117,20 @@ let sumFees = 0; // Сумма тарифов маркетплейса
 costs.forEach(function(cost) { // Каждый объект расходов и прибыли должен иметь значение, поэтому 
     if (cost["type"] === "percent") { // Если расход указан в процентах,
         cost["value"] = wholesalePrice * cost["percent"]/100; // то он пересчитывается в числовое значение.
-        console.log(cost);
+        //console.log(cost);
     }
 })
 /* Сумма расходов и прибыли */
-console.log("- Расходы и прибыль:")
+//console.log("- Расходы и прибыль:")
 costs.forEach(function(cost) { // Сумма всех расходов и прибыли
     sumCosts = sumCosts + Number(cost["value"]); // В sumCosts суммируются все значения value из расходов и прибылей costs.
-    console.log("name: " + cost["name"] + ", value: " + cost["value"]);
-    console.log("sumCosts: " + sumCosts)
+    //console.log("name: " + cost["name"] + ", value: " + cost["value"]);
+    //console.log("sumCosts: " + sumCosts)
 })
-console.log("sumCosts (final): " + sumCosts);
+//console.log("sumCosts (final): " + sumCosts);
 
 /* Сумма комиссий */
-console.log("- Комиссии:")
+//console.log("- Комиссии:")
 commissions.forEach(function(commission) { // Сумма всех комиссий
     sumCommissions = sumCommissions + Number(commission["percent"]); // В sumCommissions суммируются все значения percent из комиссий commissions.
     if (sumCommissions > 99) { // Сумма не может быть больше 99,
@@ -132,24 +138,24 @@ commissions.forEach(function(commission) { // Сумма всех комисси
         // потому что сумма комиссий не может превышать стоимость товара
         console.alert("Сумма комиссий не может быть 100 или больше процентов.")
     }
-    console.log(commission["name"] + ": " + commission["percent"]);
+    //console.log(commission["name"] + ": " + commission["percent"]);
 })
-console.log(sumCommissions);
+//console.log(sumCommissions);
 
 /* Сумма тарифов */
-console.log("- Тарифы:")
+//console.log("- Тарифы:")
 fees.forEach(function(fee) { // Сумма всех тарифов
     sumFees = sumFees + fee["value"]; // В sumFees суммируются все значения value из тарифов fees.
-    console.log(fee["name"] + ": " + fee["value"]);
+    //console.log(fee["name"] + ": " + fee["value"]);
 })
-console.log(sumFees);
+//console.log(sumFees);
 
-console.log("- Оптовая цена: " + wholesalePrice);
+//console.log("- Оптовая цена: " + wholesalePrice);
 
 /* Розничная цена */
 let result = (wholesalePrice + sumCosts + sumFees) / (1 - sumCommissions / 100); // Розничная цена равна сумме оптовой цены, расходов и прибыли и тарифов маркетплейса, деленых на разницу 1 (100%) и суммы процентов комиссий маркетплейсов
 result = result.toFixed(2);
-console.log("- Результат: " + result);
+//console.log("- Результат: " + result);
 
 const retailPriceValue = document.querySelector(".retail-price__value");
 retailPriceValue.value = result;
@@ -164,130 +170,195 @@ retailPrice();
 const inputWholesalePrice = document.querySelector(".wholesale-price__number");
 inputWholesalePrice.value = wholesalePrice;
 
-/* Добавить расход */
-const divCosts = document.querySelector(".costs");
-const buttonAddCost = document.querySelector(".add__cost");
-buttonAddCost.addEventListener('click', function () {addNewData("cost");});
+/* Кнопки добавления новых данных */
+const divCosts = document.querySelector(".costs"); // Определяем элемент, куда добавлять новые расходы
+const buttonAddCost = document.querySelector(".add__cost"); // Определяем кнопку, нажатие на которую добавляет новые расходы
+buttonAddCost.addEventListener('click', function () {addNewData("cost");}); // Добавляем отслеживание событий по этой кнопке
 
-const divCommissions = document.querySelector(".commissions");
-const buttonAddComission = document.querySelector(".add__commission");
-buttonAddComission.addEventListener('click', function () {addNewData("commission");});
+const divCommissions = document.querySelector(".commissions"); // Определяем элемент, куда добавлять новые комиссии
+const buttonAddComission = document.querySelector(".add__commission"); // Определяем кнопку, нажатие на которую добавляет новые комиссии
+buttonAddComission.addEventListener('click', function () {addNewData("commission");}); // Добавляем отслеживание событий по этой кнопке
 
-const divFees = document.querySelector(".fees");
-const buttonAddFee= document.querySelector(".add__fee");
-buttonAddFee.addEventListener('click', function () {addNewData("fee");});
+const divFees = document.querySelector(".fees"); // Определяем элемент, куда добавлять новые тарифы
+const buttonAddFee= document.querySelector(".add__fee"); // Определяем кнопку, нажатие на которую добавляет новые тарифы
+buttonAddFee.addEventListener('click', function () {addNewData("fee");}); // Добавляем отслеживание событий по этой кнопке
 
-function addNewData(type) {
+function addNewData(type) { // Функция добавления новых данных в зависимости от типа
     switch (type) {
-        case "cost":
-            let newCost = addElement(type, divCosts);
-            let newCostName = addName(type, newCost);
+        case "cost": // Если добавляем расход
+            let newCost = addElement(type, divCosts); // Добавляем новый элемент расхода
+            let newCostName = addName(type, newCost); // Добавляем новое название для расхода
         break;
-        case "commission":
-            let newCommission = addElement(type, divCommissions);
-            let newCommissionName = addName(type, newCommission);
+        case "commission": // Если добавляем комиссию
+            let newCommission = addElement(type, divCommissions); // Добавляем новый элемент комиссии
+            let newCommissionName = addName(type, newCommission); // Добавляем новое название для комиссии
         break;
-        case "fee":
-            let newFee = addElement(type, divFees);
-            let newFeeName = addName(type, newFee);
+        case "fee": // Если добавляем тариф
+            let newFee = addElement(type, divFees); // Добавляем новый элемент тарифа
+            let newFeeName = addName(type, newFee); // Добавляем новое название для тарифа
 
         break;
-        default:
+        default: // В любом другом случае
             console.error("Ошибка при попытке добавления неизвестного типа!")
     }
 }
 
-function addElement(className, place) {
-    const element = document.createElement("div");
-    element.classList.add(className, "mb-3");
-    place.append(element);
-    return element;
+function addElement(className, place) { // Функция добавления нового элемента с переданным именем класса и местом
+    const element = document.createElement("div"); // Создаем элемент
+    element.classList.add(className, "mb-3"); // Добавляем нужный класс и отступ снизу
+    place.append(element); // Размещаем элемент
+    return element; // Возвращаем элемент
 }
 
-function addName(type, place, name) {
-    let newNameInputGroup = addInputGroup(type + "__name", place);
-    let newNameFormFloating = addFormFloating(type + "__form-floating", newNameInputGroup);
-    let newNameFormControl = addFormControl(type + "__form-control", newNameFormFloating);
-    if (name !== undefined) {
-        newNameFormControl.value = name;
+function addName(type, place, name) { // Функция добавления нового названия с переданным именем класса, местом и названием
+    let newNameInputGroup = addInputGroup(type + "__name", place); // Добавляем группу ввода для добавления названия
+    let newNameFormFloating = addFormFloating(type + "__form-floating", newNameInputGroup); // Добавляем плавающую форму
+    let newNameFormControl = addFormControl(type + "__form-control-name", newNameFormFloating); // Добавляем поле для ввода в форму
+    if (name !== undefined) { // Если в функции передано название
+        newNameFormControl.value = name; // Выводим его в значении поля для вводаа
     }
-    newNameFormControl.focus();
-    let newNameFormControlLabel = addFormControlLabel(type + "__form-control-label", newNameFormFloating);
-    let newNameButtonSave = addButtonSave(type + "button-save", newNameInputGroup);
-    newNameButtonSave.addEventListener('click', function (event) {
-        let newName = newNameFormControl.value;
-        saveName(newName, place, newNameInputGroup);
+    newNameFormControl.focus(); // Устанавливаем фокус в созданном поле для ввода
+    let newNameFormControlLabel = addFormControlLabel(type + "__form-control-name-label", newNameFormFloating, "Название"); // Добавляем подпись в форму
+    let newNameButtonDeleteStatus = true; // Определяем, что кнопка удаления названия должна быть
+    let newNameButtonSaveStatus = false; // Определяем, что кнопки сохранения названия не должно быть
+    let newNameButtonDelete = addNameButtonDelete(type, newNameInputGroup); // Добавляем кнопку для удаления названия
+    newNameButtonDelete.addEventListener('click', function (event) { // Добавляем отслеживание события по этой кнопке
+        newNameInputGroup.remove(); // Удаляем группу для добавления названия
     })
-    newNameFormControl.addEventListener("keypress", function(event) {
-        let newName = newNameFormControl.value;
-        if (event.key === "Enter") {
-            saveName(newName, place, newNameInputGroup);
+
+    newNameFormControl.addEventListener("keypress", function(event) { // Добавляем отслеживание события по нажатию клавиши в поле для ввода
+        let newName = newNameFormControl.value; // Записываем в название значение поля для ввода
+        if (newName.length !== 0) { // Если название не пустое
+            if (event.key === "Enter") { // Если нажата клавиша ввода
+                saveName(newName, place, newNameInputGroup); // Сохраняем название и удаляем группу для добавления названия
+            }
         }
     })
-    return newNameInputGroup;
+
+    newNameFormControl.addEventListener("input", function(event) { // Добавляем отслеживание события по вводу данных в поле для ввода
+        let newName = newNameFormControl.value; // Записываем в название значение поля для ввода
+        if (newName.length === 0) { // Если название пустое
+            const oldNameButtonSave = newNameInputGroup.querySelector("." + type + "__button-save"); // Находим старую кнопку сохранения названия
+            if (newNameButtonSaveStatus === true) { // Если статус для кнопки сохранения названия верен
+                oldNameButtonSave.remove(); // Удаляем старую кнопку
+            }
+            if (newNameButtonDeleteStatus === false) { // Если определено, что кнопка удаления названия не должна быть
+                let newNameButtonDelete = addNameButtonDelete(type, newNameInputGroup); // Добавляем кнопку удаления названия
+                newNameButtonDelete.addEventListener('click', function (event) { // Добавляем отслеживание события по нажатию на эту кнопку
+                    newNameInputGroup.remove(); // Удаляем группу для добавления названия
+                })
+            }
+            newNameButtonDeleteStatus = true; // Определяем, что кнопка удаления названия должна быть
+            newNameButtonSaveStatus = false; // Определяем, что кнопки сохранения названия не должно быть
+        }
+        else { // Если название не пустое
+            const oldNameButtonDelete = newNameInputGroup.querySelector("." + type + "__button-delete"); // Находим старую кнопку удаления названия
+            if (newNameButtonDeleteStatus === true) { // Если определено, что кнопка удаления названия должна быть
+                oldNameButtonDelete.remove(); // Удаляем кнопку удаления названия
+            }
+            if (newNameButtonSaveStatus === true) { // Если определено, что кнопка сохранения названия должна быть
+                let oldNameButtonSave = newNameInputGroup.querySelector("." + type + "__button-save"); // Находим старую кнопку сохранения названия
+                oldNameButtonSave.remove(); // Удаляем старую кнопку сохранения названия
+            }
+            const newNameButtonSave = addNameButtonSave(type, newNameInputGroup); // Добавляем кнопку сохранения названия
+            newNameButtonSave.addEventListener('click', function (event) { // Добавляем отслеживание события по нажатию на эту кнопку
+                saveName(newName, place, newNameInputGroup); // Сохраняем название и удаляем группу для добавления названия
+            })
+            newNameButtonDeleteStatus = false; // Определяем, что кнопки удаления названия не должно быть
+            newNameButtonSaveStatus = true; // Определяем, что кнопка сохранения названия должна быть
+        }
+    })
+
+    return newNameInputGroup; // Возвращаем группу для добавления названия
 }
 
-function saveName(name, place, remove) {
-    if (name.length === 0) {
-        console.warn("Нужно добавить ошибку в валидации из-за пустого имени");
-        place.remove();
-    } else {
-        place.append(name);
-        remove.remove();
-    }
-    console.log(name);
-    console.log(name.length);
-    console.log(place);
-
+function addNameButtonDelete(className, place) { // Функция добавления кнопки удаления названия с переданным именем класса и местом
+    const element = addButton(className + "__button-delete", place, "danger"); // Добавляем кнопку
+    element.classList.add("btn-danger"); // Добавляем красный фон
+    element.setAttribute("aria-label", "Удалить"); // Добавляем подпись для доступности
+    element.innerHTML = '<i class="bi bi-trash-fill"></i>'; // Добавляем иконку корзины
+    return element; // Возвращаем кнопку
 }
-
-function addInputGroup(className, place) {
-    const element = document.createElement("div");
-    element.classList.add(className, "input-group");
-    place.append(element);
+function addNameButtonSave(className, place) { // Функция добавления кнопки добавления названия с переданным с именем класса и местом
+    const element = addButton(className + "__button-save", place, "primary"); // Добавляем кнопку
+    element.classList.add("btn-primary"); // Добавляем основной фон
+    element.setAttribute("aria-label", "Сохранить"); // Добавляем подпись для доступности
+    element.innerHTML = '<i class="bi bi-check"></i>'; // Добавляем иконку галочки
     return element;
 }
 
-function addFormFloating(className, place) {
-    const element = document.createElement("div");
-    element.classList.add(className, "form-floating");
-    place.append(element);
-    return element;
+function saveName(name, place, removeElement) { // Функция сохранения названия с переданными названием, местом и элементом для удаления
+    place.append(name); // Размещаем название
+    removeElement.remove(); // Удаляем элемент для удаления
 }
 
-function addFormControl(className, place) {
-    const element = document.createElement("input");
-    element.classList.add(className, "form-control");
-    place.append(element);
-    return element;
+function addInputGroup(className, place) { // Функция добавления группы ввода с переданным именем класса и местом
+    const element = document.createElement("div"); // Создаем элемент
+    element.classList.add(className, "input-group"); // Добавляем в него названия классов
+    place.append(element); // Размещаем элемент в нужном месте
+    return element; // Возвращаем элемент
 }
 
-function addFormControlLabel(className, place) {
-    const element = document.createElement("label");
-    element.classList.add(className);
-    element.innerText = "Название";
-    place.append(element);
-    return element;
+function addFormFloating(className, place) { // Функция добавления плавающей формы с переданным именем класса и местом
+    const element = document.createElement("div"); // Создаем элемент
+    element.classList.add(className, "form-floating"); // Добавляем в него названия классов
+    place.append(element); // Размещаем элемент в нужном месте
+    return element; // Возвращаем элемент
 }
 
-function addButtonSave(className, place) {
-    const element = document.createElement("button");
-    element.classList.add("new-cost__button", "btn", "btn-primary");
-    element.setAttribute("type", "button");
-    element.setAttribute("aria-label", "Сохранить");
-    element.innerHTML = '<i class="bi bi-check"></i>';
-    place.append(element);
-    return element;
+function addFormControl(className, place) { // Функция добавления поля для ввода с переданным именем класса и местом
+    const element = document.createElement("input"); // Создаем поле для ввода
+    element.classList.add(className, "form-control"); // Добавляем в него названия классов
+    place.append(element); // Размещаем элемент в нужном месте
+    return element; // Возвращаем элемент
+}
+
+function setFormControlNumber(element, min, step) { // Функция преобразование поля для ввода только для чисел с переданным элементом, минимальным значением и шагом 
+    element.setAttribute("type", "number"); // Устанавливаем тип число
+    element.setAttribute("min", min); // Устанавливаем минимальное значение
+    element.setAttribute("step", step); // Устанавливаем шаг
+    return element; // Возвращаем элемент
+}
+
+function addFormControlLabel(className, place, label) { // Функция добавления подписи с переданным именем класса, местом и подписью
+    const element = document.createElement("label"); // Создаем подпись
+    element.classList.add(className); // Добавляем в него названия классов
+    element.innerText = label; // Добавляем подпись
+    place.append(element); // Размещаем элемент в нужном месте
+    return element; // Возвращаем элемент
+}
+
+function addButton(className, place, style) { // Функция добавления кнопки с переданным именем класса, местом и стилистикой
+    const element = document.createElement("button"); // Создаем кнопку
+    element.classList.add(className, "btn", "btn-" + style); // Добавляем в него названия классов
+    element.setAttribute("type", "button"); // Устанавливаем тип кнопка
+    place.append(element); // Размещаем элемент в нужном месте
+    return element; // Возвращаем элемент
 }
 
 function showCosts () {
-    costs.forEach(function(cost) {
+    let index;
+    for (index = 0; index < costs.length; ++index) {
         let newCost = addElement("cost", divCosts);
-        newCost.append(cost["id"], ". ", cost["name"], " = ", cost["value"]);
-        if (cost["type"] === "percent") {
-            newCost.append(" (", cost["percent"], " %)");
+        let newCostInputGroup = addInputGroup("cost__input-group", newCost);
+        let newCostFormFloating = addFormFloating("cost__form-floating", newCostInputGroup);
+        let newCostFormControl = addFormControl("cost__form-control-" + costs[index]["type"], newCostFormFloating);
+        setFormControlNumber(newCostFormControl, 0, 0.01);
+        newCostFormControl.value = costs[index]["value"];
+        let newCostFormControlLabel = addFormControlLabel("cost__form-control-"+ costs[index]["type"] + "-label", newCostFormFloating);
+        switch(costs[index]["type"]) {
+            case "fix":
+                newCostFormControlLabel.innerText = Number(index + 1) + ". " + costs[index]["name"] + ", " + currency;
+            break;
+            case "percent":
+                newCostFormControlLabel.innerText = Number(index + 1) + ". " + costs[index]["name"] + ", " + "%";
+            break;
+            default:
+                console.error("Ошибка при попытке добавления неизвестного расхода!")
+            break;
         }
-    })
+        
+    }
 }
 
 function showCommissions () {
