@@ -274,7 +274,13 @@ function addName(type, place, name) { // Функция добавления н�
 }
 
 function saveName(name, place, removeElement) { // Функция сохранения названия с переданными названием, местом и элементом для удаления
-    place.append(name); // Размещаем название
+    costs.push({
+        "name": name,
+        "type": "fix",
+        "value": ""
+    })
+    showCost(costs[Number(costs.length - 1)], Number(costs.length - 1));
+    //place.append(name); // Размещаем название
     removeElement.remove(); // Удаляем элемент для удаления
 }
 
@@ -363,12 +369,22 @@ function showCosts() { // Функция отображения расходов
 }
 
 function showCost(cost, index) { // Функция отображения расхода
+    console.log("showCost:")
+    console.log(cost);
     let newCost = addElement("cost", divCosts); // Добавляем новый элемент для расхода
     let newCostInputGroup = addInputGroup("cost__input-group", newCost); // Добавляем новую группу
     let newCostFormFloating = addFormFloating("cost__form-floating", newCostInputGroup); // Добавляем новую плавующую форму
     let newCostFormControl = addFormControl("cost__form-control-" + cost["type"], newCostFormFloating); // Добавляем новое поле для ввода
     setFormControlNumber(newCostFormControl, 0, 0.01); // Преобразуем поле для ввода только для чисел от 0 с шагом 0.01
     newCostFormControl.value = cost["value"]; // Добавляем значение расхода в поле для ввода
+    if (cost["value"] === "") { // Если значение расхода нет
+        newCostFormControl.focus(); // Устанавливаем фокус в созданном поле для ввода
+    }
+    newCostFormControl.addEventListener('input', function () {
+        console.log(newCostFormControl);
+        
+        retailPrice();
+    })
     let newCostFormControlLabel = addFormControlLabel("cost__form-control-"+ cost["type"] + "-label", newCostFormFloating); // Добавляем подпись
     switch(cost["type"]) {
         case "fix": // Если расход фиксированный
