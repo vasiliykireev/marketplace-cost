@@ -178,7 +178,6 @@ const buttonAddCost = document.querySelector(".add__cost"); // Определя�
 buttonAddCost.addEventListener('click', function () { // Добавляем отслеживание событий по этой кнопке
     let newDataCostNumber = Number(costs.length);
     let newDataCost = costs.push({
-        /*"id": newDataCostNumber + 1,*/
         "name": "Введите название",
         "type": "fix",
         "value": ""
@@ -189,16 +188,42 @@ buttonAddCost.addEventListener('click', function () { // Добавляем от
     console.log(costs);
     const newCost = addElement(elementCosts, "div", ["cost", "mb-3"]);
     const newCostName = addName(newCost, "cost", costs[newDataCostNumber]);
-
 });
 
+const buttonAddCommission = document.querySelector(".add__commission"); // Определяем кнопку, нажатие на которую добавляет новые комиссии
+//buttonAddComission.addEventListener('click', function () {addNewData("commission");}); // Добавляем отслеживание событий по этой кнопке
+buttonAddCommission.addEventListener('click', function () { // Добавляем отслеживание событий по этой кнопке
+    let newDataCommissionNumber = Number(commissions.length);
+    let newDataCommission = commissions.push({
+        "name": "Введите название",
+        "type": "commission",
+        "value": ""
+    });
+    console.log("newDataComission")
+    console.log(newDataCommission);
+    console.log("costs");
+    console.log(commissions);
+    const newCommission = addElement(elementCommissions, "div", ["commission", "mb-3"]);
+    const newCommissionName = addName(newCommission, "commission", commissions[newDataCommissionNumber]);
+});
 
-const buttonAddComission = document.querySelector(".add__commission"); // Определяем кнопку, нажатие на которую добавляет новые комиссии
-buttonAddComission.addEventListener('click', function () {addNewData("commission");}); // Добавляем отслеживание событий по этой кнопке
+const buttonAddFee = document.querySelector(".add__fee"); // Определяем кнопку, нажатие на которую добавляет новые тарифы
+//buttonAddFee.addEventListener('click', function () {addNewData("fee");}); // Добавляем отслеживание событий по этой кнопке
+buttonAddFee.addEventListener('click', function () { // Добавляем отслеживание событий по этой кнопке
+    let newDataFeeNumber = Number(fees.length);
+    let newDataFee = fees.push({
+        "name": "Введите название",
+        "type": "fee",
+        "value": ""
+    });
+    console.log("newDataFee")
+    console.log(newDataFee);
+    console.log("fees");
+    console.log(fees);
+    const newFee = addElement(elementFees, "div", ["fee", "mb-3"]);
+    const newFeeName = addName(newFee, "fee", fees[newDataFeeNumber]);
+});
 
-
-const buttonAddFee= document.querySelector(".add__fee"); // Определяем кнопку, нажатие на которую добавляет новые тарифы
-buttonAddFee.addEventListener('click', function () {addNewData("fee");}); // Добавляем отслеживание событий по этой кнопке
 
 /* Функции */
 

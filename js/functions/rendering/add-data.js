@@ -24,6 +24,7 @@ export function addData(place, parentClass, object) {
     const dataFormControlLabel = addElement(dataFormFloating, "label", parentClass + "__label");
     switch (object.type) {
         case "fix":
+            console.log('case fix')
             dataFormControl.value = object.value;
             dataFormControlLabel.innerText = object.name + ", руб.";
             dataFormControl.addEventListener('input', function (event) {
@@ -33,6 +34,7 @@ export function addData(place, parentClass, object) {
             })
             break;
         case "percent":
+            console.log('case percent')
             dataFormControl.value = object.percent;
             dataFormControlLabel.innerText = object.name + ", %";
             const valueInputGroup = addElement(place, "div", [parentClass + "__value-input-group", "input-group"]);
@@ -64,20 +66,22 @@ export function addData(place, parentClass, object) {
             })
             break;
         case 'commission':
+            console.log('case commission')
             dataFormControl.value = object.percent;
             dataFormControlLabel.innerText = object.name + ", %";
             dataFormControl.addEventListener('input', function (event) {
                 object.percent = dataFormControl.value;
-                console.log(costs);
+                console.log(commissions);
                 retailPrice(wholesalePrice, costs, commissions, fees);
             })
             break;
         case 'fee':
+            console.log('case fee')
             dataFormControl.value = object.value;
             dataFormControlLabel.innerText = object.name + ", руб.";
             dataFormControl.addEventListener('input', function (event) {
                 object.value = dataFormControl.value;
-                console.log(costs);
+                console.log(fees);
                 retailPrice(wholesalePrice, costs, commissions, fees);
             })
             break;

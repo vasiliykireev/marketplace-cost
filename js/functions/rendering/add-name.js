@@ -4,7 +4,7 @@ console.log("add-name.js loaded");
 
 import { addElement } from "../elements/add-element.js";
 import { addData } from "./add-data.js";
-import { costs } from "../../../script.js";
+import { costs, commissions, fees } from "../../../script.js";
 
 export function addName(place, parentClass, object) {
     if (object !== undefined) {
@@ -21,15 +21,38 @@ export function addName(place, parentClass, object) {
     const nameButtonDelete = addElement(
         nameInputGroup,
         "button",
-        [parentClass + "__delete", "btn", "btn-danger"],
+        [parentClass + "__delete", "btn", "btn-light", "btn-outline-danger"],
         {
             "type": "button",
             "aria-label": "Удалить"
     });
     nameButtonDelete.innerHTML = '<i class="bi bi-trash"></i>';
     nameButtonDelete.addEventListener("click", function(event) {
-        costs.splice(costs.indexOf(object),1);
-        console.log(costs);
+        switch (parentClass) {
+            case "cost":
+                console.log("case cost");
+                console.log("indexof");
+                console.log(costs.indexOf(object));
+                costs.splice(costs.indexOf(object),1);
+                console.log(costs);
+                break;
+            case "commission":
+                console.log("case commission");
+                console.log("indexof");
+                console.log(commissions.indexOf(object));
+                commissions.splice(commissions.indexOf(object),1);
+                console.log(commissions);
+                break;
+            case "fee":
+                console.log("case fee");
+                console.log("indexof");
+                console.log(fees.indexOf(object));
+                fees.splice(fees.indexOf(object),1);
+                console.log(fees);
+                break;
+            default: console.warn("Неверно передан родительский класс для удаления");
+        }
+
         nameInputGroup.remove();
     })
     let showButtonSave = true;
@@ -47,8 +70,10 @@ export function addName(place, parentClass, object) {
             nameButtonSave.innerHTML = '<i class="bi bi-check"></i>';
             nameButtonSave.addEventListener("click", function(event) {
                 object.name = nameFormControl.value;
-                const newCostFix = addData(place, "cost-fix", object);
+                const newData = addData(place, parentClass, object);
                 console.log(costs);
+                console.log(commissions);
+                console.log(fees);
                 nameInputGroup.remove();
             })
             nameInputGroup.insertBefore(nameButtonSave, nameButtonDelete);
