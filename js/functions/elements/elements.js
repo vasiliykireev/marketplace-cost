@@ -1,4 +1,4 @@
-"use sttrict";
+"use strict";
 
 function addInputGroup(className, place) { // Функция добавления группы ввода с переданным именем класса и местом
     const element = document.createElement("div"); // Создаем элемент
@@ -75,4 +75,11 @@ function addDataButtonOptionRename(className, place, name) { // Функция �
 
 function addDataButtonOptionDelete (className, place, name) { // Функция добавляения кнопки удаления данных с переданным именем класса, местом и именем
 
+}
+
+function addBlock(className, place) { // Функция добавления нового элемента с переданным именем класса и местом
+    const element = document.createElement("div"); // Создаем элемент
+    element.classList.add(className); // Добавляем нужный класс и отступ снизу
+    place.append(element); // Размещаем элемент
+    return element; // Возвращаем элемент
 }

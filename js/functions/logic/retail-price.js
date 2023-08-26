@@ -1,6 +1,8 @@
 "use strict";
 
-console.log("retail-price.js");
+console.log("retail-price.js loaded");
+import { addData } from "../rendering/add-data.js";
+import { addElement } from "../elements/add-element.js";
 
 export function retailPrice(wholesalePrice, costs, commissions, fees) { // Расчет розничной цены
 
@@ -39,13 +41,13 @@ export function retailPrice(wholesalePrice, costs, commissions, fees) { // Ра�
     /* Сумма тарифов */
     //console.log("- Тарифы:")
     fees.forEach(function(fee) { // Сумма всех тарифов
-        sumFees = sumFees + fee["value"]; // В sumFees суммируются все значения value из тарифов fees.
+        sumFees = sumFees + Number(fee["value"]); // В sumFees суммируются все значения value из тарифов fees.
         //console.log(fee["name"] + ": " + fee["value"]);
     })
     //console.log(sumFees);
     
     //console.log("- Оптовая цена: " + wholesalePrice);
-    
+
     /* Розничная цена */
     let result = (wholesalePrice + sumCosts + sumFees) / (1 - sumCommissions / 100); // Розничная цена равна сумме оптовой цены, расходов и прибыли и тарифов маркетплейса, деленых на разницу 1 (100%) и суммы процентов комиссий маркетплейсов
     result = result.toFixed(2);
@@ -53,5 +55,14 @@ export function retailPrice(wholesalePrice, costs, commissions, fees) { // Ра�
     
     const retailPriceValue = document.querySelector(".retail-price__value");
     retailPriceValue.value = result;
+
+    console.log("Закупочная цена:")
+    console.log(wholesalePrice);
+    console.log("Расходы и прибыль");
+    console.log(costs);
+    console.log("Комиссии");
+    console.log(commissions);
+    console.log("Тарифы");
+    console.log(fees);
     console.log("Розничная цена: " + result);
 }

@@ -1,5 +1,7 @@
 "use strict";
 
+console.log("add-name.js loaded");
+
 import { addElement } from "../elements/add-element.js";
 import { addData } from "./add-data.js";
 import { costs } from "../../../script.js";

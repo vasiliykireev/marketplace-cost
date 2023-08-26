@@ -20,7 +20,7 @@ export let costs = [ // Расходы и прибыль
         type: "percent",
         percent: 20
     },
-    /*{
+    {
         id: 2,
         name: "Персонал 1",
         type: "fix",
@@ -43,7 +43,7 @@ export let costs = [ // Расходы и прибыль
         name: "Маркетинг 2",
         type: "percent",
         percent: 2
-    },*/
+    },
     {
         id: 6,
         name: "Маркетинг 3",
@@ -84,7 +84,7 @@ export let commissions = [
 /* name: Наименование, строка
 /* type: fee - тариф маркетплейса
 /* value - значение расхода или прибыли, число */
-export let fees = [/*
+export let fees = [
         {
             id: 1,
             name: "Обработка",
@@ -102,7 +102,7 @@ export let fees = [/*
             name: "Последняя миля",
             type: "fee",
             value: 500
-        }*/
+        }
     ];
 
 console.log("wholesalePrice");
@@ -116,14 +116,15 @@ console.log(fees);
 
 let currency = " руб.";
 
+import { addElement } from "./js/functions/elements/add-element.js";
+import { addData } from "./js/functions/rendering/add-data.js";
+import { addName } from "./js/functions/rendering/add-name.js";
 import { retailPrice } from "./js/functions/logic/retail-price.js";
 
 
 
-
-
 /* Получение оптовой цены */
-const inputWholesalePrice = document.querySelector(".wholesale-price__number"); // Определяем элемент, где находится поле для ввода оптовой цена
+export const inputWholesalePrice = document.querySelector(".wholesale-price__number"); // Определяем элемент, где находится поле для ввода оптовой цена
 inputWholesalePrice.value = wholesalePrice; // Добавляем в него оптовую цену из примера
 inputWholesalePrice.addEventListener('input', function (event) { // Добавляем отслеживание событий по вводу данных в поле для ввода
     wholesalePrice = Number(inputWholesalePrice.value); // Записываем новую оптовую цену из поля для ввода
@@ -134,9 +135,7 @@ inputWholesalePrice.addEventListener('input', function (event) { // Добавл
 
 retailPrice(wholesalePrice, costs, commissions, fees); // Пересчитываем розничную цену
 
-import { addData } from "./js/functions/rendering/add-data.js";
-
-const elementCosts = document.querySelector(".costs"); // Определяем элемент, куда добавлять новые расходы
+export const elementCosts = document.querySelector(".costs"); // Определяем элемент, куда добавлять новые расходы
 costs.forEach(cost => {
     const newCost = addElement(elementCosts, "div", ["cost", "mb-3"]);
     switch (cost.type) {
@@ -150,8 +149,29 @@ costs.forEach(cost => {
     }
 });
 
+export const elementCommissions = document.querySelector(".commissions"); // Определяем элемент, куда добавлять новые комиссии
+commissions.forEach(commission => {
+    const newCost = addElement(elementCommissions, "div", ["comission", "mb-3"]);
+    switch (commission.type) {
+        case 'commission':
+            const newCostFix = addData(newCost, "commission-percent", commission);
+            break;
+        default: console.warn("Неизвестный тип расходов");
+    }
+});
 
-import { addName } from "./js/functions/rendering/add-name.js";
+
+export const elementFees = document.querySelector(".fees"); // Определяем элемент, куда добавлять новые тарифы
+fees.forEach(fee => {
+    const newCost = addElement(elementFees, "div", ["comission", "mb-3"]);
+    switch (fee.type) {
+        case 'fee':
+            const newCostFix = addData(newCost, "commission-percent", fee);
+            break;
+        default: console.warn("Неизвестный тип расходов");
+    }
+});
+
 /* Кнопки добавления новых данных */
 const buttonAddCost = document.querySelector(".add__cost"); // Определяем кнопку, нажатие на которую добавляет новые расходы
 //buttonAddCost.addEventListener('click', function () {addNewData("cost");}); // Добавляем отслеживание событий по этой кнопке
@@ -172,31 +192,15 @@ buttonAddCost.addEventListener('click', function () { // Добавляем от
 
 });
 
-import { addElement } from "./js/functions/elements/add-element.js";
 
-
-const divCommissions = document.querySelector(".commissions"); // Определяем элемент, куда добавлять новые комиссии
 const buttonAddComission = document.querySelector(".add__commission"); // Определяем кнопку, нажатие на которую добавляет новые комиссии
 buttonAddComission.addEventListener('click', function () {addNewData("commission");}); // Добавляем отслеживание событий по этой кнопке
 
-const divFees = document.querySelector(".fees"); // Определяем элемент, куда добавлять новые тарифы
+
 const buttonAddFee= document.querySelector(".add__fee"); // Определяем кнопку, нажатие на которую добавляет новые тарифы
 buttonAddFee.addEventListener('click', function () {addNewData("fee");}); // Добавляем отслеживание событий по этой кнопке
 
-import { addNewData } from "./js/functions/rendering/add-new-data.js";
-
 /* Функции */
-
-function addBlock(className, place) { // Функция добавления нового элемента с переданным именем класса и местом
-    const element = document.createElement("div"); // Создаем элемент
-    element.classList.add(className); // Добавляем нужный класс и отступ снизу
-    place.append(element); // Размещаем элемент
-    return element; // Возвращаем элемент
-}
-
-import { saveName } from "./js/functions/rendering/save-name.js";
-
-import { showCost } from "./js/functions/rendering/show-cost.js";
 
 //showCosts(); // Выводим расходы
 

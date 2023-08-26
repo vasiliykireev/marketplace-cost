@@ -1,3 +1,7 @@
+"use strict";
+
+console.log("add-element.js loaded");
+
 export function addElement(place, tag, classes, attributes) { // Добавить элемент: где, какой, классы — массив, атрибуты — объект
     const element = document.createElement(tag); // Создаем элемент
     switch(typeof(classes)) { // В зависимости от переданных классов
