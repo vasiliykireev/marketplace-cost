@@ -2,17 +2,125 @@
 
 let marketplaceCostData = {};
 
-import { wholesalePrice, costs, commissions, fees } from "./js/example.js";
+/* Начальные данные для примера
+*/
+export let wholesalePrice = 10000 ; // Оптовая цена
 
-console.log("import { wholesalePrice, costs, commissions, fees }")
+/* Расходы и прибыль
+/* id: порядковый номер, число
+/* name: Наименование, строка
+/* type: percent - процент от оптовой цены, fix - фиксированное значение
+/* percent - значение процента от оптовой цены, число
+/* value - значение расхода или прибыли, число
+*/
+export let costs = [ // Расходы и прибыль
+    {   
+        id: 1,
+        name: "Прибыль",
+        type: "percent",
+        percent: 20
+    },
+    /*{
+        id: 2,
+        name: "Персонал 1",
+        type: "fix",
+        value: 200
+    },
+    {
+        id: 3,
+        name: "Персонал 2",
+        type: "fix",
+        value: 300
+    },
+    {
+        id: 4,
+        name: "Маркетинг 1",
+        type: "percent",
+        percent: 3
+    },
+    {
+        id: 5,
+        name: "Маркетинг 2",
+        type: "percent",
+        percent: 2
+    },*/
+    {
+        id: 6,
+        name: "Маркетинг 3",
+        type: "percent",
+        percent: 3
+    },
+    {
+        id: 7,
+        name: "Логистика",
+        type: "fix",
+        value: 200
+    }
+];
+
+/* Комиссии
+/* id: порядковый номер, число
+/* name: Наименование, строка
+/* type: commission - комиссия маркетплейса
+/* percent - значение процента комиссии, число
+*/
+export let commissions = [
+    {
+        id: 1,
+        name: "Размещение",
+        type: "commission",
+        percent: 2
+    },
+    {
+        id: 2,
+        name: "Продвижение",
+        type: "commission",
+        percent: 5
+    }
+];
+
+/* Тарифы */
+/* id: порядковый номер, число
+/* name: Наименование, строка
+/* type: fee - тариф маркетплейса
+/* value - значение расхода или прибыли, число */
+export let fees = [/*
+        {
+            id: 1,
+            name: "Обработка",
+            type: "fee",
+            value: 20
+        },
+        {
+            id: 2,
+            name: "Логистика",
+            type: "fee",
+            value: 300
+        },
+        {
+            id: 3,
+            name: "Последняя миля",
+            type: "fee",
+            value: 500
+        }*/
+    ];
+
+console.log("wholesalePrice");
 console.log(wholesalePrice);
+console.log("costs");
 console.log(costs);
+console.log("commissions")
 console.log(commissions);
+console.log("fees");
 console.log(fees);
 
 let currency = " руб.";
 
 import { retailPrice } from "./js/functions/logic/retail-price.js";
+
+
+
+
 
 /* Получение оптовой цены */
 const inputWholesalePrice = document.querySelector(".wholesale-price__number"); // Определяем элемент, где находится поле для ввода оптовой цена
@@ -22,20 +130,46 @@ inputWholesalePrice.addEventListener('input', function (event) { // Добавл
     retailPrice(wholesalePrice, costs, commissions, fees); // Пересчитываем розничную цену
 })
 
-/* Кнопки добавления новых данных */
+/* Вывод начальных данных */
+
+retailPrice(wholesalePrice, costs, commissions, fees); // Пересчитываем розничную цену
+
+import { addData } from "./js/functions/rendering/add-data.js";
+
 const elementCosts = document.querySelector(".costs"); // Определяем элемент, куда добавлять новые расходы
+costs.forEach(cost => {
+    const newCost = addElement(elementCosts, "div", ["cost", "mb-3"]);
+    switch (cost.type) {
+        case 'fix':
+            const newCostFix = addData(newCost, "cost-fix", cost);
+            break;
+        case 'percent':
+            const newCostPercent = addData(newCost, "cost-percent", cost);
+            break;
+        default: console.warn("Неизвестный тип расходов");
+    }
+});
+
+
+import { addName } from "./js/functions/rendering/add-name.js";
+/* Кнопки добавления новых данных */
 const buttonAddCost = document.querySelector(".add__cost"); // Определяем кнопку, нажатие на которую добавляет новые расходы
 //buttonAddCost.addEventListener('click', function () {addNewData("cost");}); // Добавляем отслеживание событий по этой кнопке
 buttonAddCost.addEventListener('click', function () { // Добавляем отслеживание событий по этой кнопке
     let newDataCostNumber = Number(costs.length);
     let newDataCost = costs.push({
-        "id": newDataCostNumber + 1,
-        "name": "Название"
+        /*"id": newDataCostNumber + 1,*/
+        "name": "Введите название",
+        "type": "fix",
+        "value": ""
     });
+    console.log("newDataCost")
     console.log(newDataCost);
+    console.log("costs");
     console.log(costs);
     const newCost = addElement(elementCosts, "div", ["cost", "mb-3"]);
     const newCostName = addName(newCost, "cost", costs[newDataCostNumber]);
+
 });
 
 import { addElement } from "./js/functions/elements/add-element.js";
@@ -60,15 +194,9 @@ function addBlock(className, place) { // Функция добавления н�
     return element; // Возвращаем элемент
 }
 
-import { addName } from "./js/functions/rendering/add-name.js";
-
 import { saveName } from "./js/functions/rendering/save-name.js";
 
 import { showCost } from "./js/functions/rendering/show-cost.js";
-
-/* Вывод начальных данных */
-
-retailPrice(wholesalePrice, costs, commissions, fees); // Пересчитываем розничную цену
 
 //showCosts(); // Выводим расходы
 

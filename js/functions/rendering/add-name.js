@@ -1,6 +1,8 @@
 "use strict";
 
 import { addElement } from "../elements/add-element.js";
+import { addData } from "./add-data.js";
+import { costs } from "../../../script.js";
 
 export function addName(place, parentClass, object) {
     if (object !== undefined) {
@@ -11,11 +13,92 @@ export function addName(place, parentClass, object) {
     const nameFormFloating = addElement(nameInputGroup, "div", [parentClass + "__form-floating", "form-floating"]);
     const nameFormControl = addElement(nameFormFloating,"input",[parentClass + "__form-control", "form-control"],{"placeholder": "Название"});
     const nameFormControlLabel = addElement(nameFormFloating, "label", parentClass + "__label");
+    // nameFormControlLabel.innerText = object.id + ". " + object.name;
     nameFormControlLabel.innerText = object.name;
     nameFormControl.focus();
+    const nameButtonDelete = addElement(
+        nameInputGroup,
+        "button",
+        [parentClass + "__delete", "btn", "btn-danger"],
+        {
+            "type": "button",
+            "aria-label": "Удалить"
+    });
+    nameButtonDelete.innerHTML = '<i class="bi bi-trash"></i>';
+    nameButtonDelete.addEventListener("click", function(event) {
+        costs.splice(costs.indexOf(object),1);
+        console.log(costs);
+        nameInputGroup.remove();
+    })
+    let showButtonSave = true;
+    
+    nameFormControl.addEventListener("input", function(event) {
+        if (showButtonSave) {
+            const nameButtonSave = addElement(
+                nameInputGroup,
+                "button",
+                [parentClass + "__save", "btn", "btn-primary"],
+                {
+                    "type": "button",
+                    "aria-label": "Сохранить"
+            });
+            nameButtonSave.innerHTML = '<i class="bi bi-check"></i>';
+            nameButtonSave.addEventListener("click", function(event) {
+                object.name = nameFormControl.value;
+                const newCostFix = addData(place, "cost-fix", object);
+                console.log(costs);
+                nameInputGroup.remove();
+            })
+            nameInputGroup.insertBefore(nameButtonSave, nameButtonDelete);
+            showButtonSave = false;
+        }
+        if (nameFormControl.value.length === 0) {
+            nameInputGroup.querySelector("." + parentClass + "__save").remove();
+            showButtonSave = true;
+        }
+    })
+
+    return nameInputGroup;
 
     //addElement(place, tag, classes, attributes = [])
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function oldAddName(id, type, place, name) { // Функция добавления нового названия с переданным именем класса, местом и названием
     console.log(id);
