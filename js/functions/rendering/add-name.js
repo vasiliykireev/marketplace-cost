@@ -11,7 +11,7 @@ export function addName(place, parentClass, object) {
     }
     const nameInputGroup = addElement(place, "div", [parentClass + "__input-group", "input-group"]);
     const nameFormFloating = addElement(nameInputGroup, "div", [parentClass + "__form-floating", "form-floating"]);
-    const nameFormControl = addElement(nameFormFloating,"input",[parentClass + "__form-control", "form-control"],{"placeholder": "Название"});
+    const nameFormControl = addElement(nameFormFloating,"input",[parentClass + "__form-control", "form-control"],{"placeholder": undefined});
     const nameFormControlLabel = addElement(nameFormFloating, "label", parentClass + "__label");
     // nameFormControlLabel.innerText = object.id + ". " + object.name;
     nameFormControlLabel.innerText = object.name;
@@ -55,6 +55,18 @@ export function addName(place, parentClass, object) {
         if (nameFormControl.value.length === 0) {
             nameInputGroup.querySelector("." + parentClass + "__save").remove();
             showButtonSave = true;
+        }
+    })
+
+    nameFormControl.addEventListener("keypress", function(event) { // Добавляем отслеживание события по нажатию клавиши в поле для ввода
+        if (nameFormControl.value.length !== 0) { // Если название не пустое
+            if (event.key === "Enter") { // Если нажата клавиша ввода
+                //saveName(newName, place, newNameInputGroup); // Сохраняем название и удаляем группу для добавления названия
+                object.name = nameFormControl.value;
+                const newCostFix = addData(place, "cost-fix", object);
+                console.log(costs);
+                nameInputGroup.remove();
+            }
         }
     })
 
