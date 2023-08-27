@@ -18,6 +18,24 @@ export function addName(place, parentClass, object) {
     // nameFormControlLabel.innerText = object.id + ". " + object.name;
     nameFormControlLabel.innerText = object.name;
     nameFormControl.focus();
+    const nameButtonSave = addElement(
+        nameInputGroup,
+        "button",
+        [parentClass + "__save", "btn", "btn-primary"],
+        {
+            "type": "button",
+            "aria-label": "Сохранить"
+    });
+    nameButtonSave.setAttribute("disabled","true");
+    nameButtonSave.innerHTML = '<i class="bi bi-check"></i>';
+    nameButtonSave.addEventListener("click", function(event) {
+        object.name = nameFormControl.value;
+        const newData = addData(place, parentClass, object);
+        console.log(costs);
+        console.log(commissions);
+        console.log(fees);
+        nameInputGroup.remove();
+    })
     const nameButtonDelete = addElement(
         nameInputGroup,
         "button",
@@ -55,32 +73,19 @@ export function addName(place, parentClass, object) {
 
         nameInputGroup.remove();
     })
+    //nameInputGroup.insertBefore(nameButtonSave, nameButtonDelete);
+
     let showButtonSave = true;
     
     nameFormControl.addEventListener("input", function(event) {
         if (showButtonSave) {
-            const nameButtonSave = addElement(
-                nameInputGroup,
-                "button",
-                [parentClass + "__save", "btn", "btn-primary"],
-                {
-                    "type": "button",
-                    "aria-label": "Сохранить"
-            });
-            nameButtonSave.innerHTML = '<i class="bi bi-check"></i>';
-            nameButtonSave.addEventListener("click", function(event) {
-                object.name = nameFormControl.value;
-                const newData = addData(place, parentClass, object);
-                console.log(costs);
-                console.log(commissions);
-                console.log(fees);
-                nameInputGroup.remove();
-            })
-            nameInputGroup.insertBefore(nameButtonSave, nameButtonDelete);
+            nameButtonSave.removeAttribute("disabled", "true");
             showButtonSave = false;
         }
         if (nameFormControl.value.length === 0) {
-            nameInputGroup.querySelector("." + parentClass + "__save").remove();
+            //nameInputGroup.querySelector("." + parentClass + "__save").remove();
+            //nameInputGroup.querySelector("." + parentClass + "__save").setAttribute("disabled", "true");
+            nameButtonSave.setAttribute("disabled", "true");
             showButtonSave = true;
         }
     })
@@ -90,13 +95,12 @@ export function addName(place, parentClass, object) {
             if (event.key === "Enter") { // Если нажата клавиша ввода
                 //saveName(newName, place, newNameInputGroup); // Сохраняем название и удаляем группу для добавления названия
                 object.name = nameFormControl.value;
-                const newCostFix = addData(place, "cost-fix", object);
+                const newCostFix = addData(place, parentClass, object);
                 console.log(costs);
                 nameInputGroup.remove();
             }
         }
     })
-
     return nameInputGroup;
 
     //addElement(place, tag, classes, attributes = [])
