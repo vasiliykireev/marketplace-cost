@@ -191,7 +191,9 @@ export function addData(place, parentClass, object) {
         dataInputGroup.remove();
         console.log("click valueInputGroup");
         console.log(valueInputGroup);
-        valueInputGroup.remove();
+        if (valueInputGroup !== undefined) {
+            valueInputGroup.remove();
+        }
 
     });
 
