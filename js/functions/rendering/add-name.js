@@ -5,6 +5,7 @@ console.log("add-name.js loaded");
 import { addElement } from "../elements/add-element.js";
 import { addData } from "./add-data.js";
 import { costs, commissions, fees } from "../../../script.js";
+import { deleteObject } from "../logic/delete-object.js";
 
 export function addName(place, parentClass, object) {
     if (object !== undefined) {
@@ -16,7 +17,12 @@ export function addName(place, parentClass, object) {
     const nameFormControl = addElement(nameFormFloating,"input",[parentClass + "__form-control", "form-control"],{"placeholder": undefined});
     const nameFormControlLabel = addElement(nameFormFloating, "label", parentClass + "__label");
     // nameFormControlLabel.innerText = object.id + ". " + object.name;
-    nameFormControlLabel.innerText = object.name;
+    if (object.name === undefined) {
+        nameFormControlLabel.innerText = "Введите название";
+    } else {
+        nameFormControl.value = object.name;
+        nameFormControlLabel.innerText = "Переименовать";
+    }
     nameFormControl.focus();
     const nameButtonSave = addElement(
         nameInputGroup,
@@ -36,43 +42,21 @@ export function addName(place, parentClass, object) {
         console.log(fees);
         nameInputGroup.remove();
     })
-    const nameButtonDelete = addElement(
-        nameInputGroup,
-        "button",
-        [parentClass + "__delete", "btn", "btn-light", "btn-outline-danger"],
-        {
-            "type": "button",
-            "aria-label": "Удалить"
-    });
-    nameButtonDelete.innerHTML = '<i class="bi bi-trash"></i>';
-    nameButtonDelete.addEventListener("click", function(event) {
-        switch (parentClass) {
-            case "cost":
-                console.log("case cost");
-                console.log("indexof");
-                console.log(costs.indexOf(object));
-                costs.splice(costs.indexOf(object),1);
-                console.log(costs);
-                break;
-            case "commission":
-                console.log("case commission");
-                console.log("indexof");
-                console.log(commissions.indexOf(object));
-                commissions.splice(commissions.indexOf(object),1);
-                console.log(commissions);
-                break;
-            case "fee":
-                console.log("case fee");
-                console.log("indexof");
-                console.log(fees.indexOf(object));
-                fees.splice(fees.indexOf(object),1);
-                console.log(fees);
-                break;
-            default: console.warn("Неверно передан родительский класс для удаления");
-        }
-
-        nameInputGroup.remove();
-    })
+    if (object.name === undefined) {
+        const nameButtonDelete = addElement(
+            nameInputGroup,
+            "button",
+            [parentClass + "__delete", "btn", "btn-light", "btn-outline-danger"],
+            {
+                "type": "button",
+                "aria-label": "Удалить"
+        });
+        nameButtonDelete.innerHTML = '<i class="bi bi-trash"></i>';
+        nameButtonDelete.addEventListener("click", function(event) {
+            deleteObject(object);  
+            nameInputGroup.remove();
+        })
+    }
     //nameInputGroup.insertBefore(nameButtonSave, nameButtonDelete);
 
     let showButtonSave = true;
@@ -83,8 +67,6 @@ export function addName(place, parentClass, object) {
             showButtonSave = false;
         }
         if (nameFormControl.value.length === 0) {
-            //nameInputGroup.querySelector("." + parentClass + "__save").remove();
-            //nameInputGroup.querySelector("." + parentClass + "__save").setAttribute("disabled", "true");
             nameButtonSave.setAttribute("disabled", "true");
             showButtonSave = true;
         }

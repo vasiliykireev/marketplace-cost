@@ -178,7 +178,6 @@ const buttonAddCost = document.querySelector(".add__cost"); // Определя�
 buttonAddCost.addEventListener('click', function () { // Добавляем отслеживание событий по этой кнопке
     let newDataCostNumber = Number(costs.length);
     let newDataCost = costs.push({
-        "name": "Введите название",
         "type": "fix",
         "value": ""
     });
@@ -195,7 +194,6 @@ const buttonAddCommission = document.querySelector(".add__commission"); // Оп�
 buttonAddCommission.addEventListener('click', function () { // Добавляем отслеживание событий по этой кнопке
     let newDataCommissionNumber = Number(commissions.length);
     let newDataCommission = commissions.push({
-        "name": "Введите название",
         "type": "commission",
         "value": ""
     });
@@ -212,7 +210,6 @@ const buttonAddFee = document.querySelector(".add__fee"); // Определяе�
 buttonAddFee.addEventListener('click', function () { // Добавляем отслеживание событий по этой кнопке
     let newDataFeeNumber = Number(fees.length);
     let newDataFee = fees.push({
-        "name": "Введите название",
         "type": "fee",
         "value": ""
     });

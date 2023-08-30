@@ -6,6 +6,8 @@ import { addElement } from "../elements/add-element.js";
 import { wholesalePrice, costs, commissions, fees } from "../../../script.js";
 import { inputWholesalePrice } from "../../../script.js";
 import { retailPrice } from "../logic/retail-price.js";
+import { deleteObject } from "../logic/delete-object.js";
+import { addName } from "./add-name.js";
 
 export function addData(place, parentClass, object) {
     //place.append(object.name + ": " + object.value);
@@ -88,6 +90,63 @@ export function addData(place, parentClass, object) {
         }
     dataFormControl.focus();
 
-    
+    const dataDropdown = addElement(
+        dataInputGroup,
+        "button", [parentClass + "__dropdown-options", "btn", "btn-primary", "dropdown-toggle"],
+        {
+            "data-bs-toggle": "dropdown",
+            "aria-label": "Изменить",
+            "aria-expanded": "false"
+        }
+        );
+
+    const dataDropdownMenu = addElement(
+        dataInputGroup,
+        "ul",
+        [parentClass + "__dropdown-menu", "dropdown-menu", "dropdown-menu-end"]
+    );
+
+    /* Переименовать */
+    const dataDropdownMenuItemRename = addElement(
+        dataDropdownMenu,
+        "li",
+        parentClass + "__dropdown-menu-item-rename"
+    );
+    const dataDropdownMenuItemRenameLink = addElement(
+        dataDropdownMenuItemRename,
+        "button",
+        [parentClass + "__dropdown-menu-item-rename-link", "dropdown-item"],
+        {
+            "type": "button"
+        }
+    );
+    dataDropdownMenuItemRenameLink.innerText = "Переименовать";
+    dataDropdownMenuItemRenameLink.addEventListener('click', function (event) {
+        addName(place, parentClass, object);
+        dataInputGroup.remove();
+        dataFormControl.remove();
+
+    });
+
+    /* Удалить */
+    const dataDropdownMenuItemDelete = addElement(
+        dataDropdownMenu,
+        "li",
+        parentClass + "__dropdown-menu-item-delete"
+    );
+    const dataDropdownMenuItemDeleteLink = addElement(
+        dataDropdownMenuItemDelete,
+        "button",
+        [parentClass + "__dropdown-menu-item-delete-link", "dropdown-item", "text-danger", "btn", "btn-light"],
+        {
+            "type": "button"
+        }
+    );
+    dataDropdownMenuItemDeleteLink.innerText = "Удалить";
+    dataDropdownMenuItemDeleteLink.addEventListener('click', function (event) {
+        deleteObject(object);
+        place.remove();
+        retailPrice(wholesalePrice, costs, commissions, fees); // Пересчитываем розничную цену
+    })
 
 }
