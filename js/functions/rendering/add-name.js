@@ -32,7 +32,9 @@ export function addName(place, parentClass, object) {
             "type": "button",
             "aria-label": "Сохранить"
     });
-    nameButtonSave.setAttribute("disabled","true");
+    if (object.name === undefined) {
+        nameButtonSave.setAttribute("disabled","true");
+    }
     nameButtonSave.innerHTML = '<i class="bi bi-check"></i>';
     nameButtonSave.addEventListener("click", function(event) {
         object.name = nameFormControl.value;
@@ -59,7 +61,12 @@ export function addName(place, parentClass, object) {
     }
     //nameInputGroup.insertBefore(nameButtonSave, nameButtonDelete);
 
-    let showButtonSave = true;
+    let showButtonSave;
+    if (object.name === undefined) {
+        showButtonSave = true;
+    } else {
+        showButtonSave = false;
+    }
     
     nameFormControl.addEventListener("input", function(event) {
         if (showButtonSave) {

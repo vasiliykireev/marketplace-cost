@@ -10,7 +10,6 @@ import { deleteObject } from "../logic/delete-object.js";
 import { addName } from "./add-name.js";
 
 export function addData(place, parentClass, object) {
-    //place.append(object.name + ": " + object.value);
     const dataInputGroup = addElement(place, "div", [parentClass + "__input-group", "input-group"]);
     const dataFormFloating = addElement(dataInputGroup, "div", [parentClass + "__form-floating", "form-floating"]);
     const dataFormControl = addElement(
@@ -24,6 +23,70 @@ export function addData(place, parentClass, object) {
             "placeholder": ""
         });
     const dataFormControlLabel = addElement(dataFormFloating, "label", parentClass + "__label");
+    let valueInputGroup;
+        // if (object.type === "fix") {
+        //     console.log('case fix')
+        //     dataFormControl.value = object.value;
+        //     dataFormControlLabel.innerText = object.name + ", руб.";
+        //     dataFormControl.addEventListener('input', function (event) {
+        //         object.value = dataFormControl.value;
+        //         console.log(costs);
+        //         retailPrice(wholesalePrice, costs, commissions, fees);
+        //     })
+        // } else if (object.type === "percent") {
+        //     console.log('case percent')
+        //     dataFormControl.value = object.percent;
+        //     dataFormControlLabel.innerText = object.name + ", %";
+        //     valueInputGroup = addElement(place, "div", [parentClass + "__value-input-group", "input-group"]);
+        //     const valueFormFloating = addElement(valueInputGroup, "div", [parentClass + "__value-form-floating", "form-floating"]);
+        //     const valueFormControl = addElement(
+        //         valueFormFloating,
+        //         "input",
+        //         [parentClass + "__value-form-control-plaintext", "form-control-plaintext"],
+        //         {
+        //             "type": "number",
+        //             "min": 0,
+        //             "step": 0.01,
+        //             "placeholder": "",
+        //             "readonly": true
+        //         });
+        //     const valueFormControlLabel = addElement(valueFormFloating, "label", parentClass + "__value-label");
+        //     valueFormControl.value = object.value;
+        //     valueFormControlLabel.innerText = object.name + ", руб.";
+        //     dataFormControl.addEventListener('input', function (event) {
+        //         object.percent = dataFormControl.value;
+        //         console.log(costs);
+        //         retailPrice(wholesalePrice, costs, commissions, fees);
+        //         valueFormControl.value = object.value;
+        //         //dataFormControlLabel.innerText = object.value;
+        //     })
+        //     inputWholesalePrice.addEventListener('input', function (event) {
+        //         object.percent = dataFormControl.value;
+        //         valueFormControl.value = object.value;
+        //     })
+        //     console.log("valueInputGroup");
+        //     console.log(valueInputGroup);
+        // } else if (object.type === 'commission') {
+        //     console.log('case commission')
+        //     dataFormControl.value = object.percent;
+        //     dataFormControlLabel.innerText = object.name + ", %";
+        //     dataFormControl.addEventListener('input', function (event) {
+        //         object.percent = dataFormControl.value;
+        //         console.log(commissions);
+        //         retailPrice(wholesalePrice, costs, commissions, fees);
+        //     })
+        // } else if (object.type === 'fee') {
+        //     console.log('case fee')
+        //     dataFormControl.value = object.value;
+        //     dataFormControlLabel.innerText = object.name + ", руб.";
+        //     dataFormControl.addEventListener('input', function (event) {
+        //         object.value = dataFormControl.value;
+        //         console.log(fees);
+        //         retailPrice(wholesalePrice, costs, commissions, fees);
+        //     })
+        // }
+
+
     switch (object.type) {
         case "fix":
             console.log('case fix')
@@ -34,12 +97,12 @@ export function addData(place, parentClass, object) {
                 console.log(costs);
                 retailPrice(wholesalePrice, costs, commissions, fees);
             })
-            break;
+        break;
         case "percent":
             console.log('case percent')
             dataFormControl.value = object.percent;
             dataFormControlLabel.innerText = object.name + ", %";
-            const valueInputGroup = addElement(place, "div", [parentClass + "__value-input-group", "input-group"]);
+            valueInputGroup = addElement(place, "div", [parentClass + "__value-input-group", "input-group"]);
             const valueFormFloating = addElement(valueInputGroup, "div", [parentClass + "__value-form-floating", "form-floating"]);
             const valueFormControl = addElement(
                 valueFormFloating,
@@ -66,7 +129,9 @@ export function addData(place, parentClass, object) {
                 object.percent = dataFormControl.value;
                 valueFormControl.value = object.value;
             })
-            break;
+            console.log("valueInputGroup");
+            console.log(valueInputGroup);
+        break;
         case 'commission':
             console.log('case commission')
             dataFormControl.value = object.percent;
@@ -76,7 +141,7 @@ export function addData(place, parentClass, object) {
                 console.log(commissions);
                 retailPrice(wholesalePrice, costs, commissions, fees);
             })
-            break;
+        break;
         case 'fee':
             console.log('case fee')
             dataFormControl.value = object.value;
@@ -86,10 +151,10 @@ export function addData(place, parentClass, object) {
                 console.log(fees);
                 retailPrice(wholesalePrice, costs, commissions, fees);
             })
-            break;
-        }
-    dataFormControl.focus();
+        break;
+    }
 
+    dataFormControl.focus();
     const dataDropdown = addElement(
         dataInputGroup,
         "button", [parentClass + "__dropdown-options", "btn", "btn-primary", "dropdown-toggle"],
@@ -124,7 +189,9 @@ export function addData(place, parentClass, object) {
     dataDropdownMenuItemRenameLink.addEventListener('click', function (event) {
         addName(place, parentClass, object);
         dataInputGroup.remove();
-        dataFormControl.remove();
+        console.log("click valueInputGroup");
+        console.log(valueInputGroup);
+        valueInputGroup.remove();
 
     });
 
@@ -148,5 +215,6 @@ export function addData(place, parentClass, object) {
         place.remove();
         retailPrice(wholesalePrice, costs, commissions, fees); // Пересчитываем розничную цену
     })
+    console.log("end function: valueInputGroup");
 
 }
