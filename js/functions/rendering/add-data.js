@@ -24,69 +24,6 @@ export function addData(place, parentClass, object) {
         });
     const dataFormControlLabel = addElement(dataFormFloating, "label", parentClass + "__label");
     let valueInputGroup;
-        // if (object.type === "fix") {
-        //     console.log('case fix')
-        //     dataFormControl.value = object.value;
-        //     dataFormControlLabel.innerText = object.name + ", руб.";
-        //     dataFormControl.addEventListener('input', function (event) {
-        //         object.value = dataFormControl.value;
-        //         console.log(costs);
-        //         retailPrice(wholesalePrice, costs, commissions, fees);
-        //     })
-        // } else if (object.type === "percent") {
-        //     console.log('case percent')
-        //     dataFormControl.value = object.percent;
-        //     dataFormControlLabel.innerText = object.name + ", %";
-        //     valueInputGroup = addElement(place, "div", [parentClass + "__value-input-group", "input-group"]);
-        //     const valueFormFloating = addElement(valueInputGroup, "div", [parentClass + "__value-form-floating", "form-floating"]);
-        //     const valueFormControl = addElement(
-        //         valueFormFloating,
-        //         "input",
-        //         [parentClass + "__value-form-control-plaintext", "form-control-plaintext"],
-        //         {
-        //             "type": "number",
-        //             "min": 0,
-        //             "step": 0.01,
-        //             "placeholder": "",
-        //             "readonly": true
-        //         });
-        //     const valueFormControlLabel = addElement(valueFormFloating, "label", parentClass + "__value-label");
-        //     valueFormControl.value = object.value;
-        //     valueFormControlLabel.innerText = object.name + ", руб.";
-        //     dataFormControl.addEventListener('input', function (event) {
-        //         object.percent = dataFormControl.value;
-        //         console.log(costs);
-        //         retailPrice(wholesalePrice, costs, commissions, fees);
-        //         valueFormControl.value = object.value;
-        //         //dataFormControlLabel.innerText = object.value;
-        //     })
-        //     inputWholesalePrice.addEventListener('input', function (event) {
-        //         object.percent = dataFormControl.value;
-        //         valueFormControl.value = object.value;
-        //     })
-        //     console.log("valueInputGroup");
-        //     console.log(valueInputGroup);
-        // } else if (object.type === 'commission') {
-        //     console.log('case commission')
-        //     dataFormControl.value = object.percent;
-        //     dataFormControlLabel.innerText = object.name + ", %";
-        //     dataFormControl.addEventListener('input', function (event) {
-        //         object.percent = dataFormControl.value;
-        //         console.log(commissions);
-        //         retailPrice(wholesalePrice, costs, commissions, fees);
-        //     })
-        // } else if (object.type === 'fee') {
-        //     console.log('case fee')
-        //     dataFormControl.value = object.value;
-        //     dataFormControlLabel.innerText = object.name + ", руб.";
-        //     dataFormControl.addEventListener('input', function (event) {
-        //         object.value = dataFormControl.value;
-        //         console.log(fees);
-        //         retailPrice(wholesalePrice, costs, commissions, fees);
-        //     })
-        // }
-
-
     switch (object.type) {
         case "fix":
             console.log('case fix')
@@ -170,6 +107,80 @@ export function addData(place, parentClass, object) {
         "ul",
         [parentClass + "__dropdown-menu", "dropdown-menu", "dropdown-menu-end"]
     );
+    let dataDropdownMenuItemFix;
+    let dataDropdownMenuItemPercent;
+    let dataDropdownMenuHr;
+
+    /* Фиксированная стоимость */
+    if (object.type === "fix" || object.type === "percent") {
+        dataDropdownMenuItemFix = addElement(
+            dataDropdownMenu,
+            "li",
+            parentClass + "__dropdown-menu-item-fix"
+        );
+        const dataDropdownMenuItemFixLink = addElement(
+            dataDropdownMenuItemFix,
+            "button",
+            [parentClass + "__dropdown-menu-item-fix-link", "dropdown-item", "btn", "btn-light"],
+            {
+                "type": "button"
+            }
+        );
+        dataDropdownMenuItemFixLink.innerText = "Фиксированная стоимость";
+        if (object.type === "fix") {
+            dataDropdownMenuItemFixLink.setAttribute("disabled", "true");
+            console.log("dataDropdownMenuItemFixLink.setAttribute")
+        }
+        dataDropdownMenuItemFixLink.addEventListener('click', function (event) {
+            dataInputGroup.remove();
+            if (valueInputGroup !== undefined) {
+                valueInputGroup.remove();
+            }
+            object.type = "fix";
+            addData(place, parentClass, object);
+        });
+
+        /* Процент от оптовой цены */
+            dataDropdownMenuItemPercent = addElement(
+                dataDropdownMenu,
+                "li",
+                parentClass + "__dropdown-menu-item-percent"
+            );
+            const dataDropdownMenuItemPercentLink = addElement(
+                dataDropdownMenuItemPercent,
+                "button",
+                [parentClass + "__dropdown-menu-item-percent-link", "dropdown-item", "btn", "btn-light"],
+                {
+                    "type": "button"
+                }
+            );
+            dataDropdownMenuItemPercentLink.innerText = "Процент от оптовой цены";
+            if (object.type === "percent") {
+                dataDropdownMenuItemPercentLink.setAttribute("disabled", "true");
+            }
+            dataDropdownMenuItemPercentLink.addEventListener('click', function (event) {
+                dataInputGroup.remove();
+                if (valueInputGroup !== undefined) {
+                    valueInputGroup.remove();
+                }
+                object.type = "percent";
+                object.percent = object.value / wholesalePrice * 100;
+                addData(place, parentClass, object);
+            });
+
+        /* Разделитель */
+        dataDropdownMenuHr = addElement(
+            dataDropdownMenu,
+            "li",
+            parentClass + "__dropdown-menu-item-hr"
+        );
+        const dataDropdownMenuHrDivider = addElement(
+            dataDropdownMenuHr,
+            "hr",
+            "dropdown-divider"
+        )
+
+        }
 
     /* Переименовать */
     const dataDropdownMenuItemRename = addElement(
@@ -180,7 +191,7 @@ export function addData(place, parentClass, object) {
     const dataDropdownMenuItemRenameLink = addElement(
         dataDropdownMenuItemRename,
         "button",
-        [parentClass + "__dropdown-menu-item-rename-link", "dropdown-item"],
+        [parentClass + "__dropdown-menu-item-rename-link", "dropdown-item", "btn", "btn-light"],
         {
             "type": "button"
         }
@@ -189,8 +200,6 @@ export function addData(place, parentClass, object) {
     dataDropdownMenuItemRenameLink.addEventListener('click', function (event) {
         addName(place, parentClass, object);
         dataInputGroup.remove();
-        console.log("click valueInputGroup");
-        console.log(valueInputGroup);
         if (valueInputGroup !== undefined) {
             valueInputGroup.remove();
         }

@@ -156,7 +156,7 @@ commissions.forEach(commission => {
         case 'commission':
             const newCostFix = addData(newCost, "commission-percent", commission);
             break;
-        default: console.warn("Неизвестный тип расходов");
+        default: console.warn("Неизвестный тип комиссии");
     }
 });
 
@@ -168,13 +168,12 @@ fees.forEach(fee => {
         case 'fee':
             const newCostFix = addData(newCost, "commission-percent", fee);
             break;
-        default: console.warn("Неизвестный тип расходов");
+        default: console.warn("Неизвестный тип тарифа");
     }
 });
 
 /* Кнопки добавления новых данных */
 const buttonAddCost = document.querySelector(".add__cost"); // Определяем кнопку, нажатие на которую добавляет новые расходы
-//buttonAddCost.addEventListener('click', function () {addNewData("cost");}); // Добавляем отслеживание событий по этой кнопке
 buttonAddCost.addEventListener('click', function () { // Добавляем отслеживание событий по этой кнопке
     let newDataCostNumber = Number(costs.length);
     let newDataCost = costs.push({
@@ -190,7 +189,6 @@ buttonAddCost.addEventListener('click', function () { // Добавляем от
 });
 
 const buttonAddCommission = document.querySelector(".add__commission"); // Определяем кнопку, нажатие на которую добавляет новые комиссии
-//buttonAddComission.addEventListener('click', function () {addNewData("commission");}); // Добавляем отслеживание событий по этой кнопке
 buttonAddCommission.addEventListener('click', function () { // Добавляем отслеживание событий по этой кнопке
     let newDataCommissionNumber = Number(commissions.length);
     let newDataCommission = commissions.push({
@@ -206,7 +204,6 @@ buttonAddCommission.addEventListener('click', function () { // Добавляе�
 });
 
 const buttonAddFee = document.querySelector(".add__fee"); // Определяем кнопку, нажатие на которую добавляет новые тарифы
-//buttonAddFee.addEventListener('click', function () {addNewData("fee");}); // Добавляем отслеживание событий по этой кнопке
 buttonAddFee.addEventListener('click', function () { // Добавляем отслеживание событий по этой кнопке
     let newDataFeeNumber = Number(fees.length);
     let newDataFee = fees.push({
@@ -221,10 +218,4 @@ buttonAddFee.addEventListener('click', function () { // Добавляем от�
     const newFeeName = addName(newFee, "fee", fees[newDataFeeNumber]);
 });
 
-
-/* Функции */
-
-//showCosts(); // Выводим расходы
-
-import { testFunction } from "./js/test.js";
-testFunction();
+import { buttonRetailPriceCopy } from "./js/functions/logic/copy-retail-price.js";
