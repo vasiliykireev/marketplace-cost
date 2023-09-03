@@ -33,8 +33,8 @@ export function addData(place, parentClass, type, object) {
             dataFormControl.value = object.value;
             dataFormControlLabel.innerText = object.name + ", " + captions.currency;
             dataFormControl.addEventListener('input', function (event) {
-                object.value = dataFormControl.value;
-                inputRetailPrice.value = retailPrice(wholesalePrice, costs, commissions, fees)
+                object.value = Number(dataFormControl.value).toFixed(2);
+                inputRetailPrice.value = retailPrice(wholesalePrice, costs, commissions, fees);
             })
         break;
         case 'percent':
@@ -50,7 +50,7 @@ export function addData(place, parentClass, type, object) {
                     'type': 'number',
                     'min': 0,
                     'step': 0.01,
-                    'placeholder': '',
+                    'placeholder': null,
                     'id': 'value-' + object.id,
                     'readonly': true
                 });
@@ -58,12 +58,12 @@ export function addData(place, parentClass, type, object) {
             valueFormControl.value = object.value;
             valueFormControlLabel.innerText = object.name + ", " + captions.currency;;
             dataFormControl.addEventListener('input', function (event) {
-                object.percent = dataFormControl.value;
+                object.percent = Number(dataFormControl.value).toFixed(2);
                 inputRetailPrice.value = retailPrice(wholesalePrice, costs, commissions, fees)
                 valueFormControl.value = object.value;
             })
             inputWholesalePrice.addEventListener('input', function (event) {
-                object.percent = dataFormControl.value;
+                object.percent = Number(dataFormControl.value).toFixed(2);
                 valueFormControl.value = object.value;
             })
         break;
@@ -71,16 +71,16 @@ export function addData(place, parentClass, type, object) {
             dataFormControl.value = object.percent;
             dataFormControlLabel.innerText = object.name + ', %';
             dataFormControl.addEventListener('input', function (event) {
-                object.percent = dataFormControl.value;
-                inputRetailPrice.value = retailPrice(wholesalePrice, costs, commissions, fees)
+                object.percent = Number(dataFormControl.value).toFixed(2);
+                inputRetailPrice.value = retailPrice(wholesalePrice, costs, commissions, fees);
             })
         break;
         case 'fee':
             dataFormControl.value = object.value;
             dataFormControlLabel.innerText = object.name + ", " + captions.currency;;
             dataFormControl.addEventListener('input', function (event) {
-                object.value = dataFormControl.value;
-                inputRetailPrice.value = retailPrice(wholesalePrice, costs, commissions, fees)
+                object.value = Number(dataFormControl.value).toFixed(2);
+                inputRetailPrice.value = retailPrice(wholesalePrice, costs, commissions, fees);
             })
         break;
     }
@@ -130,6 +130,7 @@ export function addData(place, parentClass, type, object) {
                 valueInputGroup.remove();
             }
             object.type = 'fix';
+            inputRetailPrice.value = retailPrice(wholesalePrice, costs, commissions, fees) // Пересчитываем розничную цену
             addData(place, parentClass, type, object);
         });
 
@@ -157,7 +158,8 @@ export function addData(place, parentClass, type, object) {
                     valueInputGroup.remove();
                 }
                 object.type = 'percent';
-                object.percent = object.value / wholesalePrice * 100;
+                inputRetailPrice.value = retailPrice(wholesalePrice, costs, commissions, fees) // Пересчитываем розничную цену
+                console.log(object);
                 addData(place, parentClass, type, object);
             });
 
@@ -172,7 +174,6 @@ export function addData(place, parentClass, type, object) {
             'hr',
             'dropdown-divider'
         )
-
         }
 
     /* Переименовать */

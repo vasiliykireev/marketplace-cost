@@ -47,9 +47,9 @@ export function addName(place, parentClass, type, object) {
     nameButtonSave.addEventListener("click", function(event) {
         object.name = nameFormControl.value;
         const newData = addData(place, parentClass, type, object);
-        console.log(costs);
+        /* console.log(costs);
         console.log(commissions);
-        console.log(fees);
+        console.log(fees); */
         nameInputGroup.remove();
     })
     if (object.name === undefined) {
