@@ -1,8 +1,6 @@
 "use strict";
 
 console.log("retail-price.js loaded");
-import { addData } from "../rendering/add-data.js";
-import { addElement } from "../elements/add-element.js";
 
 export function retailPrice(wholesalePrice, costs, commissions, fees) { // Расчет розничной цены
 
@@ -11,21 +9,13 @@ export function retailPrice(wholesalePrice, costs, commissions, fees) { // Ра�
     let sumFees = 0; // Сумма тарифов маркетплейса
     costs.forEach(function(cost) { // Каждый объект расходов и прибыли должен иметь значение, поэтому 
     if (cost["type"] === "percent") { // Если расход указан в процентах,
-        
             cost["value"] = wholesalePrice * cost["percent"]/100; // то он пересчитывается в числовое значение.
-            //console.log(cost);
         }
     })
     /* Сумма расходов и прибыли */
-    //console.log("- Расходы и прибыль:")
     costs.forEach(function(cost) { // Сумма всех расходов и прибыли
         sumCosts = sumCosts + Number(cost["value"]); // В sumCosts суммируются все значения value из расходов и прибылей costs.
-        //console.log("name: " + cost["name"] + ", value: " + cost["value"]);
-        //console.log("sumCosts: " + sumCosts)
     })
-    //console.log("sumCosts (final): " + sumCosts);
-    /* Сумма комиссий */
-    //console.log("- Комиссии:")
     
     commissions.forEach(function(commission) { // Сумма всех комиссий
         sumCommissions = sumCommissions + Number(commission["percent"]); // В sumCommissions суммируются все значения percent из комиссий commissions.
@@ -34,9 +24,7 @@ export function retailPrice(wholesalePrice, costs, commissions, fees) { // Ра�
             // потому что сумма комиссий не может превышать стоимость товара
             console.warn("Сумма комиссий не может быть 100 или больше процентов.")
         }
-        //console.log(commission["name"] + ": " + commission["percent"]);
     })
-    //console.log(sumCommissions);
     
     /* Сумма тарифов */
     fees.forEach(function(fee) { // Сумма всех тарифов
@@ -47,6 +35,10 @@ export function retailPrice(wholesalePrice, costs, commissions, fees) { // Ра�
     let result = (wholesalePrice + sumCosts + sumFees) / (1 - sumCommissions / 100); // Розничная цена равна сумме оптовой цены, расходов и прибыли и тарифов маркетплейса, деленых на разницу 1 (100%) и суммы процентов комиссий маркетплейсов
     result = result.toFixed(2);
     
-    const inputRetailPrice = document.querySelector(".retail-price__value");
-    inputRetailPrice.value = result;
+    //const inputRetailPrice = document.querySelector(".retail-price__value");
+    //inputRetailPrice.value = result;
+    
+    //addRetailPrice(result);
+
+    return result;
 }

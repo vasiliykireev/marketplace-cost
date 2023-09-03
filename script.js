@@ -1,221 +1,100 @@
-"use strict";
+'use strict';
 
-let marketplaceCostData = {};
+/* Логи */
+export let logs = true; // true - выводим логи, false - не выводим логи
 
-/* Начальные данные для примера
-*/
-export let wholesalePrice = 10000 ; // Оптовая цена
+/* Данные для примера */
+import { exampleWhosalePrice } from './js/data/example/example-whosale-price.js'; // Импортируем пример розничной цены
+import { exampleCosts } from './js/data/example/example-costs.js'; // Импортируем пример расходов
+import { exampleCommissions } from './js/data/example/example-commissions.js'; // Импортируем пример комиссий
+import { exampleFees } from './js/data/example/example-fees.js'; // Импортируем пример тарифов
 
-/* Расходы и прибыль
-/* id: порядковый номер, число
-/* name: Наименование, строка
-/* type: percent - процент от оптовой цены, fix - фиксированное значение
-/* percent - значение процента от оптовой цены, число
-/* value - значение расхода или прибыли, число
-*/
-export let costs = [ // Расходы и прибыль
-    {   
-        id: 1,
-        name: "Прибыль",
-        type: "percent",
-        percent: 20
-    },
-    {
-        id: 2,
-        name: "Персонал 1",
-        type: "fix",
-        value: 200
-    },
-    {
-        id: 3,
-        name: "Персонал 2",
-        type: "fix",
-        value: 300
-    },
-    {
-        id: 4,
-        name: "Маркетинг 1",
-        type: "percent",
-        percent: 3
-    },
-    {
-        id: 5,
-        name: "Маркетинг 2",
-        type: "percent",
-        percent: 2
-    },
-    {
-        id: 6,
-        name: "Маркетинг 3",
-        type: "percent",
-        percent: 3
-    },
-    {
-        id: 7,
-        name: "Логистика",
-        type: "fix",
-        value: 200
-    }
-];
+export let wholesalePrice = exampleWhosalePrice; ; // Заполняем оптовую цену из примера
+export let costs = exampleCosts; // Заполняем расходы из примера
+export let commissions = exampleCommissions; // Заполняем комиссии из примера
+export let fees = exampleFees; // Заполняем тарифы из примера
 
-/* Комиссии
-/* id: порядковый номер, число
-/* name: Наименование, строка
-/* type: commission - комиссия маркетплейса
-/* percent - значение процента комиссии, число
-*/
-export let commissions = [
-    {
-        id: 1,
-        name: "Размещение",
-        type: "commission",
-        percent: 2
-    },
-    {
-        id: 2,
-        name: "Продвижение",
-        type: "commission",
-        percent: 5
-    }
-];
+if (logs) { // Логи данных для примера
+    console.log('exampleData');
+    console.log(wholesalePrice); // Оптовая цена
+    console.log(costs); // Расходы
+    console.log(commissions); // Комиссии
+    console.log(fees) // Тарифы
+};
 
-/* Тарифы */
-/* id: порядковый номер, число
-/* name: Наименование, строка
-/* type: fee - тариф маркетплейса
-/* value - значение расхода или прибыли, число */
-export let fees = [
-        {
-            id: 1,
-            name: "Обработка",
-            type: "fee",
-            value: 20
-        },
-        {
-            id: 2,
-            name: "Логистика",
-            type: "fee",
-            value: 300
-        },
-        {
-            id: 3,
-            name: "Последняя миля",
-            type: "fee",
-            value: 500
-        }
-    ];
+/* Вычисления */
+import { retailPrice } from './js/functions/logic/retail-price.js'; // Импортируем функцию расчета розничной цены
 
-console.log("wholesalePrice");
-console.log(wholesalePrice);
-console.log("costs");
-console.log(costs);
-console.log("commissions")
-console.log(commissions);
-console.log("fees");
-console.log(fees);
+/* Подписи */
+import { lang } from './js/data/lang.js'; // Импортируем подписи на разных языках
+export let captions = lang.ru; // Подписи на русском языке
+if (logs) {console.log(captions);} // Логи подписей
 
-let currency = " руб.";
+/* Отображение */
+import { addElement } from './js/functions/elements/add-element.js'; // Импортируем функцию добавления элементов
+import { addData } from './js/functions/rendering/add-data.js'; // Импортируем функцию добавления данных
+import { addName } from './js/functions/rendering/add-name.js'; // Импортируем функцию добавления имени
+import { addType } from './js/functions/rendering/add-type.js'; // Импортируем функцию добавления типа
 
-import { addElement } from "./js/functions/elements/add-element.js";
-import { addData } from "./js/functions/rendering/add-data.js";
-import { addName } from "./js/functions/rendering/add-name.js";
-import { retailPrice } from "./js/functions/logic/retail-price.js";
+/* Отображение розничной цены */
+export const inputRetailPrice = document.querySelector('.retail-price__value'); // Определяем поле для вывода розничной цены
+inputRetailPrice.value = retailPrice(wholesalePrice, costs, commissions, fees); // Выводим розничную цену в поле для вывода
 
-
-
-/* Получение оптовой цены */
-export const inputWholesalePrice = document.querySelector(".wholesale-price__number"); // Определяем элемент, где находится поле для ввода оптовой цена
-inputWholesalePrice.value = wholesalePrice; // Добавляем в него оптовую цену из примера
-inputWholesalePrice.addEventListener('input', function (event) { // Добавляем отслеживание событий по вводу данных в поле для ввода
-    wholesalePrice = Number(inputWholesalePrice.value); // Записываем новую оптовую цену из поля для ввода
-    retailPrice(wholesalePrice, costs, commissions, fees); // Пересчитываем розничную цену
+/* Отображение оптовой цены */
+export const inputWholesalePrice = document.querySelector('.wholesale-price__number'); // Определяем элемент, где находится поле для ввода оптовой цена
+inputWholesalePrice.value = wholesalePrice; // Записываем в него оптовую цену
+inputWholesalePrice.addEventListener('input', function (event) { // Добавляем отслеживание событий по вводу данных в поле для ввода оптовой цены
+    wholesalePrice = Number(inputWholesalePrice.value); // Записываем новую оптовую цену из поля для ввода оптовой цены
+    inputRetailPrice.value = retailPrice(wholesalePrice, costs, commissions, fees) // Пересчитываем и выводим розничную цену 
 })
 
-/* Вывод начальных данных */
+/* Отображение расходов */
+export const elementCosts = document.querySelector('.costs'); // Определяем элемент, куда добавлять новые расходы
+export let addCosts = addType(elementCosts, 'cost', costs); // Добавляем новые расходы
 
-retailPrice(wholesalePrice, costs, commissions, fees); // Пересчитываем розничную цену
+/* Отображение комиссий */
+export const elementCommissions = document.querySelector('.commissions'); // Определяем элемент, куда добавлять новые комиссии
+export let addCommissions = addType(elementCommissions, 'commission', commissions); // Добавляем новые комиссии
 
-export const elementCosts = document.querySelector(".costs"); // Определяем элемент, куда добавлять новые расходы
-costs.forEach(cost => {
-    const newCost = addElement(elementCosts, "div", ["cost", "mb-3"]);
-    switch (cost.type) {
-        case 'fix':
-            const newCostFix = addData(newCost, "cost-fix", cost);
-            break;
-        case 'percent':
-            const newCostPercent = addData(newCost, "cost-percent", cost);
-            break;
-        default: console.warn("Неизвестный тип расходов");
-    }
-});
-
-export const elementCommissions = document.querySelector(".commissions"); // Определяем элемент, куда добавлять новые комиссии
-commissions.forEach(commission => {
-    const newCost = addElement(elementCommissions, "div", ["comission", "mb-3"]);
-    switch (commission.type) {
-        case 'commission':
-            const newCostFix = addData(newCost, "commission-percent", commission);
-            break;
-        default: console.warn("Неизвестный тип комиссии");
-    }
-});
-
-
-export const elementFees = document.querySelector(".fees"); // Определяем элемент, куда добавлять новые тарифы
-fees.forEach(fee => {
-    const newCost = addElement(elementFees, "div", ["comission", "mb-3"]);
-    switch (fee.type) {
-        case 'fee':
-            const newCostFix = addData(newCost, "commission-percent", fee);
-            break;
-        default: console.warn("Неизвестный тип тарифа");
-    }
-});
+/* Отображение тарифов */
+export const elementFees = document.querySelector('.fees'); // Определяем элемент, куда добавлять новые тарифы
+export let addFees = addType(elementFees, 'fee', fees); // Добавляем новые тарифы
 
 /* Кнопки добавления новых данных */
-const buttonAddCost = document.querySelector(".add__cost"); // Определяем кнопку, нажатие на которую добавляет новые расходы
+const buttonAddCost = document.querySelector('.add__cost'); // Определяем кнопку, нажатие на которую добавляет новые расходы
 buttonAddCost.addEventListener('click', function () { // Добавляем отслеживание событий по этой кнопке
-    let newDataCostNumber = Number(costs.length);
-    let newDataCost = costs.push({
-        "type": "fix",
-        "value": ""
+    let newCostId = Number(costs.length); // Считаем количество элементов в массиве расходов
+    let newCost = costs.push({ // Добавляем в новый элемент массива
+        'id': 'cost-' + newCostId, // Идентификатор - расход с количеством элементов в массиве 
+        'type': 'fix', // Тип - фиксированная стоимость
+        'value': null // Значение - отсутствует
     });
-    console.log("newDataCost")
-    console.log(newDataCost);
-    console.log("costs");
-    console.log(costs);
-    const newCost = addElement(elementCosts, "div", ["cost", "mb-3"]);
-    const newCostName = addName(newCost, "cost", costs[newDataCostNumber]);
+    const addNewCost = addElement(elementCosts, 'div', ['cost', 'mb-3']); // Добавляем новый расход
+    const addNewCostName = addName(addNewCost, 'cost', 'fix', costs[newCostId]); // Добавляем название нового расхода
 });
 
-const buttonAddCommission = document.querySelector(".add__commission"); // Определяем кнопку, нажатие на которую добавляет новые комиссии
+const buttonAddCommission = document.querySelector('.add__commission'); // Определяем кнопку, нажатие на которую добавляет новые комиссии
 buttonAddCommission.addEventListener('click', function () { // Добавляем отслеживание событий по этой кнопке
-    let newDataCommissionNumber = Number(commissions.length);
-    let newDataCommission = commissions.push({
-        "type": "commission",
-        "value": ""
+    let newCommissionId = Number(commissions.length); // Считаем количество элементов в массиве комиссий
+    let newCommission = commissions.push({ // Добавляем в новый элемент массива
+        'id': 'commission-' + newCommissionId, // Идентификатор - комиссия с количеством элементов в массиве 
+        'type': 'commission', // Тип - комиссия
+        'value': null // Значение - отсутствует
     });
-    console.log("newDataComission")
-    console.log(newDataCommission);
-    console.log("costs");
-    console.log(commissions);
-    const newCommission = addElement(elementCommissions, "div", ["commission", "mb-3"]);
-    const newCommissionName = addName(newCommission, "commission", commissions[newDataCommissionNumber]);
+    const addNewCommission = addElement(elementCommissions, 'div', ['commission', 'mb-3']); // Добавляем новую комиссию
+    const addNewCommissionName = addName(addNewCommission, 'commission', 'commission', commissions[newCommissionId]); // Добавляем название новой комиссии
 });
 
-const buttonAddFee = document.querySelector(".add__fee"); // Определяем кнопку, нажатие на которую добавляет новые тарифы
+const buttonAddFee = document.querySelector('.add__fee'); // Определяем кнопку, нажатие на которую добавляет новые тарифы
 buttonAddFee.addEventListener('click', function () { // Добавляем отслеживание событий по этой кнопке
-    let newDataFeeNumber = Number(fees.length);
-    let newDataFee = fees.push({
-        "type": "fee",
-        "value": ""
+    let newFeeId = Number(fees.length); // Считаем количество элементов в массиве тарифов
+    let newFee = fees.push({ // Идентификатор - тариф с количеством элементов в массиве 
+        'id': 'fee-' + newFeeId, // Идентификатор - тариф с количеством элементов в массиве 
+        'type': 'fee', // Тип - тариф
+        'value': null  // Значение - отсутствует
     });
-    console.log("newDataFee")
-    console.log(newDataFee);
-    console.log("fees");
-    console.log(fees);
-    const newFee = addElement(elementFees, "div", ["fee", "mb-3"]);
-    const newFeeName = addName(newFee, "fee", fees[newDataFeeNumber]);
+    const addNewFee = addElement(elementFees, 'div', ['fee', 'mb-3']); // Добавляем новый тариф
+    const addNewFeeName = addName(addNewFee, 'fee', 'fee', fees[newFeeId]); // Добавляем название нового тарифа
 });
-
-import { buttonRetailPriceCopy } from "./js/functions/logic/copy-retail-price.js";
+inputRetailPrice.focus(); // Фокусируемся на поле для вывода розничной цены
+inputRetailPrice.blur(); // Снимаем фокус с поля для вывода розничной цены

@@ -7,7 +7,7 @@ import { addData } from "./add-data.js";
 import { costs, commissions, fees } from "../../../script.js";
 import { deleteObject } from "../logic/delete-object.js";
 
-export function addName(place, parentClass, object) {
+export function addName(place, parentClass, type, object) {
     if (object !== undefined) {
         console.log("Add name object");
         console.log(object);
@@ -38,7 +38,7 @@ export function addName(place, parentClass, object) {
     nameButtonSave.innerHTML = '<i class="bi bi-check"></i>';
     nameButtonSave.addEventListener("click", function(event) {
         object.name = nameFormControl.value;
-        const newData = addData(place, parentClass, object);
+        const newData = addData(place, parentClass, type, object);
         console.log(costs);
         console.log(commissions);
         console.log(fees);
@@ -84,7 +84,7 @@ export function addName(place, parentClass, object) {
             if (event.key === "Enter") { // Если нажата клавиша ввода
                 //saveName(newName, place, newNameInputGroup); // Сохраняем название и удаляем группу для добавления названия
                 object.name = nameFormControl.value;
-                const newCostFix = addData(place, parentClass, object);
+                const newCostFix = addData(place, parentClass, type, object);
                 console.log(costs);
                 nameInputGroup.remove();
             }
