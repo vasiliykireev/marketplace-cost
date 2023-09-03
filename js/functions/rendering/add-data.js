@@ -1,6 +1,6 @@
 'use strict';
 
-import { addElement } from '../elements/add-element.js'; // Импортируем функцию добавления элемента
+import { addElement } from './add-element.js'; // Импортируем функцию добавления элемента
 import { wholesalePrice, costs, commissions, fees } from '../../../script.js'; // Импортируем оптовую цену, расходы, комиссии и тарифы
 // import { wholesalePrice } from '../../../script.js';
 import { inputWholesalePrice } from '../../../script.js'; 
@@ -22,9 +22,11 @@ export function addData(place, parentClass, type, object) {
             'type': 'number',
             'min': 0,
             'step': 0.01,
-            'placeholder': ""
+            'placeholder': null,
+            'id': 'data-' + object.id,
+            'name': 'data-' + object.id
         });
-    const dataFormControlLabel = addElement(dataFormFloating, 'label', parentClass + '__label');
+    const dataFormControlLabel = addElement(dataFormFloating, 'label', parentClass + '__label', {'for': 'data-' + object.id});
     let valueInputGroup;
     switch (object.type) {
         case 'fix':
@@ -49,9 +51,10 @@ export function addData(place, parentClass, type, object) {
                     'min': 0,
                     'step': 0.01,
                     'placeholder': '',
+                    'id': 'value-' + object.id,
                     'readonly': true
                 });
-            const valueFormControlLabel = addElement(valueFormFloating, 'label', parentClass + '__value-label');
+            const valueFormControlLabel = addElement(valueFormFloating, 'label', parentClass + '__value-label', {"for": "value-" + object.id});
             valueFormControl.value = object.value;
             valueFormControlLabel.innerText = object.name + ", " + captions.currency;;
             dataFormControl.addEventListener('input', function (event) {

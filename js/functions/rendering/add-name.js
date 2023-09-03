@@ -2,7 +2,7 @@
 
 console.log("add-name.js loaded");
 
-import { addElement } from "../elements/add-element.js";
+import { addElement } from "./add-element.js";
 import { addData } from "./add-data.js";
 import { costs, commissions, fees } from "../../../script.js";
 import { deleteObject } from "../logic/delete-object.js";
@@ -14,8 +14,16 @@ export function addName(place, parentClass, type, object) {
     }
     const nameInputGroup = addElement(place, "div", [parentClass + "__input-group", "input-group"]);
     const nameFormFloating = addElement(nameInputGroup, "div", [parentClass + "__form-floating", "form-floating"]);
-    const nameFormControl = addElement(nameFormFloating,"input",[parentClass + "__form-control", "form-control"],{"placeholder": undefined});
-    const nameFormControlLabel = addElement(nameFormFloating, "label", parentClass + "__label");
+    const nameFormControl = addElement(
+        nameFormFloating,
+        "input",
+        [parentClass + "__form-control", "form-control"],
+        {
+            "placeholder": undefined,
+            "id": 'name-' + object.id,
+            "name": 'name-' + object.id,
+        });
+    const nameFormControlLabel = addElement(nameFormFloating, "label", parentClass + "__label", {"for": 'name-' + object.id});
     // nameFormControlLabel.innerText = object.id + ". " + object.name;
     if (object.name === undefined) {
         nameFormControlLabel.innerText = "Введите название";

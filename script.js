@@ -31,7 +31,7 @@ export let captions = lang.ru; // Подписи на русском языке
 if (logs) {console.log(captions);} // Логи подписей
 
 /* Отображение */
-import { addElement } from './js/functions/elements/add-element.js'; // Импортируем функцию добавления элементов
+import { addElement } from './js/functions/rendering/add-element.js'; // Импортируем функцию добавления элементов
 import { addData } from './js/functions/rendering/add-data.js'; // Импортируем функцию добавления данных
 import { addName } from './js/functions/rendering/add-name.js'; // Импортируем функцию добавления имени
 import { addType } from './js/functions/rendering/add-type.js'; // Импортируем функцию добавления типа
