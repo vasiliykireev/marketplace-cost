@@ -1,34 +1,34 @@
 'use strict';
 
 import { addElement } from './add-element.js'; // Импортируем функцию добавления элемента
-import { wholesalePrice, costs, commissions, fees } from '../../../script.js'; // Импортируем оптовую цену, расходы, комиссии и тарифы
-import { inputRetailPrice } from '../../../script.js'; // Импортируем объект поля для ввода розничной цены
-import { inputWholesalePrice } from '../../../script.js'; // Импортируем объект поля для ввода оптовой цены
+import { sourceWholesalePrice, sourceCosts, sourceCommissions, sourceFees } from '../../../script.js'; // Импортируем оптовую цену, расходы, комиссии и тарифы
+import { displayRetailPriceInputFormControl } from '../../../script.js'; // Импортируем объект поля для ввода розничной цены
+import { displayWholesalePriceInputFormControl } from '../../../script.js'; // Импортируем объект поля для ввода оптовой цены
 import { retailPrice } from '../logic/retail-price.js'; // Импортируем функцию расчета розничной цены
 import { deleteObject } from '../logic/delete-object.js'; // Импортируем функцию удаления объекта
 import { addName } from './add-name.js'; // Импортируем функцию добавления названия
 import { captions } from '../../../script.js'; // Импортируем подписи
-import { deleteData } from './delete-data.js';
+import { removeData } from './remove-data.js'; // Импортируем функцию стирания данных
 
 /* Логи */
 let logs = true; // true - выводим логи, false - не выводим логи
 
-export function addData(place, parentClass, type, object) { // Добавить данные: родительский элемент, класс, тип, объект
-    let dataGroup = []; // Определяем все группы, которые будут добавлены
-    const dataInputGroup = addElement( // Добавляем группу ввода основного значения
-        place,
+export function addData(parent, /*parentClass,*/ type, object) { // Добавить данные: родительский элемент, класс, тип, объект
+    let displayValues = []; // Определяем все группы, которые будут добавлены
+    const displayValueBlockInputGroup = addElement( // Добавляем группу ввода основного значения
+        parent,
         'div',
-        [parentClass + '__input-group', parentClass + '__input-group' + '_type_' + type, 'input-group']
+        [type + '__input-group', type + '__input-group' + '_type_' + object.type, 'input-group']
     );
-    const dataFormFloating = addElement( // Добавляем плавающие подписи
-        dataInputGroup,
+    const displayValueElementFormFloating = addElement( // Добавляем плавающие подписи
+        displayValueBlockInputGroup,
         'div',
-        [parentClass + '__form-floating', parentClass + '__form-floating'  + '_type_' + type , 'form-floating']
+        [type + '__form-floating', type + '__form-floating'  + '_type_' + object.type , 'form-floating']
     );
-    const dataFormControl = addElement( // Добавляем поле для ввода значения
-        dataFormFloating,
+    const displayValueInputFormControl = addElement( // Добавляем поле для ввода значения
+        displayValueElementFormFloating,
         'input',
-        [parentClass + '__form-control', parentClass + '__form-control' + '_type_' + type, 'form-control'],
+        [type + '__form-control', type + '__form-control' + '_type_' + object.type, 'form-control'],
         {
             'type': 'number',
             'min': 0,
@@ -37,27 +37,32 @@ export function addData(place, parentClass, type, object) { // Добавить 
             'id': 'data-' + object.id,
             'name': 'data-' + object.id
         });
-    const dataFormControlLabel = addElement(dataFormFloating, 'label', parentClass + '__label', {'for': 'data-' + object.id}); // Добавляем подпись для поля для ввода значения
-    dataGroup.push(dataInputGroup); // Добавляем группу для ввода основного значения в добавленные данные
-    let percentInputGroup; // Определяем группу для вывода значения от процентов
+    const displayValueLabelFormControl = addElement(displayValueElementFormFloating, 'label', type + '__label', {'for': 'data-' + object.id}); // Добавляем подпись для поля для ввода значения
+    displayValues.push(displayValueBlockInputGroup); // Добавляем группу для ввода основного значения в добавленные данные
+    // let percentInputGroup; // Определяем группу для вывода значения от процентов
+    let displayPercentValueBlockInputGroup; // Определяем группу для вывода значения от процентов
+
+    console.log('Before switch object type');
+    console.log(object);
+
     switch (object.type) { // В зависимости от типа объекта
         case 'fix': // Если фиксированная цена
-            dataFormControl.value = object.value; // Добавляем значение объекта в поле для ввода значения
-            dataFormControlLabel.innerText = object.name + ', ' + captions.currency; // Добавляем подпись из названия объекта и валюты для ввода значения
-            dataFormControl.addEventListener('input', function (event) { // Добавляем отслеживание событий по вводу данных в поле для ввода
-                object.value = Number(dataFormControl.value).toFixed(2); // Записываем значение поля для ввода в значение объекта
-                inputRetailPrice.value = retailPrice(wholesalePrice, costs, commissions, fees); // Считаем розничную цену и выводим ее в поле для вывода
+            displayValueInputFormControl.value = object.value; // Добавляем значение объекта в поле для ввода значения
+            displayValueLabelFormControl.innerText = object.name + ', ' + captions.currency; // Добавляем подпись из названия объекта и валюты для ввода значения
+            displayValueInputFormControl.addEventListener('input', function (event) { // Добавляем отслеживание событий по вводу данных в поле для ввода
+                object.value = Number(displayValueInputFormControl.value).toFixed(2); // Записываем значение поля для ввода в значение объекта
+                displayRetailPriceInputFormControl.value = retailPrice(sourceWholesalePrice, sourceCosts, sourceCommissions, sourceFees); // Считаем розничную цену и выводим ее в поле для вывода
             })
         break;
         case 'percent': // Если процент от оптовой цены
-            dataFormControl.value = object.percent; // Добавляем процент объекта в поле для ввода значения
-            dataFormControlLabel.innerText = object.name + ', %'; // Добавляем подпись из названия объекта и процента
-            percentInputGroup = addElement(place, 'div', [parentClass + '__input-group', parentClass + '__input-group_type_percent', 'input-group']); // Добавляем группу для вывода значения от процентов
-            const percentFormFloating = addElement(percentInputGroup, 'div', [parentClass + '__-form-floating', parentClass + '__-form-floating_type_percent', 'form-floating']); // Добавляем плавающие подписи
-            const percentFormControl = addElement( // Добавляем поле для вывода значения от процентов
-                percentFormFloating,
+            displayValueInputFormControl.value = object.percent; // Добавляем процент объекта в поле для ввода значения
+            displayValueLabelFormControl.innerText = object.name + ', %'; // Добавляем подпись из названия объекта и процента
+            displayPercentValueBlockInputGroup = addElement(parent, 'div', [type + '__input-group', type + '__input-group_type_percent', 'input-group']); // Добавляем группу для вывода значения от процентов
+            const displayPercentValueBlockFormFloating = addElement(displayPercentValueBlockInputGroup, 'div', [type + '__-form-floating', type + '__-form-floating_type_percent', 'form-floating']); // Добавляем плавающие подписи
+            const displayPercentValueInputFormControl = addElement( // Добавляем поле для вывода значения от процентов
+            displayPercentValueBlockFormFloating,
                 'input',
-                [parentClass + '__form-control-plaintext', parentClass + '__form-control-plaintext_type_percent', 'form-control-plaintext'],
+                [type + '__form-control-plaintext', type + '__form-control-plaintext_type_percent', 'form-control-plaintext'],
                 {
                     'type': 'number',
                     'min': 0,
@@ -66,159 +71,162 @@ export function addData(place, parentClass, type, object) { // Добавить 
                     'id': 'value-' + object.id,
                     'readonly': true
                 });
-            const percentFormControlLabel = addElement(percentFormFloating, 'label', [parentClass + '__value-label', parentClass + '__value-label_type_percent'], {'for': 'value-' + object.id}); // Добавляем подпись для вывода значения от процентов
-            percentFormControl.value = object.value; // Добавляем значение объекта в поле для вывода значения от процентов
-            percentFormControlLabel.innerText = object.name + ', ' + captions.currency; // Добавляем подпись из названия объекта и валюты для ввода значения
-            dataGroup.push(percentInputGroup);
-            dataFormControl.addEventListener('input', function (event) { // Добавляем отслеживание событий по вводу данных в поле для ввода
-                object.percent = Number(dataFormControl.value).toFixed(2); // Записываем значение поля для ввода в процент объекта
-                inputRetailPrice.value = retailPrice(wholesalePrice, costs, commissions, fees); // Считаем розничную цену и выводим ее в поле для вывода
-                percentFormControl.value = object.value; // Записываем значение объекта в поле для вывода значения от процентов
+            const displayPercentValueLabelFormControl = addElement(displayPercentValueBlockFormFloating, 'label', [type + '__value-label', type + '__value-label_type_percent'], {'for': 'value-' + object.id}); // Добавляем подпись для вывода значения от процентов
+            displayPercentValueInputFormControl.value = object.value; // Добавляем значение объекта в поле для вывода значения от процентов
+            displayPercentValueLabelFormControl.innerText = object.name + ', ' + captions.currency; // Добавляем подпись из названия объекта и валюты для ввода значения
+            displayValues.push(displayPercentValueBlockInputGroup);
+            displayValueInputFormControl.addEventListener('input', function (event) { // Добавляем отслеживание событий по вводу данных в поле для ввода
+                object.percent = Number(displayValueInputFormControl.value).toFixed(2); // Записываем значение поля для ввода в процент объекта
+                displayRetailPriceInputFormControl.value = retailPrice(sourceWholesalePrice, sourceCosts, sourceCommissions, sourceFees); // Считаем розничную цену и выводим ее в поле для вывода
+                displayPercentValueInputFormControl.value = object.value; // Записываем значение объекта в поле для вывода значения от процентов
             })
-            inputWholesalePrice.addEventListener('input', function (event) { // Добавляем отслеживание событий по вводу данных в поле для ввода оптовой цены
-                object.percent = Number(dataFormControl.value).toFixed(2); // Записываем значение поля для ввода в процент объекта
-                percentFormControl.value = object.value; // Добавляем значение объекта в поле для вывода значения от процентов
+            displayWholesalePriceInputFormControl.addEventListener('input', function (event) { // Добавляем отслеживание событий по вводу данных в поле для ввода оптовой цены
+                object.percent = Number(displayValueInputFormControl.value).toFixed(2); // Записываем значение поля для ввода в процент объекта
+                displayPercentValueInputFormControl.value = object.value; // Добавляем значение объекта в поле для вывода значения от процентов
             })
         break;
         case 'commission': // Если комиссия
-            dataFormControl.value = object.percent; // Добавляем процент объекта в поле для ввода значения
-            dataFormControlLabel.innerText = object.name + ', %'; // Добавляем подпись из названия объекта и процента
-            dataFormControl.addEventListener('input', function (event) { // Добавляем отслеживание событий по вводу данных в подпись для поля для ввода значения
-                object.percent = Number(dataFormControl.value).toFixed(2); // Заполняем процент числом из поля для ввода значения с копейками
-                inputRetailPrice.value = retailPrice(wholesalePrice, costs, commissions, fees); // Считаем розничную цену и выводим ее в поле для вывода
+            displayValueInputFormControl.value = object.percent; // Добавляем процент объекта в поле для ввода значения
+            displayValueLabelFormControl.innerText = object.name + ', %'; // Добавляем подпись из названия объекта и процента
+            displayValueInputFormControl.addEventListener('input', function (event) { // Добавляем отслеживание событий по вводу данных в подпись для поля для ввода значения
+                object.percent = Number(displayValueInputFormControl.value).toFixed(2); // Заполняем процент числом из поля для ввода значения с копейками
+                displayRetailPriceInputFormControl.value = retailPrice(sourceWholesalePrice, sourceCosts, sourceCommissions, sourceFees); // Считаем розничную цену и выводим ее в поле для вывода
             })
         break;
         case 'fee': // Если тариф
-            dataFormControl.value = object.value; // Добавляем значение объекта в поле для ввода значения
-            dataFormControlLabel.innerText = object.name + ', ' + captions.currency; // Добавляем подпись из названия объекта и валюты для ввода значения
-            dataFormControl.addEventListener('input', function (event) { // Добавляем отслеживание событий по вводу данных в поле для ввода
-                object.value = Number(dataFormControl.value).toFixed(2); // Записываем значение поля для ввода в значение объекта
-                inputRetailPrice.value = retailPrice(wholesalePrice, costs, commissions, fees); // Считаем розничную цену и выводим ее в поле для вывода
+            displayValueInputFormControl.value = object.value; // Добавляем значение объекта в поле для ввода значения
+            displayValueLabelFormControl.innerText = object.name + ', ' + captions.currency; // Добавляем подпись из названия объекта и валюты для ввода значения
+            displayValueInputFormControl.addEventListener('input', function (event) { // Добавляем отслеживание событий по вводу данных в поле для ввода
+                object.value = Number(displayValueInputFormControl.value).toFixed(2); // Записываем значение поля для ввода в значение объекта
+                displayRetailPriceInputFormControl.value = retailPrice(sourceWholesalePrice, sourceCosts, sourceCommissions, sourceFees); // Считаем розничную цену и выводим ее в поле для вывода
             })
         break;
+        default:
+            console.warn('Unknown type');
+            console.log(object);
     }
-    dataFormControl.focus();
-    const dataDropdown = addElement(
-        dataInputGroup,
-        'button', [parentClass + '__dropdown-options', 'btn', 'btn-secondary', 'dropdown-toggle'],
+    displayValueInputFormControl.focus();
+    const displayValueButtonDropdown = addElement(
+        displayValueBlockInputGroup,
+        'button', [type + '__dropdown-options', 'btn', 'btn-secondary', 'dropdown-toggle'],
         {
             'data-bs-toggle': 'dropdown',
             'aria-label': 'Изменить',
             'aria-expanded': 'false'
         }
         );
-    const dataDropdownMenu = addElement(
-        dataInputGroup,
+    const displayValueUlDropdownMenu = addElement(
+        displayValueBlockInputGroup,
         'ul',
-        [parentClass + '__dropdown-menu', 'dropdown-menu', 'dropdown-menu-end']
+        [type + '__dropdown-menu', 'dropdown-menu', 'dropdown-menu-end']
     );
-    let dataDropdownMenuItemFix;
-    let dataDropdownMenuItemPercent;
-    let dataDropdownMenuHr;
+    let displayValueLiDropdownMenuItemFix;
+    let displayValueLiDropdownMenuItemPercent;
+    let displayValueUlDropdownMenuHr;
 
     /* Фиксированная стоимость */
     if (object.type === 'fix' || object.type === 'percent') {
-        dataDropdownMenuItemFix = addElement(
-            dataDropdownMenu,
+        displayValueLiDropdownMenuItemFix = addElement(
+            displayValueUlDropdownMenu,
             'li',
-            parentClass + '__dropdown-menu-item-fix'
+            type + '__dropdown-menu-item-fix'
         );
-        const dataDropdownMenuItemFixLink = addElement(
-            dataDropdownMenuItemFix,
+        const displayValueLiDropdownMenuItemFixLink = addElement(
+            displayValueLiDropdownMenuItemFix,
             'button',
-            [parentClass + '__dropdown-menu-item-fix-link', 'dropdown-item', 'btn', 'btn-light'],
+            [type + '__dropdown-menu-item-fix-link', 'dropdown-item', 'btn', 'btn-light'],
             {
                 'type': 'button'
             }
         );
-        dataDropdownMenuItemFixLink.innerText = 'Фиксированная стоимость';
+        displayValueLiDropdownMenuItemFixLink.innerText = 'Фиксированная стоимость';
         if (object.type === 'fix') {
-            dataDropdownMenuItemFixLink.setAttribute('disabled', 'true');
+            displayValueLiDropdownMenuItemFixLink.setAttribute('disabled', 'true');
         }
-        dataDropdownMenuItemFixLink.addEventListener('click', function (event) {
-            deleteData(dataGroup); // Удаляем группы, которые были добавлены
+        displayValueLiDropdownMenuItemFixLink.addEventListener('click', function (event) {
+            removeData(displayValues); // Удаляем группы, которые были добавлены
             object.type = 'fix';
-            inputRetailPrice.value = retailPrice(wholesalePrice, costs, commissions, fees); // Считаем розничную цену и выводим ее в поле для вывода
-            addData(place, parentClass, type, object); // Добавляем данные заново
+            displayRetailPriceInputFormControl.value = retailPrice(sourceWholesalePrice, sourceCosts, sourceCommissions, sourceFees); // Считаем розничную цену и выводим ее в поле для вывода
+            addData(parent, type, object); // Добавляем данные заново
         });
 
         /* Процент от оптовой цены */
-            dataDropdownMenuItemPercent = addElement(
-                dataDropdownMenu,
+            displayValueLiDropdownMenuItemPercent = addElement(
+                displayValueUlDropdownMenu,
                 'li',
-                parentClass + '__dropdown-menu-item-percent'
+                type + '__dropdown-menu-item-percent'
             );
-            const dataDropdownMenuItemPercentLink = addElement(
-                dataDropdownMenuItemPercent,
+            const displayValueLiDropdownMenuItemPercentLink = addElement(
+                displayValueLiDropdownMenuItemPercent,
                 'button',
-                [parentClass + '__dropdown-menu-item-percent-link', 'dropdown-item', 'btn', 'btn-light'],
+                [type + '__dropdown-menu-item-percent-link', 'dropdown-item', 'btn', 'btn-light'],
                 {
                     'type': 'button'
                 }
             );
-            dataDropdownMenuItemPercentLink.innerText = 'Процент от оптовой цены';
+            displayValueLiDropdownMenuItemPercentLink.innerText = 'Процент от оптовой цены';
             if (object.type === 'percent') {
-                dataDropdownMenuItemPercentLink.setAttribute('disabled', 'true');
+                displayValueLiDropdownMenuItemPercentLink.setAttribute('disabled', 'true');
             }
-            dataDropdownMenuItemPercentLink.addEventListener('click', function (event) {
-                deleteData(dataGroup); // Удаляем группы, которые были добавлены
+            displayValueLiDropdownMenuItemPercentLink.addEventListener('click', function (event) {
+                removeData(displayValues); // Удаляем группы, которые были добавлены
                 object.type = 'percent';
-                inputRetailPrice.value = retailPrice(wholesalePrice, costs, commissions, fees); // Считаем розничную цену и выводим ее в поле для вывода
+                displayRetailPriceInputFormControl.value = retailPrice(sourceWholesalePrice, sourceCosts, sourceCommissions, sourceFees); // Считаем розничную цену и выводим ее в поле для вывода
                 console.log(object);
-                addData(place, parentClass, type, object); // Добавляем данные заново
+                addData(parent, type, object); // Добавляем данные заново
             });
 
         /* Разделитель */
-        dataDropdownMenuHr = addElement(
-            dataDropdownMenu,
+        displayValueUlDropdownMenuHr = addElement(
+            displayValueUlDropdownMenu,
             'li',
-            parentClass + '__dropdown-menu-item-hr'
+            type + '__dropdown-menu-item-hr'
         );
-        const dataDropdownMenuHrDivider = addElement(
-            dataDropdownMenuHr,
+        const displayValueUlDropdownMenuHrDivider = addElement(
+            displayValueUlDropdownMenuHr,
             'hr',
             'dropdown-divider'
         )
         }
 
     /* Переименовать */
-    const dataDropdownMenuItemRename = addElement(
-        dataDropdownMenu,
+    const displayValueUlDropdownMenuItemRename = addElement(
+        displayValueUlDropdownMenu,
         'li',
-        parentClass + '__dropdown-menu-item-rename'
+        type + '__dropdown-menu-item-rename'
     );
-    const dataDropdownMenuItemRenameLink = addElement(
-        dataDropdownMenuItemRename,
+    const displayValueUlDropdownMenuItemRenameLink = addElement(
+        displayValueUlDropdownMenuItemRename,
         'button',
-        [parentClass + '__dropdown-menu-item-rename-link', 'dropdown-item', 'btn', 'btn-light'],
+        [type + '__dropdown-menu-item-rename-link', 'dropdown-item', 'btn', 'btn-light'],
         {
             'type': 'button'
         }
     );
-    dataDropdownMenuItemRenameLink.innerText = 'Переименовать';
-    dataDropdownMenuItemRenameLink.addEventListener('click', function (event) {
-        addName(place, parentClass, type, object); // Добавляем название для данных
-        deleteData(dataGroup); // Удаляем группы, которые были добавлены
+    displayValueUlDropdownMenuItemRenameLink.innerText = 'Переименовать';
+    displayValueUlDropdownMenuItemRenameLink.addEventListener('click', function (event) {
+        addName(parent, type, object); // Добавляем название для данных
+        removeData(displayValues); // Удаляем группы, которые были добавлены
     });
 
     /* Удалить */
-    const dataDropdownMenuItemDelete = addElement(
-        dataDropdownMenu,
+    const displayValueUlDropdownMenuItemDelete = addElement(
+        displayValueUlDropdownMenu,
         'li',
-        parentClass + '__dropdown-menu-item-delete'
+        type + '__dropdown-menu-item-delete'
     );
-    const dataDropdownMenuItemDeleteLink = addElement(
-        dataDropdownMenuItemDelete,
+    const displayValueUlDropdownMenuItemDeleteLink = addElement(
+        displayValueUlDropdownMenuItemDelete,
         'button',
-        [parentClass + '__dropdown-menu-item-delete-link', 'dropdown-item', 'text-danger', 'btn', 'btn-light'],
+        [type + '__dropdown-menu-item-delete-link', 'dropdown-item', 'text-danger', 'btn', 'btn-light'],
         {
             'type': 'button'
         }
     );
-    dataDropdownMenuItemDeleteLink.innerText = 'Удалить';
-    dataDropdownMenuItemDeleteLink.addEventListener('click', function (event) {
+    displayValueUlDropdownMenuItemDeleteLink.innerText = 'Удалить';
+    displayValueUlDropdownMenuItemDeleteLink.addEventListener('click', function (event) {
         deleteObject(object); // Удаляем объект
-        place.remove(); // Удаляем родительский элемент
-        inputRetailPrice.value = retailPrice(wholesalePrice, costs, commissions, fees); // Считаем розничную цену и выводим ее в поле для вывода
+        parent.remove(); // Удаляем родительский элемент
+        displayRetailPriceInputFormControl.value = retailPrice(sourceWholesalePrice, sourceCosts, sourceCommissions, sourceFees); // Считаем розничную цену и выводим ее в поле для вывода
     })
 }

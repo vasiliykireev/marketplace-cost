@@ -6,7 +6,7 @@
 // type: fee - тариф маркетплейса
 // value - значение расхода или прибыли, число
 
-export let exampleFees = [{
+export let sourceExampleFees = [{
         id: 1,
         name: "Обработка",
         type: "fee",

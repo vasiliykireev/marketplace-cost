@@ -2,7 +2,7 @@
 
 console.log("add-element.js loaded");
 
-export function addElement(place, tag, classes, attributes) { // Добавить элемент: где, какой, классы — массив, атрибуты — объект
+export function addElement(parent, tag, classes, attributes) { // Добавить элемент: где, какой, классы — массив, атрибуты — объект
     const element = document.createElement(tag); // Создаем элемент
     switch(typeof(classes)) { // В зависимости от переданных классов
         case 'string': // Если строка
@@ -23,6 +23,6 @@ export function addElement(place, tag, classes, attributes) { // Добавит�
             element.setAttribute(attributesKeys[attributesIndex], attributesValues[attributesIndex]); // Добавляем атрибуты из ключа и значения под номером индекса
         }
     }
-    place.append(element); // Размещаем элемент в нужном месте
+    parent.append(element); // Размещаем элемент в нужном месте
     return element; // Возвращаем элемент
 }

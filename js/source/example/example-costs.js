@@ -7,7 +7,7 @@
 // percent - значение процента от оптовой цены, число
 // value - значение расхода или прибыли, число
 
-export let exampleCosts = [{   
+export let sourceExampleCosts = [{   
     id: "cost-0",
     name: "Прибыль",
     type: "percent",

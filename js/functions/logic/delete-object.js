@@ -1,30 +1,27 @@
 "use strict";
 
-import { wholesalePrice, costs, commissions, fees } from "../../../script.js";
+let logs = true;
+
+import { sourceWholesalePrice, sourceCosts, sourceCommissions, sourceFees } from "../../../script.js";
 
 export function deleteObject(object) {
-    console.log("deleteObject");
+    console.log("function deleteObject");
     let dataArray;
-    if (costs.indexOf(object) > -1) {
-        console.log("costs: " + costs.indexOf(object));
-        dataArray = costs;
-    } else if (commissions.indexOf(object) > -1) {
-        dataArray = "commissions";
-        console.log("commissions: " + commissions.indexOf(object));
-        dataArray = commissions;
-    } else if(fees.indexOf(object) > -1) {
-        dataArray = "fees";
-        console.log("fees: " + fees.indexOf(object));
-        dataArray = fees;
+    if (sourceCosts.indexOf(object) > -1) {
+        dataArray = sourceCosts;
+    } else if (sourceCommissions.indexOf(object) > -1) {
+        dataArray = sourceCommissions;
+    } else if(sourceFees.indexOf(object) > -1) {
+        dataArray = sourceFees;
     } else {
         console.log("No array");
     }
     if (dataArray !== undefined) {
         dataArray.splice(dataArray.indexOf(object),1);
     }
-    console.log(costs);
-    console.log(commissions);
-    console.log(fees);
+    console.log(sourceCosts);
+    console.log(sourceCommissions);
+    console.log(sourceFees);
 
 
 }

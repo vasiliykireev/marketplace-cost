@@ -6,7 +6,7 @@
 // type: commission - комиссия маркетплейса
 // percent - значение процента комиссии, число
 
-export let exampleCommissions = [{
+export let sourceExampleCommissions = [{
         id: "commission-0",
         name: "Размещение",
         type: "commission",
