@@ -8,12 +8,10 @@ import { exampleWhosalePrice } from './js/data/example/example-whosale-price.js'
 import { exampleCosts } from './js/data/example/example-costs.js'; // Импортируем пример расходов
 import { exampleCommissions } from './js/data/example/example-commissions.js'; // Импортируем пример комиссий
 import { exampleFees } from './js/data/example/example-fees.js'; // Импортируем пример тарифов
-
 export let wholesalePrice = exampleWhosalePrice; ; // Заполняем оптовую цену из примера
 export let costs = exampleCosts; // Заполняем расходы из примера
 export let commissions = exampleCommissions; // Заполняем комиссии из примера
 export let fees = exampleFees; // Заполняем тарифы из примера
-
 if (logs) { // Логи данных для примера
     console.log('exampleData');
     console.log(wholesalePrice); // Оптовая цена
@@ -36,9 +34,13 @@ import { addData } from './js/functions/rendering/add-data.js'; // Импорт�
 import { addName } from './js/functions/rendering/add-name.js'; // Импортируем функцию добавления имени
 import { addType } from './js/functions/rendering/add-type.js'; // Импортируем функцию добавления типа
 
+export let allCosts = []; // Определяем переменную для всех расходов
+export let allCommissions = []; // Определяем переменную для всех комиссий
+export let allFees = []; // Определяем переменную для всех тарифов
+
 /* Отображение розничной цены */
 export const inputRetailPrice = document.querySelector('.retail-price__value'); // Определяем поле для вывода розничной цены
-inputRetailPrice.value = retailPrice(wholesalePrice, costs, commissions, fees); // Выводим розничную цену в поле для вывода
+inputRetailPrice.value = retailPrice(wholesalePrice, costs, commissions, fees); // Считаем розничную цену и выводим ее в поле для вывода
 
 /* Отображение оптовой цены */
 export const inputWholesalePrice = document.querySelector('.wholesale-price__number'); // Определяем элемент, где находится поле для ввода оптовой цена
