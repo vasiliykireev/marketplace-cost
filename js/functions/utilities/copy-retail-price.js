@@ -1,9 +1,16 @@
-"use strict";
+'use strict';
 
+/* Логи */
+let logs = true; // true - выводим логи, false - не выводим логи
+if (logs) {console.log('add-type.js')};
+
+/* Импорт */
+/* Данные */
 import { displayRetailPriceInputFormControl } from '../../../script.js';
 
-export const displayRetailPriceButtonCopy = document.querySelector(".retail-price__copy");
-
-displayRetailPriceButtonCopy.addEventListener('click', function (event) {
-    window.navigator.clipboard.writeText(displayRetailPriceInputFormControl.value).then(() => console.log(this));
+/* Копирование цены */
+export const displayRetailPriceButtonCopy = document.querySelector(".retail-price__copy"); // Кнопка копирования цены
+displayRetailPriceButtonCopy.addEventListener('click', function (event) { // Добавляем отслеживание событий по нажатию на кнопку копирования цены
+    window.navigator.clipboard.writeText(displayRetailPriceInputFormControl.value); // Копируем цены в буфер обмена
+    //.then(() => console.log(this)); // Обратная связь
 })

@@ -1,30 +1,47 @@
 'use strict';
 
 /* Логи */
-export let logs = true; // true - выводим логи, false - не выводим логи
+let logs = false; // true - выводим логи, false - не выводим логи
+if (logs) {console.log('add-type.js')};
 
-import { addElement } from './add-element.js'; // Импортируем функцию добавления элементов
-import { addData } from './add-data.js'; // Импортируем функцию добавления данных
-import { displayCosts, displayCommissions, displayFees } from '../../../script.js';
+/* Импорт */
+/* Данные */
+import { displayCosts, displayCommissions, displayFees } from '../../../script.js'; // Массивы для отображения расходов, комиссий и тарифов 
+/* Функции */
+import { addElement } from './add-element.js'; // Добавление элементов
+import { addData } from './add-data.js'; // Добавление элемента
 
-export function addType(parent, type, objects) { // Добавить тип: где, тип - строка, объекты из массива
-    if (logs) {console.log('addType: ' + type);} // Логи добавления типа
+/* Отображение типа 
+parent - родительский элемент
+type - тип объекта: расход, комиссия, тариф
+objects - массив с объектами: расходы, комиссии, тарифы
+*/
+export function addType(parent, type, objects) {
+    if (logs) {
+        console.log('');
+        console.log('function addType: ');
+        console.log(parent);
+        console.log(type);
+        console.log(objects); 
+    }
+
     objects.forEach(object => { // Для каждого объекта массива
-        if (logs) {console.log(object);} // Логи объекта массива
-        const displayTypeBlock = addElement(parent, 'div', [type, type + '_type_' + object.type, 'mb-3']); // Добавляем новый элемент
-        const displayTypeElement = addData(displayTypeBlock, type, object); // Добавляем данные в этот элемент
-        switch (type) {
-            case 'cost':
-                displayCosts.push(displayTypeBlock);
+        if (logs) {console.log(object);}
+        const displayTypeBlock = addElement(parent, 'div', [type, type + '_type_' + object.type, 'mb-3']); // Блок типа
+        const displayTypeElement = addData(displayTypeBlock, type, object); // Элемент типа
+        switch (type) { // В зависимости от типа
+            case 'cost': // Если расход
+                displayCosts.push(displayTypeBlock); // В массив для отображения расходов добавляем блок типа
             break;
-            case 'commission':
-                displayCommissions.push(displayTypeBlock);
+            case 'commission': // Если комиссия
+                displayCommissions.push(displayTypeBlock); // В массив для отображения комиссий добавляем блок типа
             break;
-            case 'fee':
-                displayFees.push(displayTypeBlock);
+            case 'fee': // Если тариф
+                displayFees.push(displayTypeBlock); // В массив для отображения тарифов добавляем блок типа
             break;
             default:
-                console.warn('Неизвестный тип объекта')
+                console.warn('Unknown object type!')
         }
     });
+    if (logs) {console.log('addType done!');}
 }

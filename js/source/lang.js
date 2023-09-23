@@ -1,5 +1,6 @@
 'use strict';
 
+// Заполнить в будущем
 export const lang = {
     "ru": {
         "currency": " руб.",

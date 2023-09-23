@@ -1,100 +1,110 @@
-"use strict";
+'use strict';
 
-console.log("add-name.js loaded");
+/* Логи */
+let logs = true; // true - выводим логи, false - не выводим логи
+if (logs) {console.log('add-name.js');}
 
-import { addElement } from "./add-element.js";
-import { addData } from "./add-data.js";
-import { sourceCosts, sourceCommissions, sourceFees } from "../../../script.js";
-import { deleteObject } from "../logic/delete-object.js";
+import { addElement } from './add-element.js';
+import { addData } from './add-data.js';
+import { sourceCosts, sourceCommissions, sourceFees } from '../../../script.js';
+import { deleteObject } from '../logic/delete-object.js';
 
+/* Вывод названия
+parent - родительский элемент
+type - тип объекта: расход, комиссия, тариф
+object - объект
+*/
 export function addName(parent, type, object) {
-    if (object !== undefined) {
-        console.log("function addName");
+    if (logs) {
+        console.log('');
+        console.log('function addName');
+        console.log(object);
+        console.log(type);
         console.log(object);
     }
-    const displayNameBlockInputGroup = addElement(parent, "div", [type + "__input-group", "input-group"]);
-    const displayNameElementFormFloating = addElement(displayNameBlockInputGroup, "div", [type + "__form-floating", "form-floating"]);
-    const displayNameInputFormControl = addElement(
+    /* Ввод имени */
+    const displayNameBlockInputGroup = addElement(parent, 'div', [type + '__input-group', 'input-group']); // Группа для ввода имени
+    const displayNameElementFormFloating = addElement(displayNameBlockInputGroup, 'div', [type + '__form-floating', 'form-floating']); // Плавающая подпись ввода имени
+    const displayNameInputFormControl = addElement( // Поле для ввода имени
         displayNameElementFormFloating,
-        "input",
-        [type + "__form-control", "form-control"],
+        'input',
+        [type + '__form-control', 'form-control'],
         {
-            "placeholder": undefined,
-            "id": 'name-' + object.id,
-            "name": 'name-' + object.id,
+            'placeholder': undefined,
+            'id': 'name-' + object.id,
+            'name': 'name-' + object.id,
         });
-    const displayNameLabelFormContol = addElement(displayNameElementFormFloating, "label", type + "__label", {"for": 'name-' + object.id});
-    // displayNameLabelFormContol.innerText = object.id + ". " + object.name;
-    if (object.name === undefined) {
-        displayNameLabelFormContol.innerText = "Введите название";
-    } else {
-        displayNameInputFormControl.value = object.name;
-        displayNameLabelFormContol.innerText = "Переименовать";
+    const displayNameLabelFormContol = addElement(displayNameElementFormFloating, 'label', type + '__label', {'for': 'name-' + object.id}); // Подпись для поля ввода имени
+    if (object.name === undefined) { // Если имя объекта не определено
+        displayNameLabelFormContol.innerText = 'Введите название'; // В подписи для поля ввода имени заполнить Введите название
+    } else { // Иначе
+        displayNameInputFormControl.value = object.name; // В поле для ввода имени заполнить название объекта
+        displayNameLabelFormContol.innerText = 'Переименовать'; // В подписи для поля ввода имени заполнить Переименовать
     }
-    displayNameInputFormControl.focus();
-    const displayNameButtonSave = addElement(
+    displayNameInputFormControl.focus(); // Сфокусироваться на поле для ввода имени
+
+    /* Сохранение имени */
+    const displayNameButtonSave = addElement( // Кнопка сохранения имени
         displayNameBlockInputGroup,
-        "button",
-        [type + "__save", "btn", "btn-primary"],
+        'button',
+        [type + '__save', 'btn', 'btn-primary'],
         {
-            "type": "button",
-            "aria-label": "Сохранить"
+            'type': 'button',
+            'aria-label': 'Сохранить'
     });
-    if (object.name === undefined) {
-        displayNameButtonSave.setAttribute("disabled","true");
+    if (object.name === undefined) { // Если имя объекта не определено
+        displayNameButtonSave.setAttribute('disabled','true'); // Кнопке сохранения имени добавляем атрибут disabled
     }
-    displayNameButtonSave.innerHTML = '<i class="bi bi-check"></i>';
-    displayNameButtonSave.addEventListener("click", function(event) {
-        object.name = displayNameInputFormControl.value;
+    displayNameButtonSave.innerHTML = '<i class="bi bi-check"></i>'; // В кнопке сохранения имени записываем иконку галочки
+    displayNameButtonSave.addEventListener('click', function(event) { // Кнопке сохранения имени добавляем отслеживание событий по клику
+        object.name = displayNameInputFormControl.value; // В имя объекта записываем значение поля для ввода имени
         const displayTypeElement = addData(parent, type, object);
-        /* console.log(costs);
-        console.log(commissions);
-        console.log(fees); */
-        displayNameBlockInputGroup.remove();
+        displayNameBlockInputGroup.remove(); // Убираем группу для ввода имени
     })
-    if (object.name === undefined) {
-        const displayNameButtonRemove = addElement(
+
+    /* Удаление имени */
+    if (object.name === undefined) { // Если имя объекта не определено
+        const displayNameButtonRemove = addElement( // Кнопка удаления имени
             displayNameBlockInputGroup,
-            "button",
-            [type + "__remove", "btn", "btn-light", "btn-outline-danger"],
+            'button',
+            [type + '__remove', 'btn', 'btn-light', 'btn-outline-danger'],
             {
-                "type": "button",
-                "aria-label": "Удалить"
+                'type': 'button',
+                'aria-label': 'Удалить'
         });
-        displayNameButtonRemove.innerHTML = '<i class="bi bi-trash"></i>';
-        displayNameButtonRemove.addEventListener("click", function(event) {
-            deleteObject(object);  
-            displayNameBlockInputGroup.remove();
+        displayNameButtonRemove.innerHTML = '<i class="bi bi-trash"></i>'; // В кнопке удаления имени записываем иконку корзины
+        displayNameButtonRemove.addEventListener('click', function(event) { // Кнопке удаления имени добавляем отслеживание событий по клику
+            deleteObject(object);  // Удаляем объект
+            displayNameBlockInputGroup.remove(); // Убираем группу для ввода имени
         })
     }
-    //nameInputGroup.insertBefore(displayNameButtonSave, displayNameButtonRemove);
 
-    let displayNameButtonSaveShow;
-    if (object.name === undefined) {
-        displayNameButtonSaveShow = true;
-    } else {
-        displayNameButtonSaveShow = false;
+    /* Отображение кнопок */
+    let displayNameButtonSaveShow; // Нужно ли будет показывать кнопку сохранить
+    if (object.name === undefined) { // Если имя объекта не определено
+        displayNameButtonSaveShow = true; // Нужно будет показывать кнопку сохранить
+    } else { // Иначе
+        displayNameButtonSaveShow = false; // Не нужно будет показывать кнопку сохранить
     }
-    
-    displayNameInputFormControl.addEventListener("input", function(event) {
-        if (displayNameButtonSaveShow) {
-            displayNameButtonSave.removeAttribute("disabled", "true");
-            displayNameButtonSaveShow = false;
+    displayNameInputFormControl.addEventListener('input', function(event) { // Полю для ввода имени добавляем отслеживание события ввод текста
+        if (displayNameButtonSaveShow) { // Если нужно будет показывать кнопку сохранить
+            displayNameButtonSave.removeAttribute('disabled', 'true'); // У кнопки сохранить удаляем атрибут disabled
+            displayNameButtonSaveShow = false; // Не нужно будет показывать кнопку сохранить
         }
-        if (displayNameInputFormControl.value.length === 0) {
-            displayNameButtonSave.setAttribute("disabled", "true");
-            displayNameButtonSaveShow = true;
+        if (displayNameInputFormControl.value.length === 0) { // Если поле для ввода имени пустое
+            displayNameButtonSave.setAttribute('disabled', 'true'); // Кнопки сохранить добавляем атрибут disabled
+            displayNameButtonSaveShow = true; // Нужно будет показывать кнопку сохранить
         }
     })
-
-    displayNameInputFormControl.addEventListener("keypress", function(event) { // Добавляем отслеживание события по нажатию клавиши в поле для ввода
+    displayNameInputFormControl.addEventListener('keypress', function(event) { // Полю для ввода имени добавляем отслеживание события нажатия клавиши
         if (displayNameInputFormControl.value.length !== 0) { // Если название не пустое
-            if (event.key === "Enter") { // Если нажата клавиша ввода
-                object.name = displayNameInputFormControl.value;
-                const displayTypeElement = addData(parent, type, object);
-                displayNameBlockInputGroup.remove();
+            if (event.key === 'Enter') { // Если нажата клавиша ввода
+                object.name = displayNameInputFormControl.value; // В название объекта записываем значение поля для ввода имени
+                const displayTypeElement = addData(parent, type, object); // В элемент типа записываем отобразить данные
+                displayNameBlockInputGroup.remove(); // Убираем группу для ввода имени
             }
         }
     })
-    return displayNameBlockInputGroup;
+    if (logs) {console.log('addName done!');}
+    return displayNameBlockInputGroup; // Возвращаем группу для ввода имени
 }
