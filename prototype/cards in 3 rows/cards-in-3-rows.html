@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<!-- saved from url=(0032)http://127.0.0.1:5500/index.html -->
+<html lang="ru"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketplace Cost — расчет стоимости товара на маркетплейсах</title>
+    <link rel="stylesheet" href="./cards-in-3-rows_files/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="../bootstrap/bootstrap-5.3.1/dist/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="./cards-in-3-rows_files/bootstrap-icons.css">
+</head>
+<body cz-shortcut-listen="true">
+    <a name="app"></a>
+    <main class="application bg-light-subtle pt-5 pb-5">
+        <form>
+            <div class="container">
+                <div class="row align-items-start">
+                    <!-- Результат -->
+                    <div class="col-12">
+                        <div class="card mt-2 mb-3">
+                            <div class="card-body">
+                              <div class="row align-items-start">
+                                <div class="col-12 col-md-4 col-xl-4">
+                                    <h2 class="h4 card-text mb-3 mb-md-0 mt-md-2 text-center">Розничная цена</h2>
+                                </div>
+                                <div class="col-10 col-md-6 col-xl-4">
+                                    <div class="input-group input-group-lg mb-3 mb-md-0">
+                                            <input type="text" class="retail-price__value form-control border-primary bg-primary-subtle border border-primary-subtle" id="retail-price" placeholder="Розничная цена" aria-label="Розничная цена" aria-describedby="roubles" value="10000000" readonly="">
+                                            <span class="retail-price__currency input-group-text border-primary bg-primary-subtle border border-primary-subtle" id="roubles">руб.</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-2 col-md-2 col-xl-4">
+                                        <button type="button" class="retail-price__copy btn btn-primary btn-lg" aria-label="Копировать"><i class="bi bi-clipboard-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 col-xl-4 mt-2 mb-3">
+                        <!-- Расходы и прибыль -->
+                                <h2 class="h4 mb-3 text-center">Расходы и прибыль</h2>
+                                <!-- Оптовая цена -->
+                                <!-- <div class="wholesale-price form-floating mb-3">
+                                    <input type="number" min="0" step="0.01" class="wholesale-price__number form-control" id="wholesale-price__number" placeholder="Оптовая цена" aria-label="Оптовая цена">
+                                    <label for="wholesale-price__number">Оптовая цена</label>
+                                </div> -->
+                                <!-- Расходы и прибыль -->
+                                <div class="costs">
+                                    <div class="cost card mb-3">
+                                        <div class="card-body cost_type_percent">
+                                            <div class="cost__input-group cost__input-group_type_percent input-group">
+                                                <div class="cost__form-floating cost__form-floating_type_percent form-floating">
+                                                    <input class="cost__form-control cost__form-control_type_percent form-control" type="number" min="0" step="0.01" placeholder="null" id="data-cost-0" name="data-cost-0" value="10">
+                                                    <label class="cost__label" for="data-cost-0">Прибыль, %</label>
+                                                </div>
+                                                <button class="cost__dropdown-options btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-label="Изменить" aria-expanded="false"></button>
+                                                <ul class="cost__dropdown-menu dropdown-menu dropdown-menu-end">
+                                                    <li class="cost__dropdown-menu-item-fix">
+                                                        <button class="cost__dropdown-menu-item-fix-link dropdown-item btn btn-light" type="button">Фиксированная стоимость</button>
+                                                    </li>
+                                                    <li class="cost__dropdown-menu-item-percent">
+                                                        <button class="cost__dropdown-menu-item-percent-link dropdown-item btn btn-light" type="button" disabled="true">Процент от оптовой цены</button>
+                                                    </li>
+                                                    <li class="cost__dropdown-menu-item-hr">
+                                                        <hr class="dropdown-divider">
+                                                    </li>
+                                                    <li class="cost__dropdown-menu-item-rename">
+                                                        <button class="cost__dropdown-menu-item-rename-link dropdown-item btn btn-light" type="button">Переименовать</button>
+                                                    </li>
+                                                    <li class="cost__dropdown-menu-item-delete">
+                                                        <button class="cost__dropdown-menu-item-delete-link dropdown-item text-danger btn btn-light" type="button">Удалить</button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="cost__input-group cost__input-group_type_percent input-group">
+                                                <div class="cost__-form-floating cost__-form-floating_type_percent form-floating">
+                                                    <input class="cost__form-control-plaintext cost__form-control-plaintext_type_percent form-control-plaintext" type="number" min="0" step="0.01" placeholder="null" id="value-cost-0" readonly="true" value="1000">
+                                                    <label class="cost__value-label cost__value-label_type_percent" for="value-cost-0">Прибыль,  руб.</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="cost card mb-3">
+                                        <div class="card-body cost_type_fix">
+                                            <div class="cost__input-group cost__input-group_type_fix input-group">
+                                                <div class="cost__form-floating cost__form-floating_type_fix form-floating"><input
+                                                        class="cost__form-control cost__form-control_type_fix form-control" type="number" min="0" step="0.01"
+                                                        placeholder="null" id="data-cost-1" name="data-cost-1"><label class="cost__label"
+                                                        for="data-cost-1">Расходы, руб.</label></div><button
+                                                    class="cost__dropdown-options btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown"
+                                                    aria-label="Изменить" aria-expanded="false"></button>
+                                                <ul class="cost__dropdown-menu dropdown-menu dropdown-menu-end">
+                                                    <li class="cost__dropdown-menu-item-fix"><button
+                                                            class="cost__dropdown-menu-item-fix-link dropdown-item btn btn-light" type="button"
+                                                            disabled="true">Фиксированная стоимость</button></li>
+                                                    <li class="cost__dropdown-menu-item-percent"><button
+                                                            class="cost__dropdown-menu-item-percent-link dropdown-item btn btn-light" type="button">Процент от
+                                                            оптовой цены</button></li>
+                                                    <li class="cost__dropdown-menu-item-hr">
+                                                        <hr class="dropdown-divider">
+                                                    </li>
+                                                    <li class="cost__dropdown-menu-item-rename"><button
+                                                            class="cost__dropdown-menu-item-rename-link dropdown-item btn btn-light"
+                                                            type="button">Переименовать</button></li>
+                                                    <li class="cost__dropdown-menu-item-delete"><button
+                                                            class="cost__dropdown-menu-item-delete-link dropdown-item text-danger btn btn-light"
+                                                            type="button">Удалить</button></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Кнопка добавить -->
+                                <div class="add mb-3">
+                                    <div class="text-center">
+                                        <button type="button" class="add__cost btn btn-primary"><i class="bi bi-plus-circle"></i> Добавить</button>
+                                    </div>
+                                </div>
+                            </div>
+                    <!-- Маркетплейсы -->
+                    <div class="col-12 col-md-6 col-xl-8">
+                        <div class="row row-cols-1">
+                            <!-- <div class="col-12 col-md-6 col-xl-4"> -->
+                            <div class="col col-xl-6 mt-2 mb-3">
+                                <!-- Комиссии маркетплейса -->
+
+                                        <h2 class="h4 card-text mb-3 text-center">Комиссии маркетплейса</h2>
+                                    <!-- Комиссии маркетплейса -->
+                                    <div class="commissions">
+                                        <div class="card commission mb-3">
+                                            <div class="card-body commission_type_commission">
+                                                <div class="commission__input-group commission__input-group_type_commission input-group">
+                                                    <div class="commission__form-floating commission__form-floating_type_commission form-floating"><input
+                                                            class="commission__form-control commission__form-control_type_commission form-control" type="number"
+                                                            min="0" step="0.01" placeholder="null" id="data-commission-0" name="data-commission-0"><label
+                                                            class="commission__label" for="data-commission-0">Размещение, %</label></div><button
+                                                        class="commission__dropdown-options btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown"
+                                                        aria-label="Изменить" aria-expanded="false"></button>
+                                                    <ul class="commission__dropdown-menu dropdown-menu dropdown-menu-end">
+                                                        <li class="commission__dropdown-menu-item-rename"><button
+                                                                class="commission__dropdown-menu-item-rename-link dropdown-item btn btn-light"
+                                                                type="button">Переименовать</button></li>
+                                                        <li class="commission__dropdown-menu-item-delete"><button
+                                                                class="commission__dropdown-menu-item-delete-link dropdown-item text-danger btn btn-light"
+                                                                type="button">Удалить</button></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card commission mb-3">
+                                            <div class="card-body commission_type_commission">
+                                                <div class="commission__input-group commission__input-group_type_commission input-group">
+                                                    <div class="commission__form-floating commission__form-floating_type_commission form-floating"><input
+                                                            class="commission__form-control commission__form-control_type_commission form-control" type="number"
+                                                            min="0" step="0.01" placeholder="null" id="data-commission-1" name="data-commission-1"><label
+                                                            class="commission__label" for="data-commission-1">Продвижение, %</label></div><button
+                                                        class="commission__dropdown-options btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown"
+                                                        aria-label="Изменить" aria-expanded="false"></button>
+                                                    <ul class="commission__dropdown-menu dropdown-menu dropdown-menu-end">
+                                                        <li class="commission__dropdown-menu-item-rename"><button
+                                                                class="commission__dropdown-menu-item-rename-link dropdown-item btn btn-light"
+                                                                type="button">Переименовать</button></li>
+                                                        <li class="commission__dropdown-menu-item-delete"><button
+                                                                class="commission__dropdown-menu-item-delete-link dropdown-item text-danger btn btn-light"
+                                                                type="button">Удалить</button></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        <!-- Комиссии маркетплейса -->
+                                        <div class="add mb-3">
+                                            <div class="text-center">
+                                                <button type="button" class="add__commission btn btn-primary"><i class="bi bi-plus-circle"></i> Добавить</button>
+                                            </div>
+                                        </div>
+
+                            </div>
+                            <div class="col col-xl-6 mt-2 mb-3">
+                                <!-- Тарифы маркетплейса -->
+                                        <h2 class="h4 mb-3 text-center">Тарифы маркетплейса</h2>
+                                        <!-- Тарифы маркетплейса -->
+                                        <div class="fees">
+                                            <div class="card fee mb-3">
+                                                <div class="card-body fee_type_fee">
+                                                    <div class="fee__input-group fee__input-group_type_fee input-group">
+                                                        <div class="fee__form-floating fee__form-floating_type_fee form-floating"><input
+                                                                class="fee__form-control fee__form-control_type_fee form-control" type="number" min="0" step="0.01"
+                                                                placeholder="null" id="data-1" name="data-1"><label class="fee__label" for="data-1">Обработка,
+                                                                руб.</label></div><button class="fee__dropdown-options btn btn-secondary dropdown-toggle"
+                                                            data-bs-toggle="dropdown" aria-label="Изменить" aria-expanded="false"></button>
+                                                        <ul class="fee__dropdown-menu dropdown-menu dropdown-menu-end">
+                                                            <li class="fee__dropdown-menu-item-rename"><button
+                                                                    class="fee__dropdown-menu-item-rename-link dropdown-item btn btn-light"
+                                                                    type="button">Переименовать</button></li>
+                                                            <li class="fee__dropdown-menu-item-delete"><button
+                                                                    class="fee__dropdown-menu-item-delete-link dropdown-item text-danger btn btn-light"
+                                                                    type="button">Удалить</button></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card fee mb-3">
+                                                <div class="card-body fee_type_fee">
+                                                <div class="fee__input-group fee__input-group_type_fee input-group">
+                                                    <div class="fee__form-floating fee__form-floating_type_fee form-floating"><input
+                                                            class="fee__form-control fee__form-control_type_fee form-control" type="number" min="0" step="0.01"
+                                                            placeholder="null" id="data-2" name="data-2"><label class="fee__label" for="data-2">Логистика,
+                                                            руб.</label></div><button class="fee__dropdown-options btn btn-secondary dropdown-toggle"
+                                                        data-bs-toggle="dropdown" aria-label="Изменить" aria-expanded="false"></button>
+                                                    <ul class="fee__dropdown-menu dropdown-menu dropdown-menu-end">
+                                                        <li class="fee__dropdown-menu-item-rename"><button
+                                                                class="fee__dropdown-menu-item-rename-link dropdown-item btn btn-light"
+                                                                type="button">Переименовать</button></li>
+                                                        <li class="fee__dropdown-menu-item-delete"><button
+                                                                class="fee__dropdown-menu-item-delete-link dropdown-item text-danger btn btn-light"
+                                                                type="button">Удалить</button></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            </div>
+                                            <div class="card fee mb-3">
+                                                <div class="card-body fee_type_fee">
+                                                <div class="fee__input-group fee__input-group_type_fee input-group">
+                                                    <div class="fee__form-floating fee__form-floating_type_fee form-floating"><input
+                                                            class="fee__form-control fee__form-control_type_fee form-control" type="number" min="0" step="0.01"
+                                                            placeholder="null" id="data-3" name="data-3"><label class="fee__label" for="data-3">Последняя миля,
+                                                            руб.</label></div><button class="fee__dropdown-options btn btn-secondary dropdown-toggle"
+                                                        data-bs-toggle="dropdown" aria-label="Изменить" aria-expanded="false"></button>
+                                                    <ul class="fee__dropdown-menu dropdown-menu dropdown-menu-end">
+                                                        <li class="fee__dropdown-menu-item-rename"><button
+                                                                class="fee__dropdown-menu-item-rename-link dropdown-item btn btn-light"
+                                                                type="button">Переименовать</button></li>
+                                                        <li class="fee__dropdown-menu-item-delete"><button
+                                                                class="fee__dropdown-menu-item-delete-link dropdown-item text-danger btn btn-light"
+                                                                type="button">Удалить</button></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <!-- Кнопка добавить -->
+                                        <div class="add mb-3">
+                                            <div class="text-center">
+                                                <button type="button" class="add__fee btn btn-primary"><i class="bi bi-plus-circle"></i> Добавить</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </main>
+    <script src="./cards-in-3-rows_files/script.js" type="module"></script>
+    <!-- <script scr="./js/example.js" type="module"></script> -->
+    <!-- <script scr="./js/test.js" type="module"></script> -->
+    <script src="./cards-in-3-rows_files/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+
+</body></html>
