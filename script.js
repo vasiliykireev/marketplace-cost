@@ -14,7 +14,8 @@ import { retailPrice } from './js/functions/logic/retail-price.js'; // Расч�
 import { addElement } from './js/functions/rendering/add-element.js'; // Отображение элементов
 import { addData } from './js/functions/rendering/add-data.js'; // Отображение данных
 import { addName } from './js/functions/rendering/add-name.js'; // Отображение имени
-import { addType } from './js/functions/rendering/add-type.js'; // Отображения типа
+//import { addType } from './js/functions/rendering/add-type.js'; // Отображения типа
+import { addExpences } from './js/functions/rendering/add-expences.js';
 import { displayRetailPriceButtonCopy } from './js/functions/utilities/copy-retail-price.js'; // Функция копирования розничной цены в буфер обмена
 
 /* Данные для примера */
@@ -31,9 +32,9 @@ if (logs) {
 };
 
 /* Отображение */
-export let displayCosts = []; // Массив для отображения расходов
-export let displayCommissions = []; // Массив для отображения комиссий
-export let displayFees = []; // Массив для отображения тарифов
+//export let displayCosts = []; // Массив для отображения расходов
+//export let displayCommissions = []; // Массив для отображения комиссий
+//export let displayFees = []; // Массив для отображения тарифов
 
 /* Отображение розничной цены */
 export const displayRetailPriceInputFormControl = document.querySelector('.retail-price__value'); // Поле для отображения розничной цены
@@ -49,15 +50,16 @@ displayWholesalePriceInputFormControl.addEventListener('input', function (event)
 
 /* Отображение расходов */
 export const displayCostsBlock = document.querySelector('.costs'); // Блок для отображения расходов
-addType(displayCostsBlock, 'cost', sourceCosts); // В блоке для отображения расходов отображаем расходы
+let displayCosts = addExpences(displayCostsBlock, 'cost', sourceCosts); // В блоке для отображения расходов отображаем расходы
+if (logs) {console.log('displayCosts:'); console.log(displayCosts);}
 
 /* Отображение комиссий */
 export const displayCommissionsBlock = document.querySelector('.commissions'); // Блок для отображения комиссий
-addType(displayCommissionsBlock, 'commission', sourceCommissions); // В блоке для отображения комиссий отображаем комиссии
+let displayCommissions = addExpences(displayCommissionsBlock, 'commission', sourceCommissions); // В блоке для отображения комиссий отображаем комиссии
 
 /* Отображение тарифов */
 export const displayFeesBlock = document.querySelector('.fees'); // Блок для отображения тарифов
-addType(displayFeesBlock, 'fee', sourceFees); // В блоке для отображения тарифов отображаем тарифы
+let displayFees = addExpences(displayFeesBlock, 'fee', sourceFees); // В блоке для отображения тарифов отображаем тарифы
 
 /* Кнопки добавления новых данных */
 /* Кнопка добавления расхода */
