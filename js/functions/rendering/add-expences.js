@@ -5,8 +5,6 @@ let logs = true; // true - выводим логи, false - не выводим 
 if (logs) {console.log('add-type.js')};
 
 /* Импорт */
-/* Данные */
-// import { displayCosts, displayCommissions, displayFees } from '../../../script.js'; // Массивы для отображения расходов, комиссий и тарифов 
 /* Функции */
 import { addElement } from './add-element.js'; // Добавление элементов
 import { addData } from './add-data.js'; // Добавление элемента
@@ -17,23 +15,24 @@ type - тип объекта: расход, комиссия, тариф
 source - массив с объектами: расходы, комиссии, тарифы
 display - массив с выводимыми элементами
 */
-export function addExpences(parent, type, source) {
+export function addExpences(parent, type, expences) {
     if (logs) {
         console.log('');
         console.log('function addExpences: ');
         console.log(parent);
         console.log(type);
-        console.log(source);
-        //console.log(display);
+        console.log(expences);
     }
-    let displayExpences = source.map(object => {
-        if (logs) {console.log(object)};
-        const displayTypeBlock = addElement(parent, 'div', [type, type + '_type_' + object.type, 'mb-3']); // Блок типа
-        const displayTypeElement = addData(displayTypeBlock, type, object); // Элемент типа
-        return object;
+
+    let displayExpences = expences.map(expenditure => { // В отображение расходов из массива расходов каждый расход
+        if (logs) {console.log('expenditure: '); console.log(expenditure)};
+        const displayTypeBlock = addElement(parent, 'div', [type, type + '_type_' + expenditure.type, 'mb-3']); // Добавляем блок типа
+        const displayTypeElement = addData(displayTypeBlock, type, expenditure); // Добавляем элемент типа
+        return displayTypeBlock;
     }
     );
-    if (logs) {console.log('addExpences addExpences: '); console.log(displayExpences)};
+
+    if (logs) {console.log('displayExpences: '); console.log(displayExpences)};
     if (logs) {console.log('addExpences done!')};
     return displayExpences;
 }
