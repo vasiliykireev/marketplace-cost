@@ -55,106 +55,84 @@
                     </div>
                     <div class="col-12 col-md-6 col-xl-4">
                         <!-- Расходы и прибыль -->
-                        <h2 class="h4 card-text mb-3 text-center">Расходы и прибыль</h2>
-                        <div class="card mb-3">
-                            <div class="card-header">
-                                <div class="row align-items-center">
-                                <div class="col">
-                                    <h3 class="h5 mb-0">Ааааабббббвввввгггг</h3>
-                                </div>
-                                <div class="col-auto">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil-fill"></i></button>
-                                    <button type="button" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash-fill"></i></button>
-                                </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="cost cost_type_percent">
-                                    <div class="input-group mb-2">
-                                        <input type="text" class="form-control bg-white" id="floatingInput" placeholder="" value="Процент от оптовой цены" disabled>
-                                    <button class="cost__dropdown-options btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-label="Изменить" aria-expanded="false"></button>
-                                        <ul class="cost__dropdown-menu dropdown-menu dropdown-menu-end" style="">
-                                            <li class="cost__dropdown-menu-item-fix">
-                                                  <button class="cost__dropdown-menu-item-fix-link dropdown-item btn btn-light" type="button">Фиксированная стоимость</button>
-                                            </li>
-                                            <li class="cost__dropdown-menu-item-percent">
-                                                <button class="cost__dropdown-menu-item-percent-link dropdown-item btn btn-light" type="button" disabled="true">Процент от оптовой цены</button>
-                                            </li>
-                                        </ul>
+                        <h2 class="h4 mb-3 text-center">Расходы и прибыль</h2>
+                        <div class="costs">
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <div class="row align-items-center">
+                                    <div class="col">
+                                        <h3 class="h5 mb-0">Ааааабббббвввввгггг</h3>
                                     </div>
-
-                                    <div class="cost__input-group cost__input-group_type_percent input-group">
-                                        <div class="cost__form-floating cost__form-floating_type_percent form-floating">
-                                            <input class="cost__form-control cost__form-control_type_percent form-control" type="number" min="0" step="0.01" placeholder="null" id="data-cost-0" name="data-cost-0" value="20">
-                                            <label class="cost__label" for="data-cost-0">Процент</label>
-                                        </div>
-                                        <div class="cost__-form-floating cost__-form-floating_type_percent form-floating">
-                                            <input class="cost__form-control-plaintext cost__form-control-plaintext_type_percent form-control" type="number" min="0" step="0.01" placeholder="place" id="value-cost-0" value="200" disabled>
-                                            <label class="cost__value-label cost__value-label_type_percent" for="value-cost-0">Стоимость, руб.</label>
-                                        </div>
+                                    <div class="col-auto">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil-fill"></i></button>
+                                        <button type="button" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash-fill"></i></button>
                                     </div>
-                                    <!-- <div class="cost__input-group cost__input-group_type_percent input-group">
-                                        <div class="cost__-form-floating cost__-form-floating_type_percent form-floating">
-                                            <input class="cost__form-control-plaintext cost__form-control-plaintext_type_percent form-control-plaintext" type="number" min="0" step="0.01" placeholder="null" id="value-cost-0" readonly="true" value="200">
-                                            <label class="cost__value-label cost__value-label_type_percent" for="value-cost-0">Стоимость, руб.</label>
-                                        </div>
-                                    </div> -->
+                                    </div>
                                 </div>
-                            </div>
-                            <!-- <div class="card-footer">
-                                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">                                  
-                                    <button type="button" class="btn btn-secondary">[R]</button>
-                                    <button type="button" class="btn btn-danger">[D]</button>
-                                  </div>
-                            </div> -->
-                        </div>
-                        <div class="card mb-3">
-                            <div class="card-header">
-                                <div class="row align-items-center">
-                                <div class="col">
-                                    <h3 class="h5 mb-0">Расход</h3>
-                                </div>
-                                <div class="col-auto">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil-fill"></i></button>
-                                    <button type="button" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash-fill"></i></button>
-                                </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="cost cost_type_percent">
-                                    <div class="input-group mb-2">
+                                <div class="card-body">
+                                    <div class="cost cost_type_percent">
+                                        <div class="input-group mb-2">
                                             <input type="text" class="form-control bg-white" id="floatingInput" placeholder="" value="Процент от оптовой цены" disabled>
                                         <button class="cost__dropdown-options btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-label="Изменить" aria-expanded="false"></button>
-                                        <ul class="cost__dropdown-menu dropdown-menu dropdown-menu-end" style="">
-                                            <li class="cost__dropdown-menu-item-fix">
-                                                  <button class="cost__dropdown-menu-item-fix-link dropdown-item btn btn-light" type="button">Фиксированная стоимость</button>
-                                            </li>
-                                            <li class="cost__dropdown-menu-item-percent">
-                                                <button class="cost__dropdown-menu-item-percent-link dropdown-item btn btn-light" type="button" disabled="true">Процент от оптовой цены</button>
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="cost__input-group cost__input-group_type_percent input-group">
-                                        <div class="cost__form-floating cost__form-floating_type_percent form-floating">
-                                            <input class="cost__form-control cost__form-control_type_percent form-control" type="number" min="0" step="0.01" placeholder="null" id="data-cost-0" name="data-cost-0" value="20">
-                                            <label class="cost__label" for="data-cost-0">Стоимость, руб.</label>
+                                            <ul class="cost__dropdown-menu dropdown-menu dropdown-menu-end" style="">
+                                                <li class="cost__dropdown-menu-item-fix">
+                                                      <button class="cost__dropdown-menu-item-fix-link dropdown-item btn btn-light" type="button">Фиксированная стоимость</button>
+                                                </li>
+                                                <li class="cost__dropdown-menu-item-percent">
+                                                    <button class="cost__dropdown-menu-item-percent-link dropdown-item btn btn-light" type="button" disabled="true">Процент от оптовой цены</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+    
+                                        <div class="cost__input-group cost__input-group_type_percent input-group">
+                                            <div class="cost__form-floating cost__form-floating_type_percent form-floating">
+                                                <input class="cost__form-control cost__form-control_type_percent form-control" type="number" min="0" step="0.01" placeholder="null" id="data-cost-0" name="data-cost-0" value="20">
+                                                <label class="cost__label" for="data-cost-0">Процент</label>
+                                            </div>
+                                            <div class="cost__-form-floating cost__-form-floating_type_percent form-floating">
+                                                <input class="cost__form-control-plaintext cost__form-control-plaintext_type_percent form-control" type="number" min="0" step="0.01" placeholder="place" id="value-cost-0" value="200" disabled>
+                                                <label class="cost__value-label cost__value-label_type_percent" for="value-cost-0">Стоимость, руб.</label>
+                                            </div>
                                         </div>
                                     </div>
-                                    <!-- <div class="cost__input-group cost__input-group_type_percent input-group">
-                                        <div class="cost__-form-floating cost__-form-floating_type_percent form-floating">
-                                            <input class="cost__form-control-plaintext cost__form-control-plaintext_type_percent form-control-plaintext" type="number" min="0" step="0.01" placeholder="null" id="value-cost-0" readonly="true" value="200">
-                                            <label class="cost__value-label cost__value-label_type_percent" for="value-cost-0">Стоимость, руб.</label>
-                                        </div>
-                                    </div> -->
                                 </div>
                             </div>
-                            <!-- <div class="card-footer">
-                                <div class="btn-group" role="group" aria-label="Button group with nested dropdown">                                  
-                                    <button type="button" class="btn btn-secondary">[R]</button>
-                                    <button type="button" class="btn btn-danger">[D]</button>
-                                  </div>
-                            </div> -->
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <div class="row align-items-center">
+                                    <div class="col">
+                                        <h3 class="h5 mb-0">Расход</h3>
+                                    </div>
+                                    <div class="col-auto">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil-fill"></i></button>
+                                        <button type="button" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash-fill"></i></button>
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="cost cost_type_percent">
+                                        <div class="input-group mb-2">
+                                                <input type="text" class="form-control bg-white" id="floatingInput" placeholder="" value="Процент от оптовой цены" disabled>
+                                            <button class="cost__dropdown-options btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-label="Изменить" aria-expanded="false"></button>
+                                            <ul class="cost__dropdown-menu dropdown-menu dropdown-menu-end" style="">
+                                                <li class="cost__dropdown-menu-item-fix">
+                                                      <button class="cost__dropdown-menu-item-fix-link dropdown-item btn btn-light" type="button">Фиксированная стоимость</button>
+                                                </li>
+                                                <li class="cost__dropdown-menu-item-percent">
+                                                    <button class="cost__dropdown-menu-item-percent-link dropdown-item btn btn-light" type="button" disabled="true">Процент от оптовой цены</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+    
+                                        <div class="cost__input-group cost__input-group_type_percent input-group">
+                                            <div class="cost__form-floating cost__form-floating_type_percent form-floating">
+                                                <input class="cost__form-control cost__form-control_type_percent form-control" type="number" min="0" step="0.01" placeholder="null" id="data-cost-0" name="data-cost-0" value="20">
+                                                <label class="cost__label" for="data-cost-0">Стоимость, руб.</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <!-- <div class="card mt-2 mb-3">
                             <div class="card-body">

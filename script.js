@@ -1,6 +1,11 @@
 'use strict';
-/* Логи */
-export let logs = true; // true - выводим логи, false - не выводим логи
+
+/**
+ * Логи: true - выводим логи, false - не выводим логи
+ */
+export let logs = true;
+
+if (logs) {console.time('script')}
 
 /* Импорт */
 /* Данные */
@@ -106,3 +111,4 @@ displayRetailPriceInputFormControl.focus(); // Фокусируемся на п�
 displayRetailPriceInputFormControl.blur(); // Снимаем фокус с поля для вывода розничной цены
 
 if (logs) {console.log('script.js done!')}
+if (logs) {console.timeEnd('script')}
