@@ -1,16 +1,24 @@
 'use strict';
 
 /* Логи */
-let logs = false; // true - выводим логи, false - не выводим логи
+let logs = true;
 if (logs) {console.log('add-element.js');}
 
 /* Отображение элементов
 parent - родительский элемент
 tag - html-тэг
-classes - html-классы. Единственный класс передается строкой, несколько классов строками в массиве.
+classes - html-классы. 
 attributes - html-аттрибуты. Передаются одним объектом.
 */
 
+/**
+ * Функция для создания html-элементов с классами и атрибутами
+ * @param {string} parent Родительский элемент, в котором создается новый элемент
+ * @param {string} tag Тэг создаваемого элемента
+ * @param {string|string[]} classes Классы создаваемого элемента. Единственный класс передается строкой, несколько классов строками в массиве.
+ * @param {object} attributes Атрибуты создаваемого элемента. Передаются одним объектом в формате ключ: значение
+ * @returns {object} Возвращает созданный в родителе html-элемент с классами и атрибутами
+ */
 export function addElement(parent, tag, classes, attributes) {
     if (logs) {
         console.log('');
@@ -21,31 +29,30 @@ export function addElement(parent, tag, classes, attributes) {
         console.log(attributes);
     }
     
-    const element = document.createElement(tag); // Элемент
-    switch(typeof(classes)) { // В зависимости от типа классов
-        case 'string': // Если строка
-            element.classList.add(classes); // Добавляем в элемент название класса
+    const element = document.createElement(tag);
+    switch(typeof(classes)) {
+        case 'string':
+            element.classList.add(classes);
             break;
-        case 'object': // Если объект
-            classes.forEach(className => { // Для каждого класса
-                element.classList.add(className); // Добавляем в элемент названия класса
+        case 'object':
+            classes.map(className => {
+                element.classList.add(className);
             })
             break;
-        default: console.warn('No classes!') // В другом случае выводим предупреждение
+        default: console.warn('No classes!');
     }
-    if (typeof(attributes) === 'object') { // Если атрибуты переданы через объект
-        let attributesKeys = Object.keys(attributes); // Создаем массив с данными в ключах объекта
-        let attributesValues = Object.values(attributes); // Создаем массив с данными в значениях объекта
-        let attributesIndex; // Индекс для перебора массивов
-        for (attributesIndex = 0; attributesIndex < attributesKeys.length; ++attributesIndex) { // Пока индекс меньше количества элементов в массиве с ключами
-            element.setAttribute(attributesKeys[attributesIndex], attributesValues[attributesIndex]); // Добавляем атрибуты из ключа и значения под номером индекса
-        }
+    if (typeof(attributes) === 'object') {
+        let attributesKeys = Object.keys(attributes);
+        let attributesValues = Object.values(attributes);
+        attributesKeys.map(key => {
+            element.setAttribute(key, attributes[key]);
+        })
     }
-    parent.append(element); // Размещаем элемент в нужном месте
+    parent.append(element);
     if (logs) {
         console.log('element: ');
         console.log(element);
         console.log('addElement done!');
     }
-    return element; // Возвращаем элемент
+    return element;
 }
