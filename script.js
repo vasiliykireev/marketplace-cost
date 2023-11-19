@@ -60,26 +60,26 @@ export const displayCostsBlock = document.querySelector('.costs'); // Блок �
 
 /* Отображение комиссий */
 export const displayCommissionsBlock = document.querySelector('.commissions'); // Блок для отображения комиссий
-let displayCommissions = addExpences(displayCommissionsBlock, 'commission', sourceCommissions); // В блоке для отображения комиссий отображаем комиссии
+// let displayCommissions = addExpences(displayCommissionsBlock, 'commission', sourceCommissions); // В блоке для отображения комиссий отображаем комиссии
 
 /* Отображение тарифов */
 export const displayFeesBlock = document.querySelector('.fees'); // Блок для отображения тарифов
-let displayFees = addExpences(displayFeesBlock, 'fee', sourceFees); // В блоке для отображения тарифов отображаем тарифы
+// let displayFees = addExpences(displayFeesBlock, 'fee', sourceFees); // В блоке для отображения тарифов отображаем тарифы
 
 /* Кнопки добавления новых данных */
 /* Кнопка добавления расхода */
 const displayCostButtonAdd = document.querySelector('.add__cost'); // Кнопка добавления расхода
-// displayCostButtonAdd.addEventListener('click', function () { // Кнопке добавления расхода добавляем отслеживание событий по клику
-//     let pushSourceCostId = Number(sourceCosts.length); // Количество элементов в массиве расходов
-//     let pushSourceCostObject = sourceCosts.push({ // Новый объект расхода добавляем в массив расходов
-//         'id': 'cost-' + pushSourceCostId, // Идентификатор: расход с количеством элементов в массиве 
-//         'type': 'fix', // Тип: фиксированная стоимость
-//         'value': null // Значение: отсутствует
-//     });
-//     const displayCostBlock = addElement(displayCostsBlock, 'div', ['cost', 'mb-3']); // Новый блок расхода
-//     const displayCostBlockName = addName(displayCostBlock, 'cost', sourceCosts[pushSourceCostId]); // Название нового расхода
-//     displayCosts.push(displayCostBlock); // В массив для отображения расходов добавляем новый блок расхода 
-// });
+displayCostButtonAdd.addEventListener('click', function () { // Кнопке добавления расхода добавляем отслеживание событий по клику
+    let pushSourceCostId = Number(sourceCosts.length); // Количество элементов в массиве расходов
+    let pushSourceCostObject = sourceCosts.push({ // Новый объект расхода добавляем в массив расходов
+        'id': 'cost-' + pushSourceCostId, // Идентификатор: расход с количеством элементов в массиве 
+        'type': 'fix', // Тип: фиксированная стоимость
+        'value': null // Значение: отсутствует
+    });
+    const displayCostBlock = addElement(displayCostsBlock, 'div', ['cost', 'mb-3']); // Новый блок расхода
+    const displayCostBlockName = addName(displayCostBlock, 'cost', sourceCosts[pushSourceCostId]); // Название нового расхода
+    displayCosts.push(displayCostBlock); // В массив для отображения расходов добавляем новый блок расхода 
+});
 
 /* Кнопка добавления комиссий */
 const displayCommissionButtonAdd = document.querySelector('.add__commission'); // Кнопка добавления комиссии

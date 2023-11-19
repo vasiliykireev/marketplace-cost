@@ -1,6 +1,8 @@
 'use strict';
 
-/* Логи */
+/**
+ * Логи: true - выводим логи, false - не выводим логи
+ */
 let logs = true;
 if (logs) {console.log('add-element.js');}
 
