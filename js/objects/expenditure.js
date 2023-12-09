@@ -32,12 +32,18 @@ export class Expenditure {
     costs = document.querySelector('.costs');
 
     element = new Object();
+    /**
+     * Элемент
+     * @type {{value: string}} Название
+     */
     name = new Object();
+    value = new Object();
 
 
     caption = {
         newTitle: 'Новая затрата',
         editTitle: 'Редактировать затрату',
+        valueTitle: 'Сумма, руб.',
         newInputPlaceholder: 'Введите название',
         iconCheck: '<i class="bi bi-check"></i>',
         iconPencil: '<i class="bi bi-pencil-fill"></i>',
@@ -45,8 +51,15 @@ export class Expenditure {
 
     }
 
-    constructor() {
+    constructor(name, value) {
+        this.name.value = name;
+        this.value.value = value;
         this.create();
+        if(this.name.value === undefined) {
+            this.edit();
+        } else {
+            this.show();
+        }
 
     }
 
@@ -74,6 +87,11 @@ export class Expenditure {
         this.element.cardHeaderHeadingCol.classList.add('col');
         this.element.cardHeaderRow.append(this.element.cardHeaderHeadingCol);
 
+        this.element.cardHeaderHeading = document.createElement('h3');
+        this.element.cardHeaderHeading.classList.add('h5');
+        this.element.cardHeaderHeading.classList.add('mb-0');
+        this.element.cardHeaderHeadingCol.append(this.element.cardHeaderHeading);
+
         this.element.cardHeaderEditCol = document.createElement('div');
         this.element.cardHeaderEditCol.classList.add('col-auto');
         this.element.cardHeaderRow.append(this.element.cardHeaderEditCol);
@@ -82,22 +100,19 @@ export class Expenditure {
         this.element.cardBody.classList.add('card-body');
         this.element.card.append(this.element.cardBody);
 
-        this.edit(true);
     }
 
     edit() {
         console.log('edit');
-
-        this.element.cardHeaderHeading = document.createElement('h3');
-        this.element.cardHeaderHeading.classList.add('h5');
-        this.element.cardHeaderHeading.classList.add('mb-0');
+        if(this.value.inputGroup !== undefined) {
+            this.value.inputGroup.remove();
+        }
+        
         if(this.name.value === undefined) {
             this.element.cardHeaderHeading.textContent = this.caption.newTitle;
         } else {
             this.element.cardHeaderHeading.textContent = this.caption.editTitle;
         }
-
-        this.element.cardHeaderHeadingCol.append(this.element.cardHeaderHeading);
 
         this.element.cardHeaderDeleteButton = document.createElement('button');
         this.element.cardHeaderDeleteButton.classList.add('btn', 'btn-danger', 'btn-sm');
@@ -120,6 +135,7 @@ export class Expenditure {
 
         this.name.inputFormControl = document.createElement('input');
         this.name.inputFormControl.classList.add('form-control');
+        // this.name.inputFormControl.classList.add('border', 'border-primary-subtle', 'focus-ring', 'focus-ring-primary');
         this.name.inputFormControl.setAttribute('type', 'text');
         this.name.inputFormControl.setAttribute('id', this.id);
         this.name.inputFormControl.setAttribute('placeholder', null);
@@ -160,6 +176,10 @@ export class Expenditure {
             this.name.inputGroup.remove()
             this.show();
         } else {
+
+
+// <div class="invalid-feedback">Example invalid feedback text</div>
+
             alert('Введите название!');
             // this.name.inputFormControl.focus();
         }
@@ -171,7 +191,17 @@ export class Expenditure {
 
         console.log(this.name.value);
 
-        this.element.cardHeaderDeleteButton.remove();
+        if(this.element.cardHeaderDeleteButton !== undefined) {
+            this.element.cardHeaderDeleteButton.remove();
+        }
+
+        if(this.name.value === undefined) {
+            console.log('this.name.value === undefined');
+            this.element.cardHeaderHeading.textContent = this.caption.newTitle;
+        } else {
+            console.log('this.name.value !== undefined');
+            this.element.cardHeaderHeading.textContent = this.name.value;
+        }
 
         this.element.cardHeaderEditButton = document.createElement('button');
         this.element.cardHeaderEditButton.classList.add('btn', 'btn-outline-secondary', 'btn-sm', 'border-0');
@@ -181,8 +211,46 @@ export class Expenditure {
 
         this.element.cardHeaderEditButton.addEventListener('click', (event) => {
             this.element.cardHeaderEditButton.remove();
-            this.element.cardHeaderHeading.remove();
+            // this.element.cardHeaderHeading.remove();
             this.edit();
+        })
+        this.showValue();
+    }
+
+    showValue() {
+        this.value.inputGroup = document.createElement('div');
+        this.value.inputGroup.classList.add('input-group');
+        this.value.inputGroup.classList.add('mb-2');
+        this.element.cardBody.append(this.value.inputGroup);
+
+        this.value.formFloating = document.createElement('div');
+        this.value.formFloating.classList.add('form-floating');
+        this.value.inputGroup.append(this.value.formFloating);
+
+        this.value.inputFormControl = document.createElement('input');
+        this.value.inputFormControl.classList.add('form-control');
+        // this.value.inputFormControl.classList.add('border', 'border-secondary-subtle', 'focus-ring', 'focus-ring-secondary');
+        this.value.inputFormControl.setAttribute('type', 'number');
+        this.value.inputFormControl.setAttribute('min', '0');
+        this.value.inputFormControl.setAttribute('step', '0.01')
+        this.value.inputFormControl.setAttribute('id', this.id);
+        this.value.inputFormControl.setAttribute('placeholder', null);
+        if(this.value.value !== undefined) {
+            this.value.inputFormControl.setAttribute('value', this.value.value);
+        }
+        this.value.formFloating.append(this.value.inputFormControl);
+        this.value.inputFormControl.focus();
+        // this.value.inputFormControl.selectionStart = this.value.inputFormControl.value.length;
+
+        this.value.labelForInputFormControl = document.createElement('label');
+        // this.name.labelForInputFormControl.classList.add('form-control-label');
+        this.value.labelForInputFormControl.setAttribute('for', this.id);
+        this.value.labelForInputFormControl.textContent = this.caption.valueTitle;
+        this.value.formFloating.append(this.value.labelForInputFormControl);
+
+        this.value.inputFormControl.addEventListener('input', (event) => {
+            this.value.value = this.value.inputFormControl.value;
+            console.log(this.value);
         })
     }
 }
