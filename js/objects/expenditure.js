@@ -145,7 +145,6 @@ export class Expenditure {
             this.saveName();
         });
         this.name.inputFormControl.addEventListener('keypress', (event) => {
-            console.log(event);
             if(event.key === 'Enter') {
                 this.saveName();
             }
