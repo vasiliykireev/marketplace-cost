@@ -21,7 +21,7 @@ export class Unit {
             console.log('unit.expenditure.storage:');
             console.log(this.expenditures.storage);
         })
-        if(debug){this.displayButton();}
+        if(debug){this.displayDebug();}
     }
     
     expenditures = {
@@ -33,7 +33,7 @@ export class Unit {
     commissions = Object();
     fees = new Object();
 
-    displayButton() {
+    displayDebug() {
         console.log('displayButton');
         this.checkButton.button = document.createElement('button');
         this.checkButton.button.setAttribute('type', 'button');

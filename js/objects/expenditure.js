@@ -118,7 +118,7 @@ export class Expenditure {
         this.element.cardBody.classList.add('card-body');
         this.element.card.append(this.element.cardBody);
 
-        if(debug){this.check();}
+        if(debug){this.displayDebug();}
     }
     /**
      * Редактировать
@@ -146,6 +146,11 @@ export class Expenditure {
             // this.element.section.remove();
             this.delete();
         })
+        
+        // this.name.form = document.createElement('form');
+        // this.name.form.classList.add('needs-validation');
+        // this.name.form.setAttribute('novalidate','')
+        // this.element.cardBody.append(this.name.form);
 
         this.name.inputGroup = document.createElement('div');
         this.name.inputGroup.classList.add('input-group');
@@ -162,8 +167,8 @@ export class Expenditure {
         this.name.inputFormControl.setAttribute('type', 'text');
         this.name.inputFormControl.setAttribute('id', this.id);
         this.name.inputFormControl.setAttribute('placeholder', null);
-        this.name.inputFormControl.setAttribute('required',true);
-        if(this.name.value !== undefined) {
+        this.name.inputFormControl.setAttribute('required', '');
+        if(this.name.value != '') {
             this.name.inputFormControl.setAttribute('value', this.name.value);
         }
         this.name.formFloating.append(this.name.inputFormControl);
@@ -176,12 +181,6 @@ export class Expenditure {
         this.name.labelForInputFormControl.textContent = this.caption.newInputPlaceholder;
         this.name.formFloating.append(this.name.labelForInputFormControl);
 
-        this.name.feedback = document.createElement('div');
-        // this.name.feedback.classList.add('feedback');
-        // this.name.feedback.textContent = 'фидбек';
-        this.element.cardBody.append(this.name.feedback);
-        // <div class="invalid-feedback"></div>
-
         this.name.saveButton = document.createElement('button');
         this.name.saveButton.classList.add('btn', 'btn-primary');
         this.name.saveButton.setAttribute('type', 'button');
@@ -189,9 +188,11 @@ export class Expenditure {
         this.name.inputGroup.append(this.name.saveButton);
 
         this.name.saveButton.addEventListener('click', (event) => {
+            console.log(event);
             this.saveName();
-        });
+        }, false);
         this.name.inputFormControl.addEventListener('keypress', (event) => {
+            this.name.labelForInputFormControl.classList.remove('text-danger');
             if(event.key === 'Enter') {
                 this.saveName();
             }
@@ -210,10 +211,10 @@ export class Expenditure {
         } else {
 
 
+
 // <div class="invalid-feedback">Example invalid feedback text</div>
-            // this.name.feedback.classList.add('invalid-feedback');
-            // this.name.feedback.innerHTML = 'Введите название';
-            alert('Введите название!');
+            // alert('Введите название!');
+            this.name.labelForInputFormControl.classList.add('text-danger');
             this.name.inputFormControl.focus();
         }
     }
@@ -304,7 +305,7 @@ export class Expenditure {
 
     }
 
-    check() {
+    displayDebug() {
         this.checkButton.button = document.createElement('button');
         this.checkButton.button.classList.add('btn', 'btn-info', 'btn-sm');
         this.checkButton.button.setAttribute('type', 'button');
