@@ -21,7 +21,7 @@ addExpentitureButton.addEventListener('click', () => {
  * 
  * Затраты
  * - Создать
- * - Назвать / Переименовать
+ * - Редактировать
  * - Вывести
  * - Удалить
  * 
@@ -55,7 +55,7 @@ export class Expenditure {
         this.name.value = name;
         this.value.value = value;
         this.create();
-        if(this.name.value === undefined) {
+        if(this.name.value == null) {
             this.edit();
         } else {
             this.show();
@@ -104,12 +104,13 @@ export class Expenditure {
 
     edit() {
         console.log('edit');
-        if(this.value.inputGroup !== undefined) {
+        if(this.value.inputGroup != null) {
             this.value.inputGroup.remove();
         }
         
-        if(this.name.value === undefined) {
+        if(this.name.value == null) {
             this.element.cardHeaderHeading.textContent = this.caption.newTitle;
+            this.name.value = '';
         } else {
             this.element.cardHeaderHeading.textContent = this.caption.editTitle;
         }
@@ -139,6 +140,7 @@ export class Expenditure {
         this.name.inputFormControl.setAttribute('type', 'text');
         this.name.inputFormControl.setAttribute('id', this.id);
         this.name.inputFormControl.setAttribute('placeholder', null);
+        this.name.inputFormControl.setAttribute('required',true);
         if(this.name.value !== undefined) {
             this.name.inputFormControl.setAttribute('value', this.name.value);
         }
@@ -151,6 +153,12 @@ export class Expenditure {
         this.name.labelForInputFormControl.setAttribute('for', this.id);
         this.name.labelForInputFormControl.textContent = this.caption.newInputPlaceholder;
         this.name.formFloating.append(this.name.labelForInputFormControl);
+
+        this.name.feedback = document.createElement('div');
+        // this.name.feedback.classList.add('feedback');
+        // this.name.feedback.textContent = 'фидбек';
+        this.element.cardBody.append(this.name.feedback);
+        // <div class="invalid-feedback"></div>
 
         this.name.saveButton = document.createElement('button');
         this.name.saveButton.classList.add('btn', 'btn-primary');
@@ -179,8 +187,9 @@ export class Expenditure {
 
 
 // <div class="invalid-feedback">Example invalid feedback text</div>
-
-            alert('Введите название!');
+            this.name.feedback.classList.add('invalid-feedback');
+            this.name.feedback.innerHTML = 'Введите название';
+            // alert('Введите название!');
             // this.name.inputFormControl.focus();
         }
     }
@@ -195,11 +204,9 @@ export class Expenditure {
             this.element.cardHeaderDeleteButton.remove();
         }
 
-        if(this.name.value === undefined) {
-            console.log('this.name.value === undefined');
+        if(this.name.value == null) {
             this.element.cardHeaderHeading.textContent = this.caption.newTitle;
         } else {
-            console.log('this.name.value !== undefined');
             this.element.cardHeaderHeading.textContent = this.name.value;
         }
 
