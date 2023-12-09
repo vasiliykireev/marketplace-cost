@@ -5,17 +5,18 @@
  * @type {boolean} true: выводить, false: не выводить
  */
 let logs = true;
-
 if(logs){console.log('expenditure.js');}
+
+let debug = true;
 
 /**
  * Кнопка добавления затраты
  */
-let addExpentitureButton = document.querySelector('.add__cost');
-addExpentitureButton.addEventListener('click', () => {
-    console.log('expenditure!')
-    const expenditure = new Expenditure();
-});
+// let addExpentitureButton = document.querySelector('.add__cost');
+// addExpentitureButton.addEventListener('click', () => {
+//     console.log('expenditure!')
+//     const expenditure = new Expenditure();
+// });
 
 /**
  * 
@@ -27,6 +28,19 @@ addExpentitureButton.addEventListener('click', () => {
  * 
 */
 export class Expenditure {
+    constructor(storage, name, value) {
+        this.storage.data = storage;
+        this.name.value = name;
+        this.value.value = value;
+        this.create();
+        if(this.name.value == null) {
+            this.edit();
+        } else {
+            this.show();
+        }
+    }
+    storage = new Object();
+
     id = new Date().getTime();
 
     costs = document.querySelector('.costs');
@@ -39,7 +53,6 @@ export class Expenditure {
     name = new Object();
     value = new Object();
 
-
     caption = {
         newTitle: 'Новая затрата',
         editTitle: 'Редактировать затрату',
@@ -51,20 +64,21 @@ export class Expenditure {
 
     }
 
-    constructor(name, value) {
-        this.name.value = name;
-        this.value.value = value;
-        this.create();
-        if(this.name.value == null) {
-            this.edit();
-        } else {
-            this.show();
-        }
-
+    checkButton = {
+        title: '<i class="bi bi-question-lg"></i>',
     }
 
+    /**
+     * Создать
+     */
     create() {
         console.log('create');
+        this.storage.data.push(this);
+        // this.storage.index = this.storage.data.indexOf(this);
+
+        console.log('expenditure.storage:');
+        console.log(this.storage.index);
+        console.log(this.storage.data);
 
         this.element.section = document.createElement('div');
         this.element.section.classList.add('expenditure');
@@ -92,6 +106,10 @@ export class Expenditure {
         this.element.cardHeaderHeading.classList.add('mb-0');
         this.element.cardHeaderHeadingCol.append(this.element.cardHeaderHeading);
 
+        this.element.cardHeaderExtraCol = document.createElement('div');
+        this.element.cardHeaderExtraCol.classList.add('col-auto', 'pe-0');
+        this.element.cardHeaderRow.append(this.element.cardHeaderExtraCol);
+
         this.element.cardHeaderEditCol = document.createElement('div');
         this.element.cardHeaderEditCol.classList.add('col-auto');
         this.element.cardHeaderRow.append(this.element.cardHeaderEditCol);
@@ -100,8 +118,11 @@ export class Expenditure {
         this.element.cardBody.classList.add('card-body');
         this.element.card.append(this.element.cardBody);
 
+        if(debug){this.check();}
     }
-
+    /**
+     * Редактировать
+     */
     edit() {
         console.log('edit');
         if(this.value.inputGroup != null) {
@@ -122,7 +143,8 @@ export class Expenditure {
         this.element.cardHeaderEditCol.append(this.element.cardHeaderDeleteButton);
 
         this.element.cardHeaderDeleteButton.addEventListener('click', (event) => {
-            this.element.section.remove();
+            // this.element.section.remove();
+            this.delete();
         })
 
         this.name.inputGroup = document.createElement('div');
@@ -176,7 +198,9 @@ export class Expenditure {
         })
 
     }
-
+    /**
+     * Сохранить имя
+     */
     saveName() {
         if(this.name.inputFormControl.value.length !== 0) {
             this.name.value = this.name.inputFormControl.value;
@@ -187,13 +211,16 @@ export class Expenditure {
 
 
 // <div class="invalid-feedback">Example invalid feedback text</div>
-            this.name.feedback.classList.add('invalid-feedback');
-            this.name.feedback.innerHTML = 'Введите название';
-            // alert('Введите название!');
-            // this.name.inputFormControl.focus();
+            // this.name.feedback.classList.add('invalid-feedback');
+            // this.name.feedback.innerHTML = 'Введите название';
+            alert('Введите название!');
+            this.name.inputFormControl.focus();
         }
     }
 
+    /**
+     * Вывести
+     */
     show() {
 
         console.log('show');
@@ -224,6 +251,9 @@ export class Expenditure {
         this.showValue();
     }
 
+    /**
+     * Вывести значение
+     */
     showValue() {
         this.value.inputGroup = document.createElement('div');
         this.value.inputGroup.classList.add('input-group');
@@ -259,6 +289,31 @@ export class Expenditure {
             this.value.value = this.value.inputFormControl.value;
             console.log(this.value);
         })
+    }
+
+    delete() {
+        // this.storage.index = this.storage.data.indexOf(this);
+        // this.storage.data.splice(this.storage.index, 1);
+        this.storage.data.splice(this.storage.data.indexOf(this), 1);
+
+        this.element.section.remove();
+        this.element.cardHeaderHeading.classList.add('text-danger');
+        console.log('this.storage.data:')
+        console.log(this.storage.data);
+            
+
+    }
+
+    check() {
+        this.checkButton.button = document.createElement('button');
+        this.checkButton.button.classList.add('btn', 'btn-info', 'btn-sm');
+        this.checkButton.button.setAttribute('type', 'button');
+        this.checkButton.button.innerHTML = this.checkButton.title;
+        this.element.cardHeaderExtraCol.append(this.checkButton.button);
+        this.checkButton.button.addEventListener('click', (event) => {
+            console.log(this.storage);
+        })
+
     }
 }
 
