@@ -229,7 +229,7 @@ export class Expenditure {
 
         this.value.inputFormControl = document.createElement('input');
         this.value.inputFormControl.classList.add('form-control');
-        // this.value.inputFormControl.classList.add('border', 'border-secondary-subtle', 'focus-ring', 'focus-ring-secondary');
+        // this.value.inputFormControl.classList.add('border', 'border-light-subtle', 'focus-ring', 'focus-ring-secondary');
         this.value.inputFormControl.setAttribute('type', 'number');
         this.value.inputFormControl.setAttribute('min', '0');
         this.value.inputFormControl.setAttribute('step', '0.01')
