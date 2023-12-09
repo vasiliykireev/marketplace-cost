@@ -128,6 +128,7 @@ export class Expenditure {
         }
         this.name.formFloating.append(this.name.inputFormControl);
         this.name.inputFormControl.focus();
+        this.name.inputFormControl.selectionStart = this.name.inputFormControl.value.length;
 
         this.name.labelForInputFormControl = document.createElement('label');
         // this.name.labelForInputFormControl.classList.add('form-control-label');
@@ -167,6 +168,8 @@ export class Expenditure {
     show() {
 
         console.log('show');
+
+        console.log(this.name.value);
 
         this.element.cardHeaderDeleteButton.remove();
 
