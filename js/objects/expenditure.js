@@ -210,7 +210,8 @@ export class Expenditure {
             this.element.name.labelIcon.innerHTML = '';
             this.element.name.labelForInputFormControl.classList.remove('text-danger');
             if(event.key === 'Enter') {
-                this.saveName();
+                // this.saveName();
+                this.element.name.saveButton.click();
             }
         })
 
