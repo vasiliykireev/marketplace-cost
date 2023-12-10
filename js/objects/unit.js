@@ -1,6 +1,9 @@
 'use strict';
 
-import { Expenditure } from "./expenditure.js";
+import { Expenditure } from './expenditure.js';
+import { Cost } from './cost.js';
+import { Commission } from './commission.js';
+import { Fee } from './fee.js';
 
 /**
  * Логи
@@ -14,39 +17,60 @@ let debug = true;
 
 export class Unit {
     constructor() {
-        const expenditure10 = new Expenditure(this.expenditures.storage, 'Десять', 10);
-        this.expenditures.buttonAdd.addEventListener('click', () => {
-            console.log('expenditure!');
-            const expenditureNull = new Expenditure(this.expenditures.storage, null, null);
-            console.log('unit.expenditure.storage:');
-            console.log(this.expenditures.storage);
+        const cost10 = new Cost(this.costs, 'Расход 10', 10);
+        this.costs.buttonAdd.addEventListener('click', () => {
+            const costNull = new Cost(this.costs, null, null);
         })
-        if(debug){this.debug();}
+        if(debug){this.debugCosts();}
+
+        const commission20 = new Commission(this.commissions, 'Комиссия 1', 1);
+        this.commissions.buttonAdd.addEventListener('click', () => {
+            const commissionNull = new Commission(this.commissions, null, null);
+        })
+        // if(debug){this.debugCommissions();}
+
+        const fees30 = new Fee(this.fees, 'Тариф 30', 30);
+        this.fees.buttonAdd.addEventListener('click', () => {
+            const feeNull = new Fee(this.fees, null, null);
+        })
+
     }
     
-    expenditures = {
-        test: console.log('expenditure.test'),
-        buttonAdd: document.querySelector('.add__cost'),
-        storage: new Array(),
-    };
-    costs = new Object();
-    commissions = Object();
-    fees = new Object();
+    // expenditures = {
+    //     buttonAdd: document.querySelector('.add__cost'),
+    //     storage: new Array(),
+    // };
 
-    debug() {
-        console.log('displayButton');
-        this.debugButton = document.createElement('button');
-        this.debugButton.setAttribute('type', 'button');
-        this.debugButton.classList.add('btn', 'btn-info');
-        this.debugButton.innerHTML = '<i class="bi bi-question-lg"></i>';
-        document.querySelector('.costs + .add .text-center').append(this.debugButton);
-        this.debugButton.addEventListener('click', () => {
-            console.log(this.expenditures.storage);
+    costs = {
+        type: 'cost',
+        buttonAdd: document.querySelector('.add__cost'),
+        container: document.querySelector('.costs'),
+        storage: new Array(),
+    }
+
+    commissions = {
+        type: 'commission',
+        buttonAdd: document.querySelector('.add__commission'),
+        container: document.querySelector('.commissions'),
+        storage: new Array(),
+    }
+
+    fees = {
+        type: 'fee',
+        buttonAdd: document.querySelector('.add__fee'),
+        container: document.querySelector('.fees'),
+        storage: new Array(),
+    }
+
+    debugCosts() {
+        this.debugCostsButton = document.createElement('button');
+        this.debugCostsButton.setAttribute('type', 'button');
+        this.debugCostsButton.classList.add('btn', 'btn-info');
+        this.debugCostsButton.innerHTML = '<i class="bi bi-question-lg"></i>';
+        document.querySelector('.costs + .add .text-center').append(this.debugCostsButton);
+        this.debugCostsButton.addEventListener('click', () => {
+            console.log(this.costs.storage);
         })
     }
 
-    checkButton = {
-        // title: '<i class="bi bi-question-lg"></i>',
-        // place: document.querySelector('.costs + .add .text-center'),
-    }
 }

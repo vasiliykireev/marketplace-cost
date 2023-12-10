@@ -11,7 +11,7 @@ if(logs){console.log('expenditure.js');}
  * Отладка
  * @type {boolean} true: включена, false: выключена
  */
-let debug = false;
+let debug = true;
 
 /** Затраты */
 export class Expenditure {
@@ -19,31 +19,25 @@ export class Expenditure {
  * Создает затрату. Выводит затрату, но если не заполнено имя, выводит редактирование затраты.
  * @param {Array} storage Массив для хранения всех экземпляров класса
  * @param {String} name Название затраты
- * @param {Number} value Значение затраты
+//  * @param {Number} value Значение затраты
  */
-    constructor(storage, name, value) {
-        this.storage = storage;
+    constructor(expenditure, name) {
+        this.type = expenditure.type;
+        this.container = expenditure.container;
+        this.storage = expenditure.storage;
         this.name = name;
-        this.value = value;
-        this.create();
-        if(this.name == null) {
-            this.edit();
-        } else {
-            this.show();
-        }
+        // this.value = value;
     }
     /** Название затраты */
     name = new String();
     /** Значение затраты */
-    value = new Number();
+    // value = new Number();
     /** Идентификатор затраты: время создания в формате Unix*/
     id = new Date().getTime();
     /** Массив для хранения всех экземпляров затрат */
     storage = new Object();
     /** Объект со всеми HTML-элементами затраты */
     element = {
-        /** Родительский HTML-элемент */
-        parent: document.querySelector('.costs'),
         /** Блок HTML-элемента класса */
         block: new Object(),
         /** HTML-элементы карточки */
@@ -59,6 +53,9 @@ export class Expenditure {
         value: {
             inputTitle: 'Сумма, руб.',
         },
+        percent: {
+            inputTitle: 'Процент',
+        },
         /** HTML-элементы кнопок */
         button: {
             saveIcon: '<i class="bi bi-check"></i>',
@@ -69,13 +66,15 @@ export class Expenditure {
             deleteCaption: 'Удалить',
         }
     }
+    /** Родительский HTML-элемент */
+    // parent = document.querySelector('.costs');
 
     /**
      * Создать затрату
      * - Добавляет экземпляр затраты в массив со всеми экземплярами затраты.
      * - Создает карточку затраты
      */
-    create() {
+    create(type) {
         console.log('create');
 
         this.storage.push(this);
@@ -84,8 +83,8 @@ export class Expenditure {
         console.log(this.storage);
 
         this.element.block = document.createElement('div');
-        this.element.block.classList.add('expenditure');
-        this.element.parent.append(this.element.block);
+        this.element.block.classList.add(type);
+        this.container.append(this.element.block);
 
         this.element.card.card = document.createElement('div');
         this.element.card.card.classList.add('card');
@@ -132,8 +131,8 @@ export class Expenditure {
      */
     edit() {
         console.log('edit');
-        if(this.element.value.inputGroup != null) {
-            this.element.value.inputGroup.remove();
+        if(this.element.content != null) {
+            this.element.content.remove();
         }
         
         if(this.name == null) {
@@ -265,7 +264,7 @@ export class Expenditure {
             this.element.card.headerEditButton.remove();
             this.edit();
         })
-        this.showValue();
+        this.element.content = this.showValue();
     }
 
     /**
@@ -273,44 +272,45 @@ export class Expenditure {
      * - Добавляет значение затраты
      * - При вводе нового значения, записывает в значение затраты число до сотых
      */
-    showValue() {
-        this.element.value.block = document.createElement('div');
-        this.element.value.block.classList.add('value');
-        this.element.card.body.append(this.element.value.block);
+    // showValue() {
+    //     this.element.value.block = document.createElement('div');
+    //     this.element.value.block.classList.add('value');
+    //     this.element.card.body.append(this.element.value.block);
 
-        this.element.value.inputGroup = document.createElement('div');
-        this.element.value.inputGroup.classList.add('value__input-group', 'input-group');
-        this.element.value.inputGroup.classList.add('mb-2');
-        this.element.value.block.append(this.element.value.inputGroup);
+    //     this.element.value.inputGroup = document.createElement('div');
+    //     this.element.value.inputGroup.classList.add('value__input-group', 'input-group');
+    //     this.element.value.inputGroup.classList.add('mb-2');
+    //     this.element.value.block.append(this.element.value.inputGroup);
 
-        this.element.value.formFloating = document.createElement('div');
-        this.element.value.formFloating.classList.add('value__form-floating', 'form-floating');
-        this.element.value.inputGroup.append(this.element.value.formFloating);
+    //     this.element.value.formFloating = document.createElement('div');
+    //     this.element.value.formFloating.classList.add('value__form-floating', 'form-floating');
+    //     this.element.value.inputGroup.append(this.element.value.formFloating);
 
-        this.element.value.inputFormControl = document.createElement('input');
-        this.element.value.inputFormControl.classList.add('value__form-control', 'form-control');
-        this.element.value.inputFormControl.setAttribute('type', 'number');
-        this.element.value.inputFormControl.setAttribute('min', '0');
-        this.element.value.inputFormControl.setAttribute('step', '0.01')
-        this.element.value.inputFormControl.setAttribute('id', 'value-' + this.id);
-        this.element.value.inputFormControl.setAttribute('placeholder', null);
-        if(this.value !== undefined) {
-            this.element.value.inputFormControl.setAttribute('value', this.value);
-        }
-        this.element.value.formFloating.append(this.element.value.inputFormControl);
-        this.element.value.inputFormControl.focus();
+    //     this.element.value.inputFormControl = document.createElement('input');
+    //     this.element.value.inputFormControl.classList.add('value__form-control', 'form-control');
+    //     this.element.value.inputFormControl.setAttribute('type', 'number');
+    //     this.element.value.inputFormControl.setAttribute('min', '0');
+    //     this.element.value.inputFormControl.setAttribute('step', '0.01')
+    //     this.element.value.inputFormControl.setAttribute('id', 'value-' + this.id);
+    //     this.element.value.inputFormControl.setAttribute('placeholder', null);
+    //     if(this.value !== undefined) {
+    //         this.element.value.inputFormControl.setAttribute('value', this.value);
+    //     }
+    //     this.element.value.formFloating.append(this.element.value.inputFormControl);
+    //     this.element.value.inputFormControl.focus();
 
-        this.element.value.labelForInputFormControl = document.createElement('label');
-        this.element.value.labelForInputFormControl.classList.add('value-label');
-        this.element.value.labelForInputFormControl.setAttribute('for', 'value-' + this.id);
-        this.element.value.labelForInputFormControl.textContent = this.element.value.inputTitle;
-        this.element.value.formFloating.append(this.element.value.labelForInputFormControl);
+    //     this.element.value.labelForInputFormControl = document.createElement('label');
+    //     this.element.value.labelForInputFormControl.classList.add('value-label');
+    //     this.element.value.labelForInputFormControl.setAttribute('for', 'value-' + this.id);
+    //     this.element.value.labelForInputFormControl.textContent = this.element.value.inputTitle;
+    //     this.element.value.formFloating.append(this.element.value.labelForInputFormControl);
 
-        this.element.value.inputFormControl.addEventListener('input', (event) => {
-            this.value = Number(this.element.value.inputFormControl.value).toFixed(2);
-            console.log(this.value);
-        })
-    }
+    //     this.element.value.inputFormControl.addEventListener('input', (event) => {
+    //         this.value = Number(this.element.value.inputFormControl.value).toFixed(2);
+    //         console.log(this.value);
+    //     })
+    // }
+
     /**
      * Удалить затрату
      * - Удаляет затрату из массива для хранения экземпляров затрат
