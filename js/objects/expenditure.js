@@ -7,52 +7,56 @@
 let logs = true;
 if(logs){console.log('expenditure.js');}
 
-let debug = true;
-
 /**
- * Кнопка добавления затраты
+ * Отладка
+ * @type {boolean} true: включена, false: выключена
  */
-// let addExpentitureButton = document.querySelector('.add__cost');
-// addExpentitureButton.addEventListener('click', () => {
-//     console.log('expenditure!')
-//     const expenditure = new Expenditure();
-// });
+let debug = true;
 
 /**
  * 
  * Затраты
- * - Создать
- * - Редактировать
- * - Вывести
- * - Удалить
  * 
 */
 export class Expenditure {
+/**
+ * @param {Array} storage Массив для хранения всех экземпляров класса
+ * @param {String} name Название затраты
+ * @param {Number} value Значение затраты
+ */
     constructor(storage, name, value) {
-        this.storage.data = storage;
-        this.name.value = name;
-        this.value.value = value;
+        this.storage = storage;
+        this.name = name;
+        this.value = value;
         this.create();
-        if(this.name.value == null) {
+        if(this.name == null) {
             this.edit();
         } else {
             this.show();
         }
     }
-    storage = new Object();
-
+    /** Название затраты */
+    name = new String();
+    /** Значение затраты */
+    value = new Number();
+    /** Идентификатор затраты: время создания в формате Unix*/
     id = new Date().getTime();
-
-    costs = document.querySelector('.costs');
-
-    element = new Object();
-    /**
-     * Элемент
-     * @type {{value: string}} Название
-     */
-    name = new Object();
-    value = new Object();
-
+    /** Массив для хранения всех экземпляров затрат */
+    storage = new Object();
+    /** Объект со всеми HTML-элементами затраты */
+    element = {
+        /** Родительский HTML-элемент */
+        parent: document.querySelector('.costs'),
+        /** Блок HTML-элемента класса */
+        block: new Object(),
+        /** HTML-элементы карточки */
+        card: new Object(),
+        /** HTML-элементы названия */
+        name: new Object(),
+        /** HTML-элементы значения */
+        value: new Object(),
+    }
+    /** Подписи */
     caption = {
         newTitle: 'Новая затрата',
         editTitle: 'Редактировать затрату',
@@ -64,135 +68,128 @@ export class Expenditure {
 
     }
 
-    checkButton = {
-        title: '<i class="bi bi-question-lg"></i>',
-    }
-
     /**
-     * Создать
+     * Создать затрату
      */
     create() {
         console.log('create');
-        this.storage.data.push(this);
-        // this.storage.index = this.storage.data.indexOf(this);
+
+        this.storage.push(this);
 
         console.log('expenditure.storage:');
-        console.log(this.storage.index);
-        console.log(this.storage.data);
+        console.log(this.storage);
 
-        this.element.section = document.createElement('div');
-        this.element.section.classList.add('expenditure');
-        this.costs.append(this.element.section);
+        this.element.block = document.createElement('div');
+        this.element.block.classList.add('expenditure');
+        this.element.parent.append(this.element.block);
 
-        this.element.card = document.createElement('div');
-        this.element.card.classList.add('card');
-        this.element.card.classList.add('mb-3');
-        this.element.section.append(this.element.card);
+        this.element.card.card = document.createElement('div');
+        this.element.card.card.classList.add('card');
+        this.element.card.card.classList.add('mb-3');
+        this.element.block.append(this.element.card.card);
 
-        this.element.cardHeader = document.createElement('div');
-        this.element.cardHeader.classList.add('card-header');
-        this.element.card.append(this.element.cardHeader);
+        this.element.card.header = document.createElement('div');
+        this.element.card.header.classList.add('card-header');
+        this.element.card.card.append(this.element.card.header);
 
-        this.element.cardHeaderRow = document.createElement('div');
-        this.element.cardHeaderRow.classList.add('row', 'align-items-center');
-        this.element.cardHeader.append(this.element.cardHeaderRow);
+        this.element.card.headerRow = document.createElement('div');
+        this.element.card.headerRow.classList.add('row', 'align-items-center');
+        this.element.card.header.append(this.element.card.headerRow);
 
-        this.element.cardHeaderHeadingCol = document.createElement('div');
-        this.element.cardHeaderHeadingCol.classList.add('col');
-        this.element.cardHeaderRow.append(this.element.cardHeaderHeadingCol);
+        this.element.card.headerHeadingCol = document.createElement('div');
+        this.element.card.headerHeadingCol.classList.add('col');
+        this.element.card.headerRow.append(this.element.card.headerHeadingCol);
 
-        this.element.cardHeaderHeading = document.createElement('h3');
-        this.element.cardHeaderHeading.classList.add('h5');
-        this.element.cardHeaderHeading.classList.add('mb-0');
-        this.element.cardHeaderHeadingCol.append(this.element.cardHeaderHeading);
+        this.element.card.headerHeading = document.createElement('h3');
+        this.element.card.headerHeading.classList.add('h5');
+        this.element.card.headerHeading.classList.add('mb-0');
+        this.element.card.headerHeadingCol.append(this.element.card.headerHeading);
 
-        this.element.cardHeaderExtraCol = document.createElement('div');
-        this.element.cardHeaderExtraCol.classList.add('col-auto', 'pe-0');
-        this.element.cardHeaderRow.append(this.element.cardHeaderExtraCol);
+        this.element.card.headerExtraCol = document.createElement('div');
+        this.element.card.headerExtraCol.classList.add('col-auto', 'pe-0');
+        this.element.card.headerRow.append(this.element.card.headerExtraCol);
 
-        this.element.cardHeaderEditCol = document.createElement('div');
-        this.element.cardHeaderEditCol.classList.add('col-auto');
-        this.element.cardHeaderRow.append(this.element.cardHeaderEditCol);
+        this.element.card.headerEditCol = document.createElement('div');
+        this.element.card.headerEditCol.classList.add('col-auto');
+        this.element.card.headerRow.append(this.element.card.headerEditCol);
 
-        this.element.cardBody = document.createElement('div');
-        this.element.cardBody.classList.add('card-body');
-        this.element.card.append(this.element.cardBody);
+        this.element.card.body = document.createElement('div');
+        this.element.card.body.classList.add('card-body');
+        this.element.card.card.append(this.element.card.body);
 
-        if(debug){this.displayDebug();}
+        if(debug){this.debug();}
     }
     /**
-     * Редактировать
+     * Редактировать затрату
      */
     edit() {
         console.log('edit');
-        if(this.value.inputGroup != null) {
-            this.value.inputGroup.remove();
+        if(this.element.value.inputGroup != null) {
+            this.element.value.inputGroup.remove();
         }
         
-        if(this.name.value == null) {
-            this.element.cardHeaderHeading.textContent = this.caption.newTitle;
-            this.name.value = '';
+        if(this.name == null) {
+            this.element.card.headerHeading.textContent = this.caption.newTitle;
+            this.name = '';
         } else {
-            this.element.cardHeaderHeading.textContent = this.caption.editTitle;
+            this.element.card.headerHeading.textContent = this.caption.editTitle;
         }
 
-        this.element.cardHeaderDeleteButton = document.createElement('button');
-        this.element.cardHeaderDeleteButton.classList.add('btn', 'btn-danger', 'btn-sm');
-        this.element.cardHeaderDeleteButton.setAttribute('type', 'button');
-        this.element.cardHeaderDeleteButton.innerHTML = this.caption.iconTrash;
-        this.element.cardHeaderEditCol.append(this.element.cardHeaderDeleteButton);
+        this.element.card.headerDeleteButton = document.createElement('button');
+        this.element.card.headerDeleteButton.classList.add('delete__btn', 'btn', 'btn-danger', 'btn-sm');
+        this.element.card.headerDeleteButton.setAttribute('type', 'button');
+        this.element.card.headerDeleteButton.innerHTML = this.caption.iconTrash;
+        this.element.card.headerEditCol.append(this.element.card.headerDeleteButton);
 
-        this.element.cardHeaderDeleteButton.addEventListener('click', (event) => {
-            // this.element.section.remove();
+        this.element.card.headerDeleteButton.addEventListener('click', (event) => {
             this.delete();
         })
-        
-        // this.name.form = document.createElement('form');
-        // this.name.form.classList.add('needs-validation');
-        // this.name.form.setAttribute('novalidate','')
-        // this.element.cardBody.append(this.name.form);
 
-        this.name.inputGroup = document.createElement('div');
-        this.name.inputGroup.classList.add('input-group');
-        this.name.inputGroup.classList.add('mb-2');
-        this.element.cardBody.append(this.name.inputGroup);
+        this.element.name.block = document.createElement('div');
+        this.element.name.block.classList.add('name');
+        this.element.card.body.append(this.element.name.block);
 
-        this.name.formFloating = document.createElement('div');
-        this.name.formFloating.classList.add('form-floating');
-        this.name.inputGroup.append(this.name.formFloating);
+        this.element.name.inputGroup = document.createElement('div');
+        this.element.name.inputGroup.classList.add('name__input-group' ,'input-group');
+        this.element.name.inputGroup.classList.add('mb-2');
+        this.element.name.block.append(this.element.name.inputGroup);
 
-        this.name.inputFormControl = document.createElement('input');
-        this.name.inputFormControl.classList.add('form-control');
+        this.element.name.formFloating = document.createElement('div');
+        this.element.name.formFloating.classList.add('name__form-floating', 'form-floating');
+        this.element.name.inputGroup.append(this.element.name.formFloating);
+
+        this.element.name.inputFormControl = document.createElement('input');
+        this.element.name.inputFormControl.classList.add('name__form-control', 'form-control');
         // this.name.inputFormControl.classList.add('border', 'border-primary-subtle', 'focus-ring', 'focus-ring-primary');
-        this.name.inputFormControl.setAttribute('type', 'text');
-        this.name.inputFormControl.setAttribute('id', this.id);
-        this.name.inputFormControl.setAttribute('placeholder', null);
-        this.name.inputFormControl.setAttribute('required', '');
-        if(this.name.value != '') {
-            this.name.inputFormControl.setAttribute('value', this.name.value);
+        this.element.name.inputFormControl.setAttribute('type', 'text');
+        this.element.name.inputFormControl.setAttribute('id', 'name-' + this.id);
+        this.element.name.inputFormControl.setAttribute('placeholder', null);
+        this.element.name.inputFormControl.setAttribute('required', '');
+        if(this.name != '') {
+            this.element.name.inputFormControl.setAttribute('value', this.name);
         }
-        this.name.formFloating.append(this.name.inputFormControl);
-        this.name.inputFormControl.focus();
-        this.name.inputFormControl.selectionStart = this.name.inputFormControl.value.length;
+        this.element.name.formFloating.append(this.element.name.inputFormControl);
+        this.element.name.inputFormControl.focus();
+        this.element.name.inputFormControl.selectionStart = this.element.name.inputFormControl.value.length;
 
-        this.name.labelForInputFormControl = document.createElement('label');
-        // this.name.labelForInputFormControl.classList.add('form-control-label');
-        this.name.labelForInputFormControl.setAttribute('for', this.id);
-        this.name.labelForInputFormControl.textContent = this.caption.newInputPlaceholder;
-        this.name.formFloating.append(this.name.labelForInputFormControl);
+        this.element.name.labelForInputFormControl = document.createElement('label');
+        this.element.name.labelForInputFormControl.classList.add('name__label');
+        this.element.name.labelForInputFormControl.setAttribute('for', 'name-' + this.id);
+        this.element.name.labelForInputFormControl.textContent = this.caption.newInputPlaceholder;
+        this.element.name.formFloating.append(this.element.name.labelForInputFormControl);
 
-        this.name.saveButton = document.createElement('button');
-        this.name.saveButton.classList.add('btn', 'btn-primary');
-        this.name.saveButton.setAttribute('type', 'button');
-        this.name.saveButton.innerHTML = this.caption.iconCheck;
-        this.name.inputGroup.append(this.name.saveButton);
+        this.element.name.saveButton = document.createElement('button');
+        this.element.name.saveButton.classList.add('name__btn', 'btn', 'btn-primary');
+        this.element.name.saveButton.setAttribute('type', 'button');
+        this.element.name.saveButton.innerHTML = this.caption.iconCheck;
+        this.element.name.inputGroup.append(this.element.name.saveButton);
 
-        this.name.saveButton.addEventListener('click', (event) => {
-            console.log(event);
+        this.element.name.saveButton.addEventListener('click', (event) => {
+            // console.log(event);
             this.saveName();
         }, false);
-        this.name.inputFormControl.addEventListener('keypress', (event) => {
-            this.name.labelForInputFormControl.classList.remove('text-danger');
+        this.element.name.inputFormControl.addEventListener('keypress', (event) => {
+            this.element.name.labelForInputFormControl.classList.remove('text-danger');
             if(event.key === 'Enter') {
                 this.saveName();
             }
@@ -200,169 +197,120 @@ export class Expenditure {
 
     }
     /**
-     * Сохранить имя
+     * Сохранить название затраты
      */
     saveName() {
-        if(this.name.inputFormControl.value.length !== 0) {
-            this.name.value = this.name.inputFormControl.value;
-            this.element.cardHeaderHeading.textContent = this.name.value;
-            this.name.inputGroup.remove()
+        if(this.element.name.inputFormControl.value.length !== 0) {
+            this.name = this.element.name.inputFormControl.value;
+            this.element.card.headerHeading.textContent = this.name;
+            this.element.name.inputGroup.remove()
             this.show();
         } else {
-
-
-
-// <div class="invalid-feedback">Example invalid feedback text</div>
-            // alert('Введите название!');
-            this.name.labelForInputFormControl.classList.add('text-danger');
-            this.name.inputFormControl.focus();
+            this.element.name.labelForInputFormControl.classList.add('text-danger');
+            this.element.name.inputFormControl.focus();
         }
     }
 
     /**
-     * Вывести
+     * Вывести затрату
      */
     show() {
 
         console.log('show');
 
-        console.log(this.name.value);
+        console.log(this.name);
 
-        if(this.element.cardHeaderDeleteButton !== undefined) {
-            this.element.cardHeaderDeleteButton.remove();
+        if(this.element.card.headerDeleteButton !== undefined) {
+            this.element.card.headerDeleteButton.remove();
         }
 
-        if(this.name.value == null) {
-            this.element.cardHeaderHeading.textContent = this.caption.newTitle;
+        if(this.name == null) {
+            this.element.card.headerHeading.textContent = this.caption.newTitle;
         } else {
-            this.element.cardHeaderHeading.textContent = this.name.value;
+            this.element.card.headerHeading.textContent = this.name;
         }
 
-        this.element.cardHeaderEditButton = document.createElement('button');
-        this.element.cardHeaderEditButton.classList.add('btn', 'btn-outline-secondary', 'btn-sm', 'border-0');
-        this.element.cardHeaderEditButton.setAttribute('type', 'button');
-        this.element.cardHeaderEditButton.innerHTML = this.caption.iconPencil;
-        this.element.cardHeaderEditCol.append(this.element.cardHeaderEditButton);
+        this.element.card.headerEditButton = document.createElement('button');
+        this.element.card.headerEditButton.classList.add('edit__btn', 'btn', 'btn-outline-secondary', 'btn-sm', 'border-0');
+        this.element.card.headerEditButton.setAttribute('type', 'button');
+        this.element.card.headerEditButton.innerHTML = this.caption.iconPencil;
+        this.element.card.headerEditCol.append(this.element.card.headerEditButton);
 
-        this.element.cardHeaderEditButton.addEventListener('click', (event) => {
-            this.element.cardHeaderEditButton.remove();
-            // this.element.cardHeaderHeading.remove();
+        this.element.card.headerEditButton.addEventListener('click', (event) => {
+            this.element.card.headerEditButton.remove();
             this.edit();
         })
         this.showValue();
     }
 
     /**
-     * Вывести значение
+     * Вывести значение затраты
      */
     showValue() {
-        this.value.inputGroup = document.createElement('div');
-        this.value.inputGroup.classList.add('input-group');
-        this.value.inputGroup.classList.add('mb-2');
-        this.element.cardBody.append(this.value.inputGroup);
+        this.element.value.block = document.createElement('div');
+        this.element.value.block.classList.add('value');
+        this.element.card.body.append(this.element.value.block);
 
-        this.value.formFloating = document.createElement('div');
-        this.value.formFloating.classList.add('form-floating');
-        this.value.inputGroup.append(this.value.formFloating);
+        this.element.value.inputGroup = document.createElement('div');
+        this.element.value.inputGroup.classList.add('value__input-group', 'input-group');
+        this.element.value.inputGroup.classList.add('mb-2');
+        this.element.value.block.append(this.element.value.inputGroup);
 
-        this.value.inputFormControl = document.createElement('input');
-        this.value.inputFormControl.classList.add('form-control');
-        // this.value.inputFormControl.classList.add('border', 'border-light-subtle', 'focus-ring', 'focus-ring-secondary');
-        this.value.inputFormControl.setAttribute('type', 'number');
-        this.value.inputFormControl.setAttribute('min', '0');
-        this.value.inputFormControl.setAttribute('step', '0.01')
-        this.value.inputFormControl.setAttribute('id', this.id);
-        this.value.inputFormControl.setAttribute('placeholder', null);
-        if(this.value.value !== undefined) {
-            this.value.inputFormControl.setAttribute('value', this.value.value);
+        this.element.value.formFloating = document.createElement('div');
+        this.element.value.formFloating.classList.add('value__form-floating', 'form-floating');
+        this.element.value.inputGroup.append(this.element.value.formFloating);
+
+        this.element.value.inputFormControl = document.createElement('input');
+        this.element.value.inputFormControl.classList.add('value__form-control', 'form-control');
+        this.element.value.inputFormControl.setAttribute('type', 'number');
+        this.element.value.inputFormControl.setAttribute('min', '0');
+        this.element.value.inputFormControl.setAttribute('step', '0.01')
+        this.element.value.inputFormControl.setAttribute('id', 'value-' + this.id);
+        this.element.value.inputFormControl.setAttribute('placeholder', null);
+        if(this.value !== undefined) {
+            this.element.value.inputFormControl.setAttribute('value', this.value);
         }
-        this.value.formFloating.append(this.value.inputFormControl);
-        this.value.inputFormControl.focus();
-        // this.value.inputFormControl.selectionStart = this.value.inputFormControl.value.length;
+        this.element.value.formFloating.append(this.element.value.inputFormControl);
+        this.element.value.inputFormControl.focus();
 
-        this.value.labelForInputFormControl = document.createElement('label');
-        // this.name.labelForInputFormControl.classList.add('form-control-label');
-        this.value.labelForInputFormControl.setAttribute('for', this.id);
-        this.value.labelForInputFormControl.textContent = this.caption.valueTitle;
-        this.value.formFloating.append(this.value.labelForInputFormControl);
+        this.element.value.labelForInputFormControl = document.createElement('label');
+        this.element.value.labelForInputFormControl.classList.add('value-label');
+        this.element.value.labelForInputFormControl.setAttribute('for', 'value-' + this.id);
+        this.element.value.labelForInputFormControl.textContent = this.caption.valueTitle;
+        this.element.value.formFloating.append(this.element.value.labelForInputFormControl);
 
-        this.value.inputFormControl.addEventListener('input', (event) => {
-            this.value.value = this.value.inputFormControl.value;
+        this.element.value.inputFormControl.addEventListener('input', (event) => {
+            this.value = Number(this.element.value.inputFormControl.value).toFixed(2);
             console.log(this.value);
         })
     }
-
+    /**
+     * Удалить затрату
+     */
     delete() {
-        // this.storage.index = this.storage.data.indexOf(this);
-        // this.storage.data.splice(this.storage.index, 1);
-        this.storage.data.splice(this.storage.data.indexOf(this), 1);
 
-        this.element.section.remove();
-        this.element.cardHeaderHeading.classList.add('text-danger');
-        console.log('this.storage.data:')
-        console.log(this.storage.data);
+        this.storage.splice(this.storage.indexOf(this), 1);
+
+        this.element.block.remove();
+
+        console.log('this.storage:')
+        console.log(this.storage);
             
 
     }
-
-    displayDebug() {
-        this.checkButton.button = document.createElement('button');
-        this.checkButton.button.classList.add('btn', 'btn-info', 'btn-sm');
-        this.checkButton.button.setAttribute('type', 'button');
-        this.checkButton.button.innerHTML = this.checkButton.title;
-        this.element.cardHeaderExtraCol.append(this.checkButton.button);
-        this.checkButton.button.addEventListener('click', (event) => {
+    /**
+     * Отладка
+     */
+    debug() {
+        this.debugButton = document.createElement('button');
+        this.debugButton.classList.add('debug__btn', 'btn', 'btn-info', 'btn-sm');
+        this.debugButton.setAttribute('type', 'button');
+        this.debugButton.innerHTML = '<i class="bi bi-question-lg"></i>';
+        this.element.card.headerExtraCol.append(this.debugButton);
+        this.debugButton.addEventListener('click', (event) => {
+            console.log('this.storage:')
             console.log(this.storage);
         })
 
     }
 }
-
-
-    // ---
-
-//     captionNew = 'Новая затрата';
-//     captionNewName = 'Введите название';
-//     // captionSaveName = 'Сохранить';
-//     captionSaveName = '<i class="bi bi-check"></i>';
-//     captionEdit = '<i class="bi bi-pencil-fill"></i>';
-
-//     id = new Date().getTime();
-
-//     constructor(name, value) {
-
-//         // this.value = value.toFixed(2);
-//         this.section = this.displayExpenditure('expenditure');
-
-//         this.card = this.displayCard(this.section);
-
-//         this.cardHeader = this.displayCardHeader(this.card);
-//         this.cardHeaderRow = this.displayRow(this.cardHeader, 'align-items-center');
-//         this.cardHeaderHeadingCol = this.displayCol(this.cardHeaderRow, 'col');
-//         this.cardHeaderHeading = this.displayCardHeaderHeading(this.cardHeaderHeadingCol, this.captionNew);
-
-//         this.cardBody = this.displayCardBody(this.card);
-
-//         this.nameInputGroup = this.displayInputGroup(this.cardBody);
-//         this.nameFormFloating = this.displayFormFloating(this.nameInputGroup);
-//         this.nameInputFormControl = this.displayFormControlText(this.nameFormFloating, this.id);
-//         this.nameLabelForInputFormControl = this.displayLabel(this.nameFormFloating, this.id, this.captionNewName);
-
-//         this.settingsSaveButton = this.displayButton(this.nameInputGroup, 'button', 'btn-primary', this.captionSaveName);
-//         this.settingsSaveButton.addEventListener('click', (event) => {
-//             this.cardHeaderHeading.textContent = this.nameInputFormControl.value;
-//             this.removeElement(this.nameInputGroup)
-//             this.cardHeaderEditCol = this.displayCol(this.cardHeaderRow, 'col-auto');
-//             this.cardHeaderEditButton = this.displayButton(this.cardHeaderEditCol, 'button', 'btn-outline-secondary', this.captionEdit, 'btn-sm');
-//             this.cardHeaderEditButton.addEventListener('click', (event) => {
-//                 this.cardHeaderEditCol.remove()
-//                 this.nameInputGroup = this.displayInputGroup(this.cardBody);
-//                 this.nameFormFloating = this.displayFormFloating(this.nameInputGroup);
-//                 this.nameInputFormControl = this.displayFormControlText(this.nameFormFloating, this.id);
-//                 this.nameLabelForInputFormControl = this.displayLabel(this.nameFormFloating, this.id, this.captionNewName);
-//                 this.settingsSaveButton = this.displayButton(this.nameInputGroup, 'button', 'btn-primary', this.captionSaveName);
-//             })
-//         })
-//         console.log(this);
-//     }
-// }

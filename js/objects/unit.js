@@ -21,7 +21,7 @@ export class Unit {
             console.log('unit.expenditure.storage:');
             console.log(this.expenditures.storage);
         })
-        if(debug){this.displayDebug();}
+        if(debug){this.debug();}
     }
     
     expenditures = {
@@ -33,14 +33,14 @@ export class Unit {
     commissions = Object();
     fees = new Object();
 
-    displayDebug() {
+    debug() {
         console.log('displayButton');
-        this.checkButton.button = document.createElement('button');
-        this.checkButton.button.setAttribute('type', 'button');
-        this.checkButton.button.classList.add('btn', 'btn-info');
-        this.checkButton.button.innerHTML = '<i class="bi bi-question-lg"></i>';
-        document.querySelector('.costs + .add .text-center').append(this.checkButton.button);
-        this.checkButton.button.addEventListener('click', () => {
+        this.debugButton = document.createElement('button');
+        this.debugButton.setAttribute('type', 'button');
+        this.debugButton.classList.add('btn', 'btn-info');
+        this.debugButton.innerHTML = '<i class="bi bi-question-lg"></i>';
+        document.querySelector('.costs + .add .text-center').append(this.debugButton);
+        this.debugButton.addEventListener('click', () => {
             console.log(this.expenditures.storage);
         })
     }
