@@ -7,6 +7,11 @@ export class Commission extends Expenditure {
         super(expenditure, name);
         this.percent = Number(percent);
 
+        Object.defineProperties(this.element.name, {
+            newTitle: {value: 'Новая комиссия'},
+            editTitle: {value: 'Редактировать комиссию'},
+        });
+
         this.create(this.type);
         if(this.name == null) {
             this.edit();

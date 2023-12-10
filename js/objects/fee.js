@@ -7,6 +7,11 @@ export class Fee extends Expenditure {
         super(expenditure, name);
         this.value = Number(value);
 
+        Object.defineProperties(this.element.name, {
+            newTitle: {value: 'Новый тариф'},
+            editTitle: {value: 'Редактировать тариф'},
+        });
+
         this.create(this.type);
         if(this.name == null) {
             this.edit();
