@@ -53,6 +53,7 @@ export class Expenditure {
             newTitle: 'Новая затрата',
             editTitle: 'Редактировать затрату',
             inputTitle: 'Введите название',
+            errorIcon: '<i class="bi bi-exclamation-circle-fill"></i>',
         },
         /** HTML-элементы значения */
         value: {
@@ -183,8 +184,17 @@ export class Expenditure {
         this.element.name.labelForInputFormControl = document.createElement('label');
         this.element.name.labelForInputFormControl.classList.add('name__label');
         this.element.name.labelForInputFormControl.setAttribute('for', 'name-' + this.id);
-        this.element.name.labelForInputFormControl.textContent = this.element.name.inputTitle;
+        // this.element.name.labelForInputFormControl.textContent = this.element.name.inputTitle;
         this.element.name.formFloating.append(this.element.name.labelForInputFormControl);
+
+        this.element.name.labelIcon = document.createElement('span');
+        this.element.name.labelIcon.classList.add('name__label-icon');
+        this.element.name.labelForInputFormControl.append(this.element.name.labelIcon);
+
+        this.element.name.labelText = document.createElement('span');
+        this.element.name.labelText.classList.add('name__label-text');
+        this.element.name.labelText.innerHTML = this.element.name.inputTitle;
+        this.element.name.labelForInputFormControl.append(this.element.name.labelText);
 
         this.element.name.saveButton = document.createElement('button');
         this.element.name.saveButton.classList.add('name__btn', 'btn', 'btn-primary');
@@ -198,6 +208,7 @@ export class Expenditure {
             this.saveName();
         }, false);
         this.element.name.inputFormControl.addEventListener('keypress', (event) => {
+            this.element.name.labelIcon.innerHTML = '';
             this.element.name.labelForInputFormControl.classList.remove('text-danger');
             if(event.key === 'Enter') {
                 this.saveName();
@@ -215,6 +226,7 @@ export class Expenditure {
             this.element.name.inputGroup.remove()
             this.show();
         } else {
+            this.element.name.labelIcon.innerHTML = this.element.name.errorIcon + ' ';
             this.element.name.labelForInputFormControl.classList.add('text-danger');
             this.element.name.inputFormControl.focus();
         }
