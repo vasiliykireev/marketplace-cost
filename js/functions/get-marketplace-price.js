@@ -90,7 +90,7 @@ export function getMaketplacePrice(wholesalePrice, costs, commissions, fees) {
     /** Цена для маркетплейсов */
     let result = (wholesalePrice + sumCosts + sumFees) / (1 - sumCommissions / 100); // Результат равен сумме оптовой цены, расходов и прибыли и тарифов маркетплейса, деленых на разницу 1 (100%) и суммы процентов комиссий маркетплейсов
     result = roundToHundredths(result);
-    if (logs) {console.log('result: ' + result);}
+    if (logs) {console.log('marketplace price: ' + result);}
     if (logs) {console.log('retailPrice done!');}
     if (logs) {console.log('');}
 
