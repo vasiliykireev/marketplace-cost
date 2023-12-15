@@ -21,7 +21,8 @@ export class Expenditure {
  * @param {String} name Название затраты
 //  * @param {Number} value Значение затраты
  */
-    constructor(expenditure, name) {
+    constructor(unit, expenditure, name) {
+        this.unit = unit;
         this.type = expenditure.type;
         this.container = expenditure.container;
         this.storage = expenditure.storage;
@@ -338,8 +339,8 @@ export class Expenditure {
         this.debugButton.innerHTML = '<i class="bi bi-question-lg"></i>';
         this.element.card.headerExtraCol.append(this.debugButton);
         this.debugButton.addEventListener('click', (event) => {
-            console.log('this.storage:')
-            console.log(this.storage);
+            console.log('expenditure debug:')
+            console.log(this);
         })
 
     }

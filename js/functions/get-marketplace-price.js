@@ -21,6 +21,7 @@ export function getMaketplacePrice(wholesalePrice, costs, commissions, fees) {
         console.log(commissions)
         console.log(fees);
     }
+    wholesalePrice = Number(wholesalePrice);
     let sumCommissions = new Number();
     let sumCosts = new Number();
     let sumFees = new Number();

@@ -14,12 +14,14 @@ if(logs){console.log('wholesale-price.js');}
 let debug = true;
 
 export class WholesalePrice {
-    constructor(value) {
-        this.value = value;
+    constructor(unit, value) {
+        this.unit = unit;
+        this.value = Number(value);
         this.input.value = this.value;
         this.input.addEventListener('input', (event) => {
             this.value = this.input.value;
             console.log(this);
+            this.unit.marketplacePrice.change(this.unit);
         })
         return this;
     }

@@ -2,4 +2,4 @@
 
 import { Unit } from './js/objects/unit.js';
 
-new Unit();
+export const UNIT = new Unit();

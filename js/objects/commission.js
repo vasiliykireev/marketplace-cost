@@ -3,8 +3,8 @@
 import { Expenditure } from "./expenditure.js";
 
 export class Commission extends Expenditure {
-    constructor(expenditure, name, percent){
-        super(expenditure, name);
+    constructor(unit, expenditure, name, percent){
+        super(unit, expenditure, name);
         this.percent = Number(percent);
 
         Object.defineProperties(this.element.name, {
@@ -59,6 +59,7 @@ export class Commission extends Expenditure {
         this.element.percent.inputFormControl.addEventListener('input', (event) => {
             this.percent = Number(this.element.percent.inputFormControl.value);
             console.log(this.percent);
+            this.unit.marketplacePrice.change(this.unit);
         })
 
         return this.element.percent.block;

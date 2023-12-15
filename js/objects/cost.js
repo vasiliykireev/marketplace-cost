@@ -1,10 +1,11 @@
 'use strict';
 
 import { Expenditure } from "./expenditure.js";
+import { UNIT } from "../../script2.js";
 
 export class Cost extends Expenditure {
-    constructor(expenditure, name, value){
-        super(expenditure, name);
+    constructor(unit, expenditure, name, value){
+        super(unit, expenditure, name);
         this.value = Number(value);
 
         Object.defineProperties(this.element.name, {
@@ -62,8 +63,8 @@ export class Cost extends Expenditure {
         this.element.value.inputFormControl.addEventListener('input', (event) => {
             this.value = Number(this.element.value.inputFormControl.value);
             console.log(this.value);
+            this.unit.marketplacePrice.change(this.unit);
         })
-
         return this.element.value.block;
     }
 }

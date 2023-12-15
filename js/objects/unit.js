@@ -21,24 +21,23 @@ let debug = true;
 export class Unit {
     constructor() {
 
-        const cost10 = new Cost(this.costs, 'Расход 10', 10);
+        const cost10 = new Cost(this, this.costs, 'Расход 10', 10);
         this.costs.buttonAdd.addEventListener('click', () => {
-            const costNull = new Cost(this.costs, null, null);
+            const costNull = new Cost(this, this.costs, null, null);
         })
         if(debug){this.debugCosts();}
 
-        const commission20 = new Commission(this.commissions, 'Комиссия 1', 1);
+        const commission20 = new Commission(this, this.commissions, 'Комиссия 1', 1);
         this.commissions.buttonAdd.addEventListener('click', () => {
-            const commissionNull = new Commission(this.commissions, null, null);
+            const commissionNull = new Commission(this, this.commissions, null, null);
         })
-        // if(debug){this.debugCommissions();}
 
-        const fees30 = new Fee(this.fees, 'Тариф 30', 30);
+        const fees30 = new Fee(this, this.fees, 'Тариф 30', 30);
         this.fees.buttonAdd.addEventListener('click', () => {
-            const feeNull = new Fee(this.fees, null, null);
+            const feeNull = new Fee(this, this.fees, null, null);
         })
 
-        this.wholesalePrice = new WholesalePrice(10000);
+        this.wholesalePrice = new WholesalePrice(this, 10000);
 
         this.marketplacePrice = new MarketplacePrice(this);
 
@@ -73,7 +72,7 @@ export class Unit {
         this.debugCostsButton.innerHTML = '<i class="bi bi-question-lg"></i>';
         document.querySelector('.costs + .add .text-center').append(this.debugCostsButton);
         this.debugCostsButton.addEventListener('click', () => {
-            console.log(this.costs.storage);
+            console.log(this);
         })
     }
 

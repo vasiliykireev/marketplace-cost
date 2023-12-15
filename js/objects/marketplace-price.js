@@ -17,8 +17,20 @@ let debug = true;
 
 export class MarketplacePrice {
     constructor(unit) {
-        this.input.value = getMaketplacePrice(unit.wholesalePrice.value, unit.costs.storage, unit.commissions.storage, unit.fees.storage);
+        this.value = getMaketplacePrice(unit.wholesalePrice.value, unit.costs.storage, unit.commissions.storage, unit.fees.storage);
+        this.input.value = this.value;
         return this;
     }
     input = document.querySelector('.retail-price__value');
+    value = new Number();
+
+    // set value(unit) {
+    //     this._value = getMaketplacePrice(unit.wholesalePrice.value, unit.costs.storage, unit.commissions.storage, unit.fees.storage)
+
+    // }
+
+    change(unit) {
+        this.value = getMaketplacePrice(unit.wholesalePrice.value, unit.costs.storage, unit.commissions.storage, unit.fees.storage);
+        this.input.value = this.value;
+    }
 }
