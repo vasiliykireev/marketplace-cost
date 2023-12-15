@@ -15,11 +15,13 @@ let debug = true;
 
 export class WholesalePrice {
     constructor(value) {
-        this.input.value = value;
+        this.value = value;
+        this.input.value = this.value;
         this.input.addEventListener('input', (event) => {
-            this.wholesalePrice.value = this.wholesalePrice.input.value;
-            console.log(this.wholesalePrice);
+            this.value = this.input.value;
+            console.log(this);
         })
+        return this;
     }
     input = document.querySelector('.wholesale-price__number');
     value = new Number();

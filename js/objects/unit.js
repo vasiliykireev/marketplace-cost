@@ -1,10 +1,12 @@
 'use strict';
 
-import { Expenditure } from './expenditure.js';
+import { WholesalePrice } from './wholesale-price.js';
+import { MarketplacePrice } from './marketplace-price.js';
+
 import { Cost } from './cost.js';
 import { Commission } from './commission.js';
 import { Fee } from './fee.js';
-import { WholesalePrice } from './wholesale-price.js';
+
 
 /**
  * Логи
@@ -18,8 +20,6 @@ let debug = true;
 
 export class Unit {
     constructor() {
-
-        const wholesalePrice = new WholesalePrice(10000);
 
         const cost10 = new Cost(this.costs, 'Расход 10', 10);
         this.costs.buttonAdd.addEventListener('click', () => {
@@ -38,12 +38,12 @@ export class Unit {
             const feeNull = new Fee(this.fees, null, null);
         })
 
+        this.wholesalePrice = new WholesalePrice(10000);
+
+        this.marketplacePrice = new MarketplacePrice(this);
+
+
     }
-    
-    // expenditures = {
-    //     buttonAdd: document.querySelector('.add__cost'),
-    //     storage: new Array(),
-    // };
 
     costs = {
         type: 'cost',
