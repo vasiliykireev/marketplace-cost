@@ -4,6 +4,7 @@ import { Expenditure } from './expenditure.js';
 import { Cost } from './cost.js';
 import { Commission } from './commission.js';
 import { Fee } from './fee.js';
+import { WholesalePrice } from './wholesale-price.js';
 
 /**
  * Логи
@@ -17,12 +18,8 @@ let debug = true;
 
 export class Unit {
     constructor() {
-        this.wholesalePrice.value = 1000;
-        this.wholesalePrice.input.value = this.wholesalePrice.value;
-        this.wholesalePrice.input.addEventListener('input', (event) => {
-            this.wholesalePrice.value = this.wholesalePrice.input.value;
-            console.log(this.wholesalePrice);
-        })
+
+        const wholesalePrice = new WholesalePrice(10000);
 
         const cost10 = new Cost(this.costs, 'Расход 10', 10);
         this.costs.buttonAdd.addEventListener('click', () => {
@@ -67,11 +64,6 @@ export class Unit {
         buttonAdd: document.querySelector('.add__fee'),
         container: document.querySelector('.fees'),
         storage: new Array(),
-    }
-
-    wholesalePrice = {
-        input: document.querySelector('.wholesale-price__number'),
-        value: new Number(),
     }
 
     debugCosts() {
