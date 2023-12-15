@@ -11,7 +11,7 @@ if(logs){console.log('expenditure.js');}
  * Отладка
  * @type {boolean} true: включена, false: выключена
  */
-let debug = true;
+let debug = false;
 
 /** Затрата */
 export class Expenditure {
