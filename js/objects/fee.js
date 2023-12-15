@@ -3,7 +3,24 @@
 import { Expenditure } from "./expenditure.js";
 import { roundToHundredths } from "../functions/round-to-hundredths.js";
 
+/**
+ * Логи
+ * @type {boolean} true: выводить, false: не выводить
+ */
+let logs = true;
+if(logs){console.log('commission.js');}
+
+/**
+ * Тариф
+ */
 export class Fee extends Expenditure {
+    /**
+     * Создает тариф. Выводит тариф, но если не заполнено имя, выводит редактирование затраты.
+     * @param {Object} unit Объект юнита для расчета экономики
+     * @param {Object} expenditure Объект типа затраты
+     * @param {String} name Название тарифа
+     * @param {String} value Значение тарифа
+     */
     constructor(unit, expenditure, name, value){
         super(unit, expenditure, name);
         this.value = roundToHundredths(value);
@@ -21,7 +38,20 @@ export class Fee extends Expenditure {
         }
     }
 
+    /** Значение тарифа */
+    value = new Number();
+
+    /**
+     * Вывести значение тарифа
+     * - Выводит значение тарифа
+     * - При изменении значения меняет значение тарифа и пересчитывает юнит-экономику
+     */
     showValue() {
+        if(logs){
+            console.log('fee showValue:');
+            console.log(this.value);
+        }
+
         this.element.value.block = document.createElement('div');
         this.element.value.block.classList.add('value');
         this.element.card.body.append(this.element.value.block);
@@ -60,6 +90,8 @@ export class Fee extends Expenditure {
             console.log(this.value);
             this.unit.marketplacePrice.change(this.unit);
         })
+
+        if(logs){console.log('');}
 
         return this.element.value.block;
     }

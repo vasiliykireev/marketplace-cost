@@ -3,7 +3,24 @@
 import { Expenditure } from "./expenditure.js";
 import { roundToHundredths } from "../functions/round-to-hundredths.js";
 
+/**
+ * Логи
+ * @type {boolean} true: выводить, false: не выводить
+ */
+let logs = true;
+if(logs){console.log('commission.js');}
+
+/**
+ * Комиссия
+ */
 export class Commission extends Expenditure {
+    /**
+     * Создает комиссию. Выводит комиссию, но если не заполнено имя, выводит редактирование затраты.
+     * @param {Object} unit Объект юнита для расчета экономики
+     * @param {Object} expenditure Объект типа комиссии
+     * @param {String} name Название комиссии
+     * @param {Number} percent Процент комиссии
+     */
     constructor(unit, expenditure, name, percent){
         super(unit, expenditure, name);
         this.percent = roundToHundredths(percent);
@@ -20,9 +37,21 @@ export class Commission extends Expenditure {
             this.show();
         }
     }
-    // percent = new Number;
 
+    /** Процент комиссии */
+    percent = new Number;
+
+    /**
+     * Вывести значение расхода
+     * - Выводит значение расхода
+     * - При изменении значения меняет значение расхода и пересчитывает юнит-экономику
+     */
     showValue() {
+        if(logs){
+            console.log('commission showValue:');
+            console.log(this.value);
+        }
+
         this.element.percent.block = document.createElement('div');
         this.element.percent.block.classList.add('value');
         this.element.card.body.append(this.element.percent.block);
@@ -62,6 +91,8 @@ export class Commission extends Expenditure {
             console.log(this.percent);
             this.unit.marketplacePrice.change(this.unit);
         })
+
+        if(logs){console.log('');}
 
         return this.element.percent.block;
     }

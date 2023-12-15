@@ -15,6 +15,14 @@ if(logs){console.log('get-marketplace-price.js');}
  */
 let debug = true;
 
+/**
+ * Получить цену для маркетплейсов — суммирует данные расходов, комиссий и тарифов, и считает из них и оптовой цены цену для маркетплейсов
+ * @param {Number} wholesalePrice Оптовая цена
+ * @param {Array} costs Массив с объектами расходов
+ * @param {Array} commissions Массив с объектами комиссий
+ * @param {Array} fees Массив с объектами с тарифами
+ * @returns 
+ */
 export function getMaketplacePrice(wholesalePrice, costs, commissions, fees) {
     if(logs){
         console.log('function getMaketplacePrice:');
@@ -23,9 +31,13 @@ export function getMaketplacePrice(wholesalePrice, costs, commissions, fees) {
         console.log(commissions)
         console.log(fees);
     }
+
     wholesalePrice = roundToHundredths(wholesalePrice);
-    let sumCommissions = new Number();
+    /** Сумма расходов */
     let sumCosts = new Number();
+    /** Сумма комиссий */
+    let sumCommissions = new Number();
+    /** Сумма тарифов */
     let sumFees = new Number();
 
     // /* Заполнение всех свойств расхода */
@@ -75,11 +87,12 @@ export function getMaketplacePrice(wholesalePrice, costs, commissions, fees) {
     })
     if (logs) {console.log('sumFees: ' + sumFees);}
 
-    /* Розничная цена */
+    /** Цена для маркетплейсов */
     let result = (wholesalePrice + sumCosts + sumFees) / (1 - sumCommissions / 100); // Результат равен сумме оптовой цены, расходов и прибыли и тарифов маркетплейса, деленых на разницу 1 (100%) и суммы процентов комиссий маркетплейсов
     result = roundToHundredths(result);
     if (logs) {console.log('result: ' + result);}
     if (logs) {console.log('retailPrice done!');}
+    if (logs) {console.log('');}
+    
     return result;
-    // return 666;
 }

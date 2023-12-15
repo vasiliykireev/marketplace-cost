@@ -8,12 +8,15 @@ let logs = true;
 if(logs){console.log('wholesale-price.js');}
 
 /**
- * Отладка
- * @type {boolean} true: включена, false: выключена
+ * Оптовая цена
  */
-let debug = true;
-
 export class WholesalePrice {
+    /**
+     * Создает оптовую цену
+     * @param {Object} unit Объект юнита для расчета экономики
+     * @param {Number} value Значение оптовой цены
+     * @returns 
+     */
     constructor(unit, value) {
         this.unit = unit;
         this.value = Number(value);
@@ -25,6 +28,8 @@ export class WholesalePrice {
         })
         return this;
     }
+    /** Поле для ввода оптовой цены */
     input = document.querySelector('.wholesale-price__number');
+    /** Значение оптовой цены */
     value = new Number();
 }

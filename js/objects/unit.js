@@ -17,8 +17,13 @@ if(logs){console.log('unit.js');}
 
 let debug = true;
 
-
+/**
+ * Юнит
+ */
 export class Unit {
+    /**
+     * Создает расход, комиссию и тариф, и добавляет создание новых по нажатию на кнопку
+     */
     constructor() {
 
         const cost10 = new Cost(this, this.costs, 'Расход 10', 10);
@@ -43,28 +48,28 @@ export class Unit {
 
 
     }
-
+    /** Данные для расходов */
     costs = {
         type: 'cost',
         buttonAdd: document.querySelector('.add__cost'),
         container: document.querySelector('.costs'),
         storage: new Array(),
     }
-
+    /** Данные для комиссий */
     commissions = {
         type: 'commission',
         buttonAdd: document.querySelector('.add__commission'),
         container: document.querySelector('.commissions'),
         storage: new Array(),
     }
-
+    /** Данные для тарифов */
     fees = {
         type: 'fee',
         buttonAdd: document.querySelector('.add__fee'),
         container: document.querySelector('.fees'),
         storage: new Array(),
     }
-
+    /** Кнопка для отладки */
     debugCosts() {
         this.debugCostsButton = document.createElement('button');
         this.debugCostsButton.setAttribute('type', 'button');

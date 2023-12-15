@@ -13,13 +13,13 @@ if(logs){console.log('expenditure.js');}
  */
 let debug = true;
 
-/** Затраты */
+/** Затрата */
 export class Expenditure {
 /**
  * Создает затрату. Выводит затрату, но если не заполнено имя, выводит редактирование затраты.
- * @param {Array} storage Массив для хранения всех экземпляров класса
+ * @param {Object} unit Объект юнита для расчета экономики
+ * @param {Object} expenditure Объект типа затраты
  * @param {String} name Название затраты
-//  * @param {Number} value Значение затраты
  */
     constructor(unit, expenditure, name) {
         this.unit = unit;
@@ -27,12 +27,9 @@ export class Expenditure {
         this.container = expenditure.container;
         this.storage = expenditure.storage;
         this.name = name;
-        // this.value = value;
     }
     /** Название затраты */
     name = new String();
-    /** Значение затраты */
-    // value = new Number();
     /** Идентификатор затраты: время создания в формате Unix*/
     id = new Date().getTime();
     /** Массив для хранения всех экземпляров затрат */
@@ -76,12 +73,14 @@ export class Expenditure {
      * - Создает карточку затраты
      */
     create(type) {
-        console.log('create');
+        if(logs){console.log('expenditure create:');}
 
         this.storage.push(this);
 
-        console.log('expenditure.storage:');
-        console.log(this.storage);
+        if(logs){
+            console.log('expenditure.storage:');
+            console.log(this.storage);
+        }
 
         this.element.block = document.createElement('div');
         this.element.block.classList.add(type);
@@ -121,17 +120,19 @@ export class Expenditure {
         this.element.card.body.classList.add('card-body');
         this.element.card.card.append(this.element.card.body);
 
-        if(debug){this.debug();}
+        if(debug){this.debug();
+        if(logs){console.log('');}}
     }
     /**
      * Редактировать затрату
      * - Удаляет значение затраты
-     * - Добавляет заголовок 
-     * - Добавляет кнопку удаления
-     * - Добавляет ввод имени
+     * - Выводит заголовок 
+     * - Выводит кнопку удаления
+     * - Выводит ввод имени
      */
     edit() {
-        console.log('edit');
+        if(logs){console.log('expenditure edit:');}
+        
         if(this.element.content != null) {
             this.element.content.remove();
         }
@@ -204,7 +205,6 @@ export class Expenditure {
         this.element.name.inputGroup.append(this.element.name.saveButton);
 
         this.element.name.saveButton.addEventListener('click', (event) => {
-            // console.log(event);
             this.saveName();
         }, false);
         this.element.name.inputFormControl.addEventListener('keypress', (event) => {
@@ -216,11 +216,15 @@ export class Expenditure {
             }
         })
 
+        if(logs){console.log('');}
     }
     /**
      * Сохранить название затраты
+     * Сохраняет значение затраты и удаляет ввод имени. Либо выводит ошибку, если имя не введено.
      */
     saveName() {
+        if(logs){console.log('expenditure saveName');}
+
         if(this.element.name.inputFormControl.value.length !== 0) {
             this.name = this.element.name.inputFormControl.value;
             this.element.card.headerHeading.textContent = this.name;
@@ -231,6 +235,8 @@ export class Expenditure {
             this.element.name.labelForInputFormControl.classList.add('text-danger');
             this.element.name.inputFormControl.focus();
         }
+
+        if(logs){console.log('')};
     }
 
     /**
@@ -240,10 +246,10 @@ export class Expenditure {
      * - Добавляет кнопку редактирования затраты
      */
     show() {
-
-        console.log('show');
-
-        console.log(this.name);
+        if(logs){
+            console.log('expenditure show');
+            console.log(this.name);
+        }
 
         if(this.element.card.headerDeleteButton !== undefined) {
             this.element.card.headerDeleteButton.remove();
@@ -267,6 +273,8 @@ export class Expenditure {
             this.edit();
         })
         this.element.content = this.showValue();
+
+        if(logs){console.log('');}
     }
 
     /**
@@ -317,20 +325,31 @@ export class Expenditure {
      * Удалить затрату
      * - Удаляет затрату из массива для хранения экземпляров затрат
      * - Удаляет HTML-элемент затраты
+     * - Пересчитывает юнит-экономику
      */
     delete() {
+        if(logs){
+            console.log('expenditure delete:')
+            console.log(this);
+        }
 
         this.storage.splice(this.storage.indexOf(this), 1);
 
         this.element.block.remove();
 
-        console.log('this.storage:')
-        console.log(this.storage);
-            
+        this.unit.marketplacePrice.change(this.unit);
 
+        if(logs){
+            console.log('this.storage:')
+            console.log(this.storage);
+        }
+            
+        if(logs){console.log('');}
     }
+
     /**
      * Отладка
+     * Выводит кнопку отладки
      */
     debug() {
         this.debugButton = document.createElement('button');
@@ -339,8 +358,9 @@ export class Expenditure {
         this.debugButton.innerHTML = '<i class="bi bi-question-lg"></i>';
         this.element.card.headerExtraCol.append(this.debugButton);
         this.debugButton.addEventListener('click', (event) => {
-            console.log('expenditure debug:')
+            console.log('expenditure debug:');
             console.log(this);
+            console.log('');
         })
 
     }
