@@ -1,5 +1,7 @@
 'use strict';
 
+import { roundToHundredths } from "./round-to-hundredths.js";
+
 /**
  * Логи
  * @type {boolean} true: выводить, false: не выводить
@@ -21,7 +23,7 @@ export function getMaketplacePrice(wholesalePrice, costs, commissions, fees) {
         console.log(commissions)
         console.log(fees);
     }
-    wholesalePrice = Number(wholesalePrice);
+    wholesalePrice = roundToHundredths(wholesalePrice);
     let sumCommissions = new Number();
     let sumCosts = new Number();
     let sumFees = new Number();
@@ -38,17 +40,25 @@ export function getMaketplacePrice(wholesalePrice, costs, commissions, fees) {
     // });
     /* Сумма расходов */
     costs.forEach(function(cost) { // Для каждого расхода в массиве расходов
+        let costValue = roundToHundredths(cost.value);
         if(logs){
-            console.log('cost.value:');
-            console.log(cost.value)
+            console.log('cost:');
+            console.log(cost);
+            console.log(cost.value);
+            console.log('costValue');
+            console.log(costValue);
+            console.log(typeof(costValue));
+            console.log('sumCosts');
+            console.log(sumCosts);
         };
-        sumCosts = sumCosts + Number(cost.value); // Прибавляем расход в сумму расходов
+        sumCosts = sumCosts + costValue; // Прибавляем расход в сумму расходов
     })
     if (logs) {console.log('sumCosts: ' + sumCosts);}
 
     /* Сумма комиссий */
     commissions.forEach(function(commission) { // Для каждой комиссии в массиве комиссий
-        sumCommissions = sumCommissions + Number(commission.percent); // Прибавляем комиссию в сумму комиссий
+        let commissionValue = roundToHundredths(commission.percent);
+        sumCommissions = sumCommissions + commissionValue; // Прибавляем комиссию в сумму комиссий
     })
     if (sumCommissions >= 100) { // Сумма не может быть больше или равна 100,
         // потому что тогда в расчетах получится отрицательное число,
@@ -60,13 +70,14 @@ export function getMaketplacePrice(wholesalePrice, costs, commissions, fees) {
 
     /* Сумма тарифов */
     fees.forEach(function(fee) { // Для каждого тарифа в массиве тарифов
-        sumFees = sumFees + Number(fee.value); // Прибавляем тариф в сумму тарифов
+        let feeValue = roundToHundredths(fee.value);
+        sumFees = sumFees + feeValue; // Прибавляем тариф в сумму тарифов
     })
     if (logs) {console.log('sumFees: ' + sumFees);}
 
     /* Розничная цена */
     let result = (wholesalePrice + sumCosts + sumFees) / (1 - sumCommissions / 100); // Результат равен сумме оптовой цены, расходов и прибыли и тарифов маркетплейса, деленых на разницу 1 (100%) и суммы процентов комиссий маркетплейсов
-    result = result.toFixed(2);
+    result = roundToHundredths(result);
     if (logs) {console.log('result: ' + result);}
     if (logs) {console.log('retailPrice done!');}
     return result;

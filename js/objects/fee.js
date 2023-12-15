@@ -1,11 +1,12 @@
 'use strict';
 
 import { Expenditure } from "./expenditure.js";
+import { roundToHundredths } from "../functions/round-to-hundredths.js";
 
 export class Fee extends Expenditure {
     constructor(unit, expenditure, name, value){
         super(unit, expenditure, name);
-        this.value = Number(value);
+        this.value = roundToHundredths(value);
 
         Object.defineProperties(this.element.name, {
             newTitle: {value: 'Новый тариф'},
