@@ -76,7 +76,7 @@ export function getMaketplacePrice(wholesalePrice, costs, commissions, fees) {
         // потому что тогда в расчетах получится отрицательное число,
         // потому что сумма комиссий не может превышать стоимость товара.
         console.warn("Сумма комиссий не может быть 100 или больше процентов.");
-        return 0; // Завершаем выполнение функции
+        return 'Ошибка!'; // Завершаем выполнение функции
     }
     if (logs) {console.log('sumCommissions: ' + sumCommissions);}
 
@@ -93,6 +93,6 @@ export function getMaketplacePrice(wholesalePrice, costs, commissions, fees) {
     if (logs) {console.log('result: ' + result);}
     if (logs) {console.log('retailPrice done!');}
     if (logs) {console.log('');}
-    
+
     return result;
 }
