@@ -36,7 +36,7 @@ export class MarketplacePrice {
      * @param {*} unit Объект юнита для расчета экономики
      */
     change(unit) {
-        this.value = getMaketplacePrice(unit.wholesalePrice.value, unit.costs.storage, unit.commissions.storage, unit.fees.storage);
+        this.value = getMaketplacePrice(unit.wholesalePrice.value, unit.costs.storage, unit.commissions.storage);
         this.input.value = this.value;
     }
 }

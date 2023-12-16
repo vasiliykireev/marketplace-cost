@@ -37,9 +37,9 @@ export class Unit {
             const commissionNull = new Commission(this, this.commissions, null, null);
         })
 
-        const fees30 = new Fee(this, this.fees, 'Тариф 30', 30);
+        const fees30 = new Fee(this, this.commissions, 'Тариф 30', 30);
         this.fees.buttonAdd.addEventListener('click', () => {
-            const feeNull = new Fee(this, this.fees, null, null);
+            const feeNull = new Fee(this, this.commissions, null, null);
         })
 
         this.wholesalePrice = new WholesalePrice(this, 10000);
