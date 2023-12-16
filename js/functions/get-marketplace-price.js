@@ -95,10 +95,13 @@ export function getMaketplacePrice(wholesalePrice, costs, commissions) {
     //     let feeValue = roundToHundredths(fee.value);
     //     sumFees = sumFees + feeValue; // Прибавляем тариф в сумму тарифов
     // })
-    // if (logs) {console.log('sumFees: ' + sumFees);}
+
+
+    if (logs) {console.log('sumCommissions: ' + sumCommissions);}
+    if (logs) {console.log('sumFees: ' + sumFees);}
 
     /** Цена для маркетплейсов */
-    let result = (wholesalePrice + sumCosts /*+ sumFees*/) / (1 - sumCommissions / 100); // Результат равен сумме оптовой цены, расходов и прибыли и тарифов маркетплейса, деленых на разницу 1 (100%) и суммы процентов комиссий маркетплейсов
+    let result = (wholesalePrice + sumCosts + sumFees) / (1 - sumCommissions / 100); // Результат равен сумме оптовой цены, расходов и прибыли и тарифов маркетплейса, деленых на разницу 1 (100%) и суммы процентов комиссий маркетплейсов
     result = roundToHundredths(result);
     if (logs) {console.log('marketplace price: ' + result);}
     if (logs) {console.log('retailPrice done!');}
