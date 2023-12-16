@@ -91,6 +91,11 @@ export class Fee extends Expenditure {
             this.unit.marketplacePrice.change(this.unit);
         })
 
+        this.element.value.inputGroupText = document.createElement('span');
+        this.element.value.inputGroupText.classList.add('input-group-text');
+        this.element.value.inputGroupText.innerText = this.element.value.inputCaption;
+        this.element.value.inputGroup.append(this.element.value.inputGroupText);
+
         if(logs){console.log('');}
 
         return this.element.value.block;

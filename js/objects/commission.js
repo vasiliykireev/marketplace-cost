@@ -92,6 +92,11 @@ export class Commission extends Expenditure {
             this.unit.marketplacePrice.change(this.unit);
         })
 
+        this.element.percent.inputGroupText = document.createElement('span');
+        this.element.percent.inputGroupText.classList.add('input-group-text');
+        this.element.percent.inputGroupText.innerText = this.element.percent.inputCaption;
+        this.element.percent.inputGroup.append(this.element.percent.inputGroupText);
+
         if(logs){console.log('');}
 
         return this.element.percent.block;

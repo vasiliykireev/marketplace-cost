@@ -49,10 +49,12 @@ export class Expenditure {
         },
         /** HTML-элементы значения */
         value: {
-            inputTitle: 'Сумма, руб.',
+            inputTitle: 'Сумма',
+            inputCaption: 'руб.',
         },
         percent: {
             inputTitle: 'Процент',
+            inputCaption: '%',
         },
         /** HTML-элементы кнопок */
         button: {
