@@ -25,7 +25,7 @@ export class Unit {
      * Создает расход, комиссию и тариф, и добавляет создание новых по нажатию на кнопку
      */
     constructor() {
-
+        const PROFIT = new Cost(this, this.costs, "Прибыль", null)
         const cost10 = new Cost(this, this.costs, 'Расход 10', 10);
         this.costs.buttonAdd.addEventListener('click', () => {
             const costNull = new Cost(this, this.costs, null, null);
