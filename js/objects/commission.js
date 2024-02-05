@@ -175,6 +175,7 @@ export class Commission extends Expenditure {
         
         this.element.type.dropdownButtonComission = document.createElement('button');
         this.element.type.dropdownButtonComission.classList.add('dropdown-item');
+        this.element.type.dropdownButtonComission.setAttribute('type', 'button');
         if(type === 'commission') {this.element.type.dropdownButtonComission.setAttribute('disabled', '');}
         this.element.type.dropdownButtonComission.innerText = 'Комиссия';
         this.element.type.dropdownItemComission.append(this.element.type.dropdownButtonComission);
@@ -184,6 +185,7 @@ export class Commission extends Expenditure {
         
         this.element.type.dropdownButtonFee = document.createElement('button');
         this.element.type.dropdownButtonFee.classList.add('dropdown-item');
+        this.element.type.dropdownButtonFee.setAttribute('type', 'button');
         if(type === 'fee') {this.element.type.dropdownButtonFee.setAttribute('disabled', '');}
         this.element.type.dropdownButtonFee.innerText = 'Тариф';
         this.element.type.dropdownItemFee.append(this.element.type.dropdownButtonFee);
