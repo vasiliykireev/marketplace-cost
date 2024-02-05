@@ -115,7 +115,7 @@ export class Commission extends Expenditure {
         this.showButtonDelete();
 
         // Вывести смену типа
-        this.showChangeType('commission');
+        this.showChangeType('commission'); // Комиссия
 
         // Вывести ввод имени
         this.showName();
