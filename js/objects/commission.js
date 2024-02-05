@@ -102,4 +102,91 @@ export class Commission extends Expenditure {
         return this.element.percent.block;
     }
     
+    edit() {
+        if(logs){console.log('commission edit:');}
+        
+        // Удалить значение затраты
+        this.removeValue();
+        
+        // Вывести заголовок
+        this.showHeading();
+
+        // Вывести кнопку удаления
+        this.showButtonDelete();
+
+        // Вывести смену типа
+        this.showChangeType('fee');
+
+        // Вывести ввод имени
+        this.showName();
+
+        if(logs){console.log('');}
+    }
+
+    showChangeType(type) {
+        this.element.type.block = document.createElement('div');
+        this.element.type.block.classList.add('type');
+        this.element.card.body.append(this.element.type.block);
+
+        this.element.type.inputGroup = document.createElement('div');
+        this.element.type.inputGroup.classList.add('type__input-group', 'input-group');
+        this.element.type.inputGroup.classList.add('mb-2');
+        this.element.type.block.append(this.element.type.inputGroup);
+
+        this.element.type.formFloating = document.createElement('div');
+        this.element.type.formFloating.classList.add('type__form-floating', 'form-floating');
+        this.element.type.inputGroup.append(this.element.type.formFloating);
+
+        this.element.type.inputFormControl = document.createElement('input');
+        this.element.type.inputFormControl.classList.add('form__form-control', 'form-control');
+        this.element.type.inputFormControl.setAttribute('type', 'string');
+        // this.element.type.inputFormControl.setAttribute('min', '0');
+        // this.element.type.inputFormControl.setAttribute('step', '0.01')
+        this.element.type.inputFormControl.setAttribute('id', 'form-' + this.id);
+        this.element.type.inputFormControl.setAttribute('placeholder', null);
+        this.element.type.inputFormControl.setAttribute('disabled', null);
+        this.element.type.inputFormControl.setAttribute('value', 'Комиссия');
+        // if(this.value != 0) {
+        //     this.element.type.inputFormControl.setAttribute('value', this.value);
+        // }
+        this.element.type.formFloating.append(this.element.type.inputFormControl);
+        // if(this.value == 0) {
+        //     this.element.type.inputFormControl.focus();
+        // }
+        this.element.type.labelForInputFormControl = document.createElement('label');
+        this.element.type.labelForInputFormControl.classList.add('type-label');
+        this.element.type.labelForInputFormControl.setAttribute('for', 'type-' + this.id);
+        this.element.type.labelForInputFormControl.textContent = 'Тип комиссии';
+        this.element.type.formFloating.append(this.element.type.labelForInputFormControl);
+
+        this.element.type.dropdownToggle = document.createElement('button');
+        this.element.type.dropdownToggle.classList.add('btn', 'btn-secondary', 'dropdown-toggle');
+        this.element.type.dropdownToggle.setAttribute('type', 'button');
+        this.element.type.dropdownToggle.setAttribute('data-bs-toggle', 'dropdown');
+        this.element.type.dropdownToggle.setAttribute('aria-expanded', 'false');
+        this.element.type.inputGroup.append(this.element.type.dropdownToggle);
+
+        this.element.type.dropdownMenu = document.createElement('ul');
+        this.element.type.dropdownMenu.classList.add('dropdown-menu');
+        this.element.type.inputGroup.append(this.element.type.dropdownMenu);
+
+        this.element.type.dropdownItemComission = document.createElement('li');
+        this.element.type.dropdownMenu.append(this.element.type.dropdownItemComission);
+        
+        this.element.type.dropdownButtonComission = document.createElement('button');
+        this.element.type.dropdownButtonComission.classList.add('dropdown-item');
+        if(type === 'commission') {this.element.type.dropdownButtonComission.setAttribute('disabled', '');}
+        this.element.type.dropdownButtonComission.innerText = 'Комиссия';
+        this.element.type.dropdownItemComission.append(this.element.type.dropdownButtonComission);
+
+        this.element.type.dropdownItemFee = document.createElement('li');
+        this.element.type.dropdownMenu.append(this.element.type.dropdownItemFee);
+        
+        this.element.type.dropdownButtonFee = document.createElement('button');
+        this.element.type.dropdownButtonFee.classList.add('dropdown-item');
+        if(type === 'fee') {this.element.type.dropdownButtonFee.setAttribute('disabled', '');}
+        this.element.type.dropdownButtonFee.innerText = 'Тариф';
+        this.element.type.dropdownItemFee.append(this.element.type.dropdownButtonFee);
+    }
+
 }

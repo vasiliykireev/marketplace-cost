@@ -69,7 +69,8 @@ export class Expenditure {
             editCaption: 'Редактировать',
             deleteIcon: '<i class="bi bi-trash-fill"></i>',
             deleteCaption: 'Удалить',
-        }
+        },
+        type: new Object,
     }
     /** Родительский HTML-элемент */
     // parent = document.querySelector('.costs');

@@ -100,4 +100,23 @@ export class Fee extends Expenditure {
 
         return this.element.value.block;
     }
+
+    edit() {
+        if(logs){console.log('fee edit:');}
+        
+        // Удалить значение затраты
+        this.removeValue();
+        
+        // Вывести заголовок
+        this.showHeading();
+
+        // Вывести кнопку удаления
+        this.showButtonDelete();
+
+        // Вывести ввод имени
+        this.showName();
+
+        if(logs){console.log('');}
+    }
+
 }
