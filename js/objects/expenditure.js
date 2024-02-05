@@ -20,13 +20,18 @@ export class Expenditure {
  * @param {Object} unit Объект юнита для расчета экономики
  * @param {Object} expenditure Объект типа затраты
  * @param {String} name Название затраты
+ * @param {Number|Undefined} position Номер позиции
  */
-    constructor(unit, expenditure, name) {
+    constructor(unit, expenditure, name, position) {
         this.unit = unit;
         this.type = expenditure.type;
         this.container = expenditure.container;
         this.storage = expenditure.storage;
         this.name = name;
+        // if(position == undefined) {
+        //     this.position = this.storage.indexOf(this);
+        //     alert('this.position: ' + this.position);
+        // }
     }
     /** Название затраты */
     name = new String();
@@ -135,88 +140,97 @@ export class Expenditure {
     edit() {
         if(logs){console.log('expenditure edit:');}
         
-        if(this.element.content != null) {
-            this.element.content.remove();
-        }
+        // Удалить значение затраты
+        this.removeValue();
+        // if(this.element.content != null) {
+        //     this.element.content.remove();
+        // }
         
-        if(this.name == null) {
-            this.element.card.headerHeading.textContent = this.element.name.newTitle;
-            this.name = '';
-        } else {
-            this.element.card.headerHeading.textContent = this.element.name.editTitle;
-        }
+        // Вывести заголовок
+        this.showHeading();
+        // if(this.name == null) {
+        //     this.element.card.headerHeading.textContent = this.element.name.newTitle;
+        //     this.name = '';
+        // } else {
+        //     this.element.card.headerHeading.textContent = this.element.name.editTitle;
+        // }
 
-        this.element.card.headerDeleteButton = document.createElement('button');
-        this.element.card.headerDeleteButton.classList.add('delete__btn', 'btn', 'btn-danger', 'btn-sm');
-        this.element.card.headerDeleteButton.setAttribute('type', 'button');
-        this.element.card.headerDeleteButton.setAttribute('aria-label', this.element.button.deleteCaption);
-        this.element.card.headerDeleteButton.innerHTML = this.element.button.deleteIcon;
-        this.element.card.headerEditCol.append(this.element.card.headerDeleteButton);
+        // Вывести кнопку удаления
+        this.showButtonDelete();
 
-        this.element.card.headerDeleteButton.addEventListener('click', (event) => {
-            this.delete();
-        })
+        // this.element.card.headerDeleteButton = document.createElement('button');
+        // this.element.card.headerDeleteButton.classList.add('delete__btn', 'btn', 'btn-danger', 'btn-sm');
+        // this.element.card.headerDeleteButton.setAttribute('type', 'button');
+        // this.element.card.headerDeleteButton.setAttribute('aria-label', this.element.button.deleteCaption);
+        // this.element.card.headerDeleteButton.innerHTML = this.element.button.deleteIcon;
+        // this.element.card.headerEditCol.append(this.element.card.headerDeleteButton);
 
-        this.element.name.block = document.createElement('div');
-        this.element.name.block.classList.add('name');
-        this.element.card.body.append(this.element.name.block);
+        // this.element.card.headerDeleteButton.addEventListener('click', (event) => {
+        //     this.delete();
+        // })
 
-        this.element.name.inputGroup = document.createElement('div');
-        this.element.name.inputGroup.classList.add('name__input-group' ,'input-group');
-        this.element.name.inputGroup.classList.add('mb-2');
-        this.element.name.block.append(this.element.name.inputGroup);
+        // Вывести ввод имени
+        this.showName();
+        // this.element.name.block = document.createElement('div');
+        // this.element.name.block.classList.add('name');
+        // this.element.card.body.append(this.element.name.block);
 
-        this.element.name.formFloating = document.createElement('div');
-        this.element.name.formFloating.classList.add('name__form-floating', 'form-floating');
-        this.element.name.inputGroup.append(this.element.name.formFloating);
+        // this.element.name.inputGroup = document.createElement('div');
+        // this.element.name.inputGroup.classList.add('name__input-group' ,'input-group');
+        // this.element.name.inputGroup.classList.add('mb-2');
+        // this.element.name.block.append(this.element.name.inputGroup);
 
-        this.element.name.inputFormControl = document.createElement('input');
-        this.element.name.inputFormControl.classList.add('name__form-control', 'form-control');
-        // this.name.inputFormControl.classList.add('border', 'border-primary-subtle', 'focus-ring', 'focus-ring-primary');
-        this.element.name.inputFormControl.setAttribute('type', 'text');
-        this.element.name.inputFormControl.setAttribute('id', 'name-' + this.id);
-        this.element.name.inputFormControl.setAttribute('placeholder', null);
-        this.element.name.inputFormControl.setAttribute('required', '');
-        if(this.name != '') {
-            this.element.name.inputFormControl.setAttribute('value', this.name);
-        }
-        this.element.name.formFloating.append(this.element.name.inputFormControl);
-        this.element.name.inputFormControl.focus();
-        this.element.name.inputFormControl.selectionStart = this.element.name.inputFormControl.value.length;
+        // this.element.name.formFloating = document.createElement('div');
+        // this.element.name.formFloating.classList.add('name__form-floating', 'form-floating');
+        // this.element.name.inputGroup.append(this.element.name.formFloating);
 
-        this.element.name.labelForInputFormControl = document.createElement('label');
-        this.element.name.labelForInputFormControl.classList.add('name__label');
-        this.element.name.labelForInputFormControl.setAttribute('for', 'name-' + this.id);
-        // this.element.name.labelForInputFormControl.textContent = this.element.name.inputTitle;
-        this.element.name.formFloating.append(this.element.name.labelForInputFormControl);
+        // this.element.name.inputFormControl = document.createElement('input');
+        // this.element.name.inputFormControl.classList.add('name__form-control', 'form-control');
+        // // this.name.inputFormControl.classList.add('border', 'border-primary-subtle', 'focus-ring', 'focus-ring-primary');
+        // this.element.name.inputFormControl.setAttribute('type', 'text');
+        // this.element.name.inputFormControl.setAttribute('id', 'name-' + this.id);
+        // this.element.name.inputFormControl.setAttribute('placeholder', null);
+        // this.element.name.inputFormControl.setAttribute('required', '');
+        // if(this.name != '') {
+        //     this.element.name.inputFormControl.setAttribute('value', this.name);
+        // }
+        // this.element.name.formFloating.append(this.element.name.inputFormControl);
+        // this.element.name.inputFormControl.focus();
+        // this.element.name.inputFormControl.selectionStart = this.element.name.inputFormControl.value.length;
 
-        this.element.name.labelIcon = document.createElement('span');
-        this.element.name.labelIcon.classList.add('name__label-icon');
-        this.element.name.labelForInputFormControl.append(this.element.name.labelIcon);
+        // this.element.name.labelForInputFormControl = document.createElement('label');
+        // this.element.name.labelForInputFormControl.classList.add('name__label');
+        // this.element.name.labelForInputFormControl.setAttribute('for', 'name-' + this.id);
+        // // this.element.name.labelForInputFormControl.textContent = this.element.name.inputTitle;
+        // this.element.name.formFloating.append(this.element.name.labelForInputFormControl);
 
-        this.element.name.labelText = document.createElement('span');
-        this.element.name.labelText.classList.add('name__label-text');
-        this.element.name.labelText.innerHTML = this.element.name.inputTitle;
-        this.element.name.labelForInputFormControl.append(this.element.name.labelText);
+        // this.element.name.labelIcon = document.createElement('span');
+        // this.element.name.labelIcon.classList.add('name__label-icon');
+        // this.element.name.labelForInputFormControl.append(this.element.name.labelIcon);
 
-        this.element.name.saveButton = document.createElement('button');
-        this.element.name.saveButton.classList.add('name__btn', 'btn', 'btn-primary');
-        this.element.name.saveButton.setAttribute('type', 'button');
-        this.element.name.saveButton.setAttribute('aria-label', this.element.button.saveCaption);
-        this.element.name.saveButton.innerHTML = this.element.button.saveIcon;
-        this.element.name.inputGroup.append(this.element.name.saveButton);
+        // this.element.name.labelText = document.createElement('span');
+        // this.element.name.labelText.classList.add('name__label-text');
+        // this.element.name.labelText.innerHTML = this.element.name.inputTitle;
+        // this.element.name.labelForInputFormControl.append(this.element.name.labelText);
 
-        this.element.name.saveButton.addEventListener('click', (event) => {
-            this.saveName();
-        }, false);
-        this.element.name.inputFormControl.addEventListener('keypress', (event) => {
-            this.element.name.labelIcon.innerHTML = '';
-            this.element.name.labelForInputFormControl.classList.remove('text-danger');
-            if(event.key === 'Enter') {
-                // this.saveName();
-                this.element.name.saveButton.click();
-            }
-        })
+        // this.element.name.saveButton = document.createElement('button');
+        // this.element.name.saveButton.classList.add('name__btn', 'btn', 'btn-primary');
+        // this.element.name.saveButton.setAttribute('type', 'button');
+        // this.element.name.saveButton.setAttribute('aria-label', this.element.button.saveCaption);
+        // this.element.name.saveButton.innerHTML = this.element.button.saveIcon;
+        // this.element.name.inputGroup.append(this.element.name.saveButton);
+
+        // this.element.name.saveButton.addEventListener('click', (event) => {
+        //     this.saveName();
+        // }, false);
+        // this.element.name.inputFormControl.addEventListener('keypress', (event) => {
+        //     this.element.name.labelIcon.innerHTML = '';
+        //     this.element.name.labelForInputFormControl.classList.remove('text-danger');
+        //     if(event.key === 'Enter') {
+        //         // this.saveName();
+        //         this.element.name.saveButton.click();
+        //     }
+        // })
 
         if(logs){console.log('');}
     }
@@ -279,6 +293,101 @@ export class Expenditure {
         if(logs){console.log('');}
     }
 
+    // Удалить значение затраты
+    removeValue() {
+        if(logs){console.log('remove value:');}
+        if(this.element.content != null) {
+            this.element.content.remove();
+        }
+    }
+    // Вывести заголовок 
+    showHeading() {
+        if(this.name == null) {
+            this.element.card.headerHeading.textContent = this.element.name.newTitle;
+            this.name = '';
+        } else {
+            this.element.card.headerHeading.textContent = this.element.name.editTitle;
+        }
+    }
+
+    // Вывести кнопку удаления
+    showButtonDelete() {
+        this.element.card.headerDeleteButton = document.createElement('button');
+        this.element.card.headerDeleteButton.classList.add('delete__btn', 'btn', 'btn-danger', 'btn-sm');
+        this.element.card.headerDeleteButton.setAttribute('type', 'button');
+        this.element.card.headerDeleteButton.setAttribute('aria-label', this.element.button.deleteCaption);
+        this.element.card.headerDeleteButton.innerHTML = this.element.button.deleteIcon;
+        this.element.card.headerEditCol.append(this.element.card.headerDeleteButton);
+    
+        this.element.card.headerDeleteButton.addEventListener('click', (event) => {
+            this.delete();
+        })
+    }
+
+    // Вывести ввод имени
+    showName() {
+        this.element.name.block = document.createElement('div');
+        this.element.name.block.classList.add('name');
+        this.element.card.body.append(this.element.name.block);
+    
+        this.element.name.inputGroup = document.createElement('div');
+        this.element.name.inputGroup.classList.add('name__input-group' ,'input-group');
+        this.element.name.inputGroup.classList.add('mb-2');
+        this.element.name.block.append(this.element.name.inputGroup);
+    
+        this.element.name.formFloating = document.createElement('div');
+        this.element.name.formFloating.classList.add('name__form-floating', 'form-floating');
+        this.element.name.inputGroup.append(this.element.name.formFloating);
+    
+        this.element.name.inputFormControl = document.createElement('input');
+        this.element.name.inputFormControl.classList.add('name__form-control', 'form-control');
+        // this.name.inputFormControl.classList.add('border', 'border-primary-subtle', 'focus-ring', 'focus-ring-primary');
+        this.element.name.inputFormControl.setAttribute('type', 'text');
+        this.element.name.inputFormControl.setAttribute('id', 'name-' + this.id);
+        this.element.name.inputFormControl.setAttribute('placeholder', null);
+        this.element.name.inputFormControl.setAttribute('required', '');
+        if(this.name != '') {
+            this.element.name.inputFormControl.setAttribute('value', this.name);
+        }
+        this.element.name.formFloating.append(this.element.name.inputFormControl);
+        this.element.name.inputFormControl.focus();
+        this.element.name.inputFormControl.selectionStart = this.element.name.inputFormControl.value.length;
+    
+        this.element.name.labelForInputFormControl = document.createElement('label');
+        this.element.name.labelForInputFormControl.classList.add('name__label');
+        this.element.name.labelForInputFormControl.setAttribute('for', 'name-' + this.id);
+        // this.element.name.labelForInputFormControl.textContent = this.element.name.inputTitle;
+        this.element.name.formFloating.append(this.element.name.labelForInputFormControl);
+    
+        this.element.name.labelIcon = document.createElement('span');
+        this.element.name.labelIcon.classList.add('name__label-icon');
+        this.element.name.labelForInputFormControl.append(this.element.name.labelIcon);
+    
+        this.element.name.labelText = document.createElement('span');
+        this.element.name.labelText.classList.add('name__label-text');
+        this.element.name.labelText.innerHTML = this.element.name.inputTitle;
+        this.element.name.labelForInputFormControl.append(this.element.name.labelText);
+    
+        this.element.name.saveButton = document.createElement('button');
+        this.element.name.saveButton.classList.add('name__btn', 'btn', 'btn-primary');
+        this.element.name.saveButton.setAttribute('type', 'button');
+        this.element.name.saveButton.setAttribute('aria-label', this.element.button.saveCaption);
+        this.element.name.saveButton.innerHTML = this.element.button.saveIcon;
+        this.element.name.inputGroup.append(this.element.name.saveButton);
+    
+        this.element.name.saveButton.addEventListener('click', (event) => {
+            this.saveName();
+        }, false);
+        this.element.name.inputFormControl.addEventListener('keypress', (event) => {
+            this.element.name.labelIcon.innerHTML = '';
+            this.element.name.labelForInputFormControl.classList.remove('text-danger');
+            if(event.key === 'Enter') {
+                // this.saveName();
+                this.element.name.saveButton.click();
+            }
+        })
+    }
+
     /**
      * Вывести значение затраты
      * - Добавляет значение затраты
@@ -335,7 +444,7 @@ export class Expenditure {
             console.log(this);
         }
 
-        this.storage.splice(this.storage.indexOf(this), 1);
+        this.storage.splice(this.storage.indexOf(this), 1, 'Deleted');
 
         this.element.block.remove();
 
