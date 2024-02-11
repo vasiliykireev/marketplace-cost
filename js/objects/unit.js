@@ -4,7 +4,9 @@ import { WholesalePrice } from './wholesale-price.js';
 import { MarketplacePrice } from './marketplace-price.js';
 
 import { Cost } from './cost.js';
-import { Commission } from './commission.js';
+// import { Commission } from './commission.js';
+import { CommissionPercent } from './commission-percent.js';
+import { CommissionValue } from './commission-value.js';
 import { Fee } from './fee.js';
 
 
@@ -32,14 +34,14 @@ export class Unit {
         })
         if(debug){this.debugCosts();}
 
-        const commission20 = new Commission(this, this.commissions, 'Комиссия 1', 1);
+        const commission20 = new CommissionPercent(this, this.commissions, 'Комиссия 1', 1);
         this.commissions.buttonAdd.addEventListener('click', () => {
-            const commissionNull = new Commission(this, this.commissions, null, null);
+            const commissionNull = new CommissionPercent(this, this.commissions, null, null);
         })
 
-        const fees30 = new Fee(this, this.commissions, 'Тариф 30', 30);
+        const fees30 = new CommissionValue(this, this.commissions, 'Тариф 30', 30);
         this.fees.buttonAdd.addEventListener('click', () => {
-            const feeNull = new Fee(this, this.commissions, null, null);
+            const feeNull = new CommissionValue(this, this.commissions, null, null);
         })
 
         this.wholesalePrice = new WholesalePrice(this, 10000);
@@ -57,14 +59,14 @@ export class Unit {
     }
     /** Данные для комиссий */
     commissions = {
-        type: 'commission',
+        // type: 'commission',
         buttonAdd: document.querySelector('.add__commission'),
         container: document.querySelector('.commissions'),
         storage: new Array(),
     }
     /** Данные для тарифов */
     fees = {
-        type: 'fee',
+        // type: 'fee',
         buttonAdd: document.querySelector('.add__fee'),
         container: document.querySelector('.fees'),
         storage: new Array(),

@@ -19,100 +19,57 @@ export class Commission extends Expenditure {
      * @param {Object} unit Объект юнита для расчета экономики
      * @param {Object} expenditure Объект типа комиссии
      * @param {String} name Название комиссии
-     * @param {Number} percent Процент комиссии
      */
-    constructor(unit, expenditure, name, percent){
+    constructor(unit, expenditure, name){
         super(unit, expenditure, name);
-        this.percent = roundToHundredths(percent);
-
+        this.type = 'commission';
         Object.defineProperties(this.element.name, {
             newTitle: {value: 'Новая комиссия'},
             editTitle: {value: 'Редактировать комиссию'},
         });
 
-        this.create(this.type);
-        if(this.name == null) {
-            this.edit();
-        } else {
-            this.show();
-        }
     }
 
-    /** Процент комиссии */
-    percent = new Number;
+    commission = {
+        percent: {
+            caption: 'Процент',
+        },
+        value: {
+            caption: 'Фиксированная',
+        },
+    }
 
     /**
-     * Вывести значение расхода
-     * - Выводит значение расхода
-     * - При изменении значения меняет значение расхода и пересчитывает юнит-экономику
+     * Вывести затрату
+     * - Убирает кнопку удаления затраты
+     * - Добавляет заголовок
+     * - Добавляет кнопку редактирования затраты
+     * - Добавляет значение
      */
-    showValue() {
+    show() {
         if(logs){
-            console.log('commission showValue:');
-            console.log(this.value);
+            console.log('expenditure show');
+            console.log(this.name);
         }
 
-        this.element.percent.block = document.createElement('div');
-        this.element.percent.block.classList.add('value');
-        this.element.card.body.append(this.element.percent.block);
-
-        this.element.percent.inputGroup = document.createElement('div');
-        this.element.percent.inputGroup.classList.add('value__input-group', 'input-group');
-        this.element.percent.inputGroup.classList.add('mb-2');
-        this.element.percent.block.append(this.element.percent.inputGroup);
-
-        this.element.percent.formFloating = document.createElement('div');
-        this.element.percent.formFloating.classList.add('value__form-floating', 'form-floating');
-        this.element.percent.inputGroup.append(this.element.percent.formFloating);
-
-        this.element.percent.inputFormControl = document.createElement('input');
-        this.element.percent.inputFormControl.classList.add('value__form-control', 'form-control');
-        this.element.percent.inputFormControl.setAttribute('type', 'number');
-        this.element.percent.inputFormControl.setAttribute('min', '0');
-        this.element.percent.inputFormControl.setAttribute('step', '0.01')
-        this.element.percent.inputFormControl.setAttribute('id', 'value-' + this.id);
-        this.element.percent.inputFormControl.setAttribute('placeholder', null);
-        if(this.percent != 0) {
-            this.element.percent.inputFormControl.setAttribute('value', this.percent);
-        } 
-        this.element.percent.formFloating.append(this.element.percent.inputFormControl);
-        if(this.percent == 0) {
-            this.element.percent.inputFormControl.focus();
-        }
-
-        this.element.percent.labelForInputFormControl = document.createElement('label');
-        this.element.percent.labelForInputFormControl.classList.add('value-label');
-        this.element.percent.labelForInputFormControl.setAttribute('for', 'value-' + this.id);
-        this.element.percent.labelForInputFormControl.textContent = this.element.percent.inputTitle;
-        this.element.percent.formFloating.append(this.element.percent.labelForInputFormControl);
-
-        this.element.percent.inputFormControl.addEventListener('input', (event) => {
-            this.percent = Number(this.element.percent.inputFormControl.value);
-            console.log(this.percent);
-            this.unit.marketplacePrice.change(this.unit);
-        })
-
-        this.element.percent.inputGroupText = document.createElement('span');
-        this.element.percent.inputGroupText.classList.add('input-group-text');
-        this.element.percent.inputGroupText.innerText = this.element.percent.inputCaption;
-        this.element.percent.inputGroup.append(this.element.percent.inputGroupText);
+        this.removeHeaderDeleteButton();
+        this.showHeading();
+        this.showHeaderEditButton();
+        this.showContent();
 
         if(logs){console.log('');}
-
-        return this.element.percent.block;
     }
     
     edit() {
         if(logs){console.log('commission edit:');}
-        
-        // Удалить значение затраты
-        this.removeValue();
+        // Убрать контент
+        this.removeContent();
         
         // Вывести заголовок
-        this.showHeading();
+        this.showHeadingEdit();
 
         // Вывести кнопку удаления
-        this.showButtonDelete();
+        this.showHeaderDeleteButton();
 
         // Вывести ввод имени
         this.showName();
@@ -121,6 +78,9 @@ export class Commission extends Expenditure {
     }
 
     showChangeType(type) {
+        console.log('function showChangeType:');
+        console.log(type);
+
         this.element.type.block = document.createElement('div');
         this.element.type.block.classList.add('type');
         this.element.card.body.append(this.element.type.block);
@@ -142,7 +102,20 @@ export class Commission extends Expenditure {
         this.element.type.inputFormControl.setAttribute('id', 'form-' + this.id);
         this.element.type.inputFormControl.setAttribute('placeholder', null);
         this.element.type.inputFormControl.setAttribute('disabled', null);
-        this.element.type.inputFormControl.setAttribute('value', 'Комиссия');
+        // this.element.type.inputFormControl.setAttribute('value', 'Комиссия');
+        switch(type) {
+            case 'commission-percent':
+                this.element.type.inputFormControl.setAttribute('value', this.commission.percent.caption);
+                break;
+          
+            case 'commission-value':
+                this.element.type.inputFormControl.setAttribute('value', this.commission.value.caption);
+                break;
+          
+            default:
+                // ...
+                break;
+          }
         // if(this.value != 0) {
         //     this.element.type.inputFormControl.setAttribute('value', this.value);
         // }
@@ -167,25 +140,41 @@ export class Commission extends Expenditure {
         this.element.type.dropdownMenu.classList.add('dropdown-menu');
         this.element.type.inputGroup.append(this.element.type.dropdownMenu);
 
-        this.element.type.dropdownItemComission = document.createElement('li');
-        this.element.type.dropdownMenu.append(this.element.type.dropdownItemComission);
+        this.element.type.dropdownItemComissionPercent = document.createElement('li');
+        this.element.type.dropdownMenu.append(this.element.type.dropdownItemComissionPercent);
         
-        this.element.type.dropdownButtonComission = document.createElement('button');
-        this.element.type.dropdownButtonComission.classList.add('dropdown-item');
-        this.element.type.dropdownButtonComission.setAttribute('type', 'button');
-        if(type === 'commission') {this.element.type.dropdownButtonComission.setAttribute('disabled', '');}
-        this.element.type.dropdownButtonComission.innerText = 'Комиссия';
-        this.element.type.dropdownItemComission.append(this.element.type.dropdownButtonComission);
+        this.element.type.dropdownButtonComissionPercent = document.createElement('button');
+        this.element.type.dropdownButtonComissionPercent.classList.add('dropdown-item');
+        this.element.type.dropdownButtonComissionPercent.setAttribute('type', 'button');
+        if(type === 'commission-percent') {this.element.type.dropdownButtonComissionPercent.setAttribute('disabled', '');}
+        this.element.type.dropdownButtonComissionPercent.innerText = 'Процент';
+        this.element.type.dropdownItemComissionPercent.append(this.element.type.dropdownButtonComissionPercent);
 
-        this.element.type.dropdownItemFee = document.createElement('li');
-        this.element.type.dropdownMenu.append(this.element.type.dropdownItemFee);
+        this.element.type.dropdownItemComissionValue = document.createElement('li');
+        this.element.type.dropdownMenu.append(this.element.type.dropdownItemComissionValue);
         
-        this.element.type.dropdownButtonFee = document.createElement('button');
-        this.element.type.dropdownButtonFee.classList.add('dropdown-item');
-        this.element.type.dropdownButtonFee.setAttribute('type', 'button');
-        if(type === 'fee') {this.element.type.dropdownButtonFee.setAttribute('disabled', '');}
-        this.element.type.dropdownButtonFee.innerText = 'Тариф';
-        this.element.type.dropdownItemFee.append(this.element.type.dropdownButtonFee);
+        this.element.type.dropdownButtonComissionValue = document.createElement('button');
+        this.element.type.dropdownButtonComissionValue.classList.add('dropdown-item');
+        this.element.type.dropdownButtonComissionValue.setAttribute('type', 'button');
+        if(type === 'commission-value') {this.element.type.dropdownButtonComissionValue.setAttribute('disabled', '');}
+        this.element.type.dropdownButtonComissionValue.innerText = this.commission.value.caption;//'Фиксированная';
+        this.element.type.dropdownItemComissionValue.append(this.element.type.dropdownButtonComissionValue);
+        this.element.type.dropdownButtonComissionPercent.addEventListener('click', (event) => {
+            this.replaceCommissionPercent();
+        });
+
+        this.element.type.dropdownButtonComissionValue.addEventListener('click', (event) => {
+            this.replaceCommissionValue();
+        });
     }
+
+        // Удалить переключение типа комиссии
+        removeChangeType() {
+            if(logs){console.log('remove value:');}
+            if(logs){console.log(this.element.percent.block);}
+            if(this.element.type.block != null) {
+                this.element.type.block.remove();
+            }
+        }
 
 }

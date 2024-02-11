@@ -1,6 +1,7 @@
 'use strict';
 
 import { Expenditure } from "./expenditure.js";
+import { Commission } from "./commission.js";
 import { roundToHundredths } from "../functions/round-to-hundredths.js";
 
 /**
@@ -13,7 +14,7 @@ if(logs){console.log('commission.js');}
 /**
  * Тариф
  */
-export class Fee extends Expenditure {
+export class Fee extends Commission {
     /**
      * Создает тариф. Выводит тариф, но если не заполнено имя, выводит редактирование затраты.
      * @param {Object} unit Объект юнита для расчета экономики
@@ -111,12 +112,21 @@ export class Fee extends Expenditure {
         this.showHeading();
 
         // Вывести кнопку удаления
-        this.showButtonDelete();
+        this.showHeaderDeleteButton();
 
         // Вывести ввод имени
         this.showName();
 
         if(logs){console.log('');}
+    }
+
+    // Удалить значение затраты
+    removeValue() {
+        if(logs){console.log('remove value:');}
+        if(logs){console.log(this.element.value.block);}
+        if(this.element.value.block != null) {
+            this.element.value.block.remove();
+        }
     }
 
 }

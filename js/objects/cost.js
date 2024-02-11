@@ -24,6 +24,7 @@ export class Cost extends Expenditure {
  */
     constructor(unit, expenditure, name, value){
         super(unit, expenditure, name);
+        this.type = 'cost';
         this.value = roundToHundredths(value);
 
         Object.defineProperties(this.element.name, {
@@ -42,62 +43,23 @@ export class Cost extends Expenditure {
     value = new Number();
 
     /**
-     * Вывести значение расхода
-     * - Выводит значение расхода
-     * - При изменении значения меняет значение расхода и пересчитывает юнит-экономику
+     * Вывести затрату
+     * - Убирает кнопку удаления затраты
+     * - Добавляет заголовок
+     * - Добавляет кнопку редактирования затраты
+     * - Добавляет значение
      */
-    showValue() {
+    show() {
         if(logs){
-            console.log('cost showValue:');
-            console.log(this.value);
+            console.log('expenditure show');
+            console.log(this.name);
         }
 
-        this.element.value.block = document.createElement('div');
-        this.element.value.block.classList.add('value');
-        this.element.card.body.append(this.element.value.block);
-
-        this.element.value.inputGroup = document.createElement('div');
-        this.element.value.inputGroup.classList.add('value__input-group', 'input-group');
-        this.element.value.inputGroup.classList.add('mb-2');
-        this.element.value.block.append(this.element.value.inputGroup);
-
-        this.element.value.formFloating = document.createElement('div');
-        this.element.value.formFloating.classList.add('value__form-floating', 'form-floating');
-        this.element.value.inputGroup.append(this.element.value.formFloating);
-
-        this.element.value.inputFormControl = document.createElement('input');
-        this.element.value.inputFormControl.classList.add('value__form-control', 'form-control');
-        this.element.value.inputFormControl.setAttribute('type', 'number');
-        this.element.value.inputFormControl.setAttribute('min', '0');
-        this.element.value.inputFormControl.setAttribute('step', '0.01')
-        this.element.value.inputFormControl.setAttribute('id', 'value-' + this.id);
-        this.element.value.inputFormControl.setAttribute('placeholder', null);
-        if(this.value != 0) {
-            this.element.value.inputFormControl.setAttribute('value', this.value);
-        }
-        this.element.value.formFloating.append(this.element.value.inputFormControl);
-        if(this.value == 0) {
-            this.element.value.inputFormControl.focus();
-        }
-        this.element.value.labelForInputFormControl = document.createElement('label');
-        this.element.value.labelForInputFormControl.classList.add('value-label');
-        this.element.value.labelForInputFormControl.setAttribute('for', 'value-' + this.id);
-        this.element.value.labelForInputFormControl.textContent = this.element.value.inputTitle;
-        this.element.value.formFloating.append(this.element.value.labelForInputFormControl);
-
-        this.element.value.inputFormControl.addEventListener('input', (event) => {
-            this.value = Number(this.element.value.inputFormControl.value);
-            if(logs){console.log(this.value);}
-            this.unit.marketplacePrice.change(this.unit);
-        })
-
-        this.element.value.inputGroupText = document.createElement('span');
-        this.element.value.inputGroupText.classList.add('input-group-text');
-        this.element.value.inputGroupText.innerText = this.element.value.inputCaption;
-        this.element.value.inputGroup.append(this.element.value.inputGroupText);
+        this.removeHeaderDeleteButton();
+        this.showHeading();
+        this.showHeaderEditButton();
+        this.showContent();
 
         if(logs){console.log('');}
-
-        return this.element.value.block;
     }
 }
