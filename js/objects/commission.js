@@ -54,9 +54,9 @@ export class Commission extends Expenditure {
 
     }
 
-    // /** Процент комиссии */
+    /** Процент комиссии */
     percent = new Number;
-    // /** Значение комиссии */
+    /** Значение комиссии */
     value = new Number;
 
     commission = new Object;
