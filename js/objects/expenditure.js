@@ -223,6 +223,18 @@ export class Expenditure {
         this.element.card.body = document.createElement('div');
         this.element.card.body.classList.add('card-body');
         this.element.card.card.append(this.element.card.body);
+
+        this.element.card.type = document.createElement('div');
+        this.element.card.type.classList.add('type');
+        this.element.card.body.append(this.element.card.type);
+
+        this.element.card.name = document.createElement('div');
+        this.element.card.name.classList.add('name');
+        this.element.card.body.append(this.element.card.name);
+
+        this.element.card.content = document.createElement('div');
+        this.element.card.content.classList.add('content');
+        this.element.card.body.append(this.element.card.content);
     }
 
     // Добавить заголовок
@@ -278,7 +290,7 @@ export class Expenditure {
     showName() {
         this.element.name.block = document.createElement('div');
         this.element.name.block.classList.add('name');
-        this.element.card.body.append(this.element.name.block);
+        this.element.card.name.append(this.element.name.block);
     
         this.element.name.inputGroup = document.createElement('div');
         this.element.name.inputGroup.classList.add('name__input-group' ,'input-group');
@@ -398,7 +410,7 @@ export class Expenditure {
     
         this.element.percent.block = document.createElement('div');
         this.element.percent.block.classList.add('percent');
-        this.element.card.body.append(this.element.percent.block);
+        this.element.card.content.append(this.element.percent.block);
     
         this.element.percent.inputGroup = document.createElement('div');
         this.element.percent.inputGroup.classList.add('percent__input-group', 'input-group');
@@ -459,7 +471,7 @@ export class Expenditure {
 
         this.element.value.block = document.createElement('div');
         this.element.value.block.classList.add('value');
-        this.element.card.body.append(this.element.value.block);
+        this.element.card.content.append(this.element.value.block);
 
         this.element.value.inputGroup = document.createElement('div');
         this.element.value.inputGroup.classList.add('value__input-group', 'input-group');

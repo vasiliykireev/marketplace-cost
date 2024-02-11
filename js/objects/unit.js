@@ -40,9 +40,9 @@ export class Unit {
         })
 
         const fees30 = new Commission(this, this.commissions, 'Тариф 30', 'commission-value', 30);
-        this.fees.buttonAdd.addEventListener('click', () => {
-            const feeNull = new Commission(this, this.commissions, null, 'comission-value', null);
-        })
+        // this.fees.buttonAdd.addEventListener('click', () => {
+        //     const feeNull = new Commission(this, this.commissions, null, 'commission-value', null);
+        // })
 
         this.wholesalePrice = new WholesalePrice(this, 10000);
 
@@ -65,19 +65,19 @@ export class Unit {
         storage: new Array(),
     }
     /** Данные для тарифов */
-    fees = {
-        // type: 'fee',
-        buttonAdd: document.querySelector('.add__fee'),
-        container: document.querySelector('.fees'),
-        storage: new Array(),
-    }
+    // fees = {
+    //     // type: 'fee',
+    //     buttonAdd: document.querySelector('.add__fee'),
+    //     container: document.querySelector('.fees'),
+    //     storage: new Array(),
+    // }
     /** Кнопка для отладки */
     debugCosts() {
         this.debugCostsButton = document.createElement('button');
         this.debugCostsButton.setAttribute('type', 'button');
-        this.debugCostsButton.classList.add('btn', 'btn-info');
-        this.debugCostsButton.innerHTML = '<i class="bi bi-question-lg"></i>';
-        document.querySelector('.costs + .add .text-center').append(this.debugCostsButton);
+        this.debugCostsButton.classList.add('btn', 'btn-info', 'text-center');
+        this.debugCostsButton.innerHTML = '<i class="bi bi-question-lg"></i> Отладка';
+        document.querySelector('.debug').append(this.debugCostsButton);
         this.debugCostsButton.addEventListener('click', () => {
             console.log(this);
         })

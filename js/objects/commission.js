@@ -102,6 +102,8 @@ export class Commission extends Expenditure {
         // Вывести кнопку удаления
         this.showHeaderDeleteButton();
 
+        this.showChangeType(this.commission.type);
+
         // Вывести ввод имени
         this.showName();
 
@@ -109,7 +111,8 @@ export class Commission extends Expenditure {
     }
 
     showContent() {
-        this.showChangeType(this.commission.type);
+        // this.showChangeType(this.commission.type);
+        this.removeChangeType();
         switch(this.commission.type) {
             case 'commission-percent':
                 this.showPercent();
@@ -148,7 +151,7 @@ export class Commission extends Expenditure {
 
         this.element.type.block = document.createElement('div');
         this.element.type.block.classList.add('type');
-        this.element.card.body.append(this.element.type.block);
+        this.element.card.type.append(this.element.type.block);
 
         this.element.type.inputGroup = document.createElement('div');
         this.element.type.inputGroup.classList.add('type__input-group', 'input-group');
@@ -247,17 +250,17 @@ export class Commission extends Expenditure {
         replaceCommission(type) {
             this.commission.type = type;
             this.removeChangeType();
-            this.removeValue();
-            this.removePercent();
+            // this.removeValue();
+            // this.removePercent();
             this.showChangeType(type);
             switch(type) {
                 case 'commission-percent':
                     // this.value = null;
-                    this.showPercent();
+                    // this.showPercent();
                     break;
                 case 'commission-value':
                     // this.percent = null;
-                    this.showValue();
+                    // this.showValue();
                     break;
                 default:
                     // ...
