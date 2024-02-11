@@ -6,7 +6,7 @@ if (logs) {console.log('add-type.js')};
 
 /* Импорт */
 /* Данные */
-import { displayRetailPriceInputFormControl } from '../../../script.js';
+import { displayRetailPriceInputFormControl } from '../../script.js';
 
 /* Копирование цены */
 export const displayRetailPriceButtonCopy = document.querySelector(".retail-price__copy"); // Кнопка копирования цены
