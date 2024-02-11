@@ -16,7 +16,7 @@ let debug = false;
 /** Затрата */
 export class Expenditure {
 /**
- * Создает затрату. Выводит затрату, но если не заполнено имя, выводит редактирование затраты.
+ * Создает затрату.
  * @param {Object} unit Объект юнита для расчета экономики
  * @param {Object} expenditure Объект типа затраты
  * @param {String} name Название затраты
@@ -52,10 +52,13 @@ export class Expenditure {
         value: {
             inputTitle: 'Сумма',
             inputCaption: 'руб.',
+            // typeCaption: 'Фиксированная',
         },
+        /** HTML-элементы процентов */
         percent: {
             inputTitle: 'Процент',
             inputCaption: '%',
+            // typeCaption: 'Процент',
         },
         /** HTML-элементы кнопок */
         button: {
@@ -66,21 +69,17 @@ export class Expenditure {
             deleteIcon: '<i class="bi bi-trash-fill"></i>',
             deleteCaption: 'Удалить',
         },
+        /** Тип затраты */
         type: new String,
     }
-    /** Родительский HTML-элемент */
-    // parent = document.querySelector('.costs');
 
     /**
      * Создать затрату
      * - Добавляет экземпляр затраты в массив со всеми экземплярами затраты.
      * - Создает карточку затраты
      */
-    create(type) {
+    create() {
         if(logs){console.log('expenditure create:');}
-
-        // this.storage.splice(this.storage.indexOf(this), 0, this)
-
         this.storage.push(this);
 
         if(logs){
@@ -93,30 +92,84 @@ export class Expenditure {
         if(debug){this.debug();
         if(logs){console.log('');}}
     }
+
+    /** Вырезать затрату из массива для хранения экземпляров затрат */
+    cutOut() {
+        this.storage.splice(this.storage.indexOf(this), 1);
+    }
+
     /**
      * Редактировать затрату
-     * - Удаляет значение затраты
-     * - Выводит заголовок 
-     * - Выводит кнопку удаления
-     * - Выводит ввод имени
+     * - Убрать значение затраты
+     * - Вывести заголовок
+     * - Вывести кнопку удаления
+     * - Вывести ввод имени
      */
     edit() {
         if(logs){console.log('expenditure edit:');}
         
-        // Удалить значение затраты
         this.removeValue();
-        
-        // Вывести заголовок
         this.showHeadingEdit();
-
-        // Вывести кнопку удаления
         this.showHeaderDeleteButton();
-
-        // Вывести ввод имени
         this.showName();
 
         if(logs){console.log('');}
     }
+
+    /**
+     * Удалить затрату
+     * - Вырезать затрату из массива для хранения экземпляров затрат
+     * - Удалить карточку затраты
+     * - Пересчитать юнит-экономику
+     */
+    delete() {
+        if(logs){
+            console.log('expenditure delete:')
+            console.log(this);
+        }
+
+        this.cutOut();
+        this.removeCard();
+        this.unit.marketplacePrice.change(this.unit);
+
+        if(logs){
+            console.log('this.storage:')
+            console.log(this.storage);
+        }
+            
+        if(logs){console.log('');}
+    }
+
+    /** Удалить карточку затраты */
+    removeCard() {
+        this.element.block.remove();
+    }
+
+    /** Убрать кнопку удаления затраты */
+    removeHeaderDeleteButton(){
+        if(this.element.card.headerDeleteButton !== undefined) {
+            this.element.card.headerDeleteButton.remove();
+        }
+    }
+
+    /** Удалить значение затраты в процентах */
+    removePercent() {
+        if(logs){console.log('remove value:');}
+        if(logs){console.log(this.element.percent.block);}
+        if(this.element.percent.block != null) {
+            this.element.percent.block.remove();
+        }
+    }      
+
+    /** Удалить значение затраты */
+    removeValue() {
+        if(logs){console.log('remove value:');}
+        if(logs){console.log(this.element.value.block);}
+        if(this.element.value.block != null) {
+            this.element.value.block.remove();
+        }
+    }  
+
     /**
      * Сохранить название затраты
      * Сохраняет значение затраты и удаляет ввод имени. Либо выводит ошибку, если имя не введено.
@@ -140,10 +193,10 @@ export class Expenditure {
 
     /**
      * Вывести затрату
-     * - Убирает кнопку удаления затраты
-     * - Добавляет заголовок
-     * - Добавляет кнопку редактирования затраты
-     * - Добавляет значение
+     * - Убрать кнопку удаления затраты
+     * - Вывести заголовок
+     * - Вывести кнопку редактирования затраты
+     * - Вывести значение
      */
     show() {
         if(logs){
@@ -159,32 +212,7 @@ export class Expenditure {
         if(logs){console.log('');}
     }
 
-    // Убрать кнопку удаления затраты
-    removeHeaderDeleteButton(){
-        if(this.element.card.headerDeleteButton !== undefined) {
-            this.element.card.headerDeleteButton.remove();
-        }
-    }
-
-    // Удалить значение затраты
-    removeValue() {
-        if(logs){console.log('remove value:');}
-        if(logs){console.log(this.element.value.block);}
-        if(this.element.value.block != null) {
-            this.element.value.block.remove();
-        }
-    }
-
-    // Удалить значение затраты в процентах
-    removePercent() {
-        if(logs){console.log('remove value:');}
-        if(logs){console.log(this.element.percent.block);}
-        if(this.element.percent.block != null) {
-            this.element.percent.block.remove();
-        }
-    }
-
-    // Показать карточку затраты
+    /** Показать карточку затраты */
     showCard() {
         this.element.block = document.createElement('div');
         this.element.block.classList.add(this.type);
@@ -237,7 +265,14 @@ export class Expenditure {
         this.element.card.body.append(this.element.card.content);
     }
 
-    // Добавить заголовок
+    /** Вывести контент 
+     * - Вывести значение
+    */
+    showContent() {
+        this.showValue();
+    }
+
+    /** Добавить заголовок */
     showHeading() {
         if(this.name == null) {
             this.element.card.headerHeading.textContent = this.element.name.newTitle;
@@ -246,17 +281,7 @@ export class Expenditure {
         }
     }
 
-    // Вывести заголовок для редактирования
-    showHeadingEdit() {
-        if(this.name == null) {
-            this.element.card.headerHeading.textContent = this.element.name.newTitle;
-            this.name = '';
-        } else {
-            this.element.card.headerHeading.textContent = this.element.name.editTitle;
-        }
-    }
-
-    // Вывести кнопку удаления
+    /** Вывести кнопку удаления */
     showHeaderDeleteButton() {
         this.element.card.headerDeleteButton = document.createElement('button');
         this.element.card.headerDeleteButton.classList.add('delete__btn', 'btn', 'btn-danger', 'btn-sm');
@@ -270,7 +295,7 @@ export class Expenditure {
         })
     }
 
-    // Добавить кнопку редактирования затраты
+    /** Добавить кнопку редактирования затраты */
     showHeaderEditButton() {
         this.element.card.headerEditButton = document.createElement('button');
         this.element.card.headerEditButton.classList.add('edit__btn', 'btn', 'btn-outline-secondary', 'btn-sm', 'border-0');
@@ -285,8 +310,17 @@ export class Expenditure {
         })
     }
 
+    /** Вывести заголовок для редактирования */
+    showHeadingEdit() {
+        if(this.name == null) {
+            this.element.card.headerHeading.textContent = this.element.name.newTitle;
+            this.name = '';
+        } else {
+            this.element.card.headerHeading.textContent = this.element.name.editTitle;
+        }
+    }
 
-    // Вывести ввод имени
+    /** Вывести ввод имени */
     showName() {
         this.element.name.block = document.createElement('div');
         this.element.name.block.classList.add('name');
@@ -303,7 +337,6 @@ export class Expenditure {
     
         this.element.name.inputFormControl = document.createElement('input');
         this.element.name.inputFormControl.classList.add('name__form-control', 'form-control');
-        // this.name.inputFormControl.classList.add('border', 'border-primary-subtle', 'focus-ring', 'focus-ring-primary');
         this.element.name.inputFormControl.setAttribute('type', 'text');
         this.element.name.inputFormControl.setAttribute('id', 'name-' + this.id);
         this.element.name.inputFormControl.setAttribute('placeholder', null);
@@ -318,7 +351,6 @@ export class Expenditure {
         this.element.name.labelForInputFormControl = document.createElement('label');
         this.element.name.labelForInputFormControl.classList.add('name__label');
         this.element.name.labelForInputFormControl.setAttribute('for', 'name-' + this.id);
-        // this.element.name.labelForInputFormControl.textContent = this.element.name.inputTitle;
         this.element.name.formFloating.append(this.element.name.labelForInputFormControl);
     
         this.element.name.labelIcon = document.createElement('span');
@@ -344,64 +376,16 @@ export class Expenditure {
             this.element.name.labelIcon.innerHTML = '';
             this.element.name.labelForInputFormControl.classList.remove('text-danger');
             if(event.key === 'Enter') {
-                // this.saveName();
                 this.element.name.saveButton.click();
             }
         })
     }
-    showContent() {
-        this.showValue();
-    }
 
     /**
-     * Вывести значение затраты
-     * - Добавляет значение затраты
-     * - При вводе нового значения, записывает в значение затраты число до сотых
-     */
-    // showValue() {
-    //     this.element.value.block = document.createElement('div');
-    //     this.element.value.block.classList.add('value');
-    //     this.element.card.body.append(this.element.value.block);
-
-    //     this.element.value.inputGroup = document.createElement('div');
-    //     this.element.value.inputGroup.classList.add('value__input-group', 'input-group');
-    //     this.element.value.inputGroup.classList.add('mb-2');
-    //     this.element.value.block.append(this.element.value.inputGroup);
-
-    //     this.element.value.formFloating = document.createElement('div');
-    //     this.element.value.formFloating.classList.add('value__form-floating', 'form-floating');
-    //     this.element.value.inputGroup.append(this.element.value.formFloating);
-
-    //     this.element.value.inputFormControl = document.createElement('input');
-    //     this.element.value.inputFormControl.classList.add('value__form-control', 'form-control');
-    //     this.element.value.inputFormControl.setAttribute('type', 'number');
-    //     this.element.value.inputFormControl.setAttribute('min', '0');
-    //     this.element.value.inputFormControl.setAttribute('step', '0.01')
-    //     this.element.value.inputFormControl.setAttribute('id', 'value-' + this.id);
-    //     this.element.value.inputFormControl.setAttribute('placeholder', null);
-    //     if(this.value !== undefined) {
-    //         this.element.value.inputFormControl.setAttribute('value', this.value);
-    //     }
-    //     this.element.value.formFloating.append(this.element.value.inputFormControl);
-    //     this.element.value.inputFormControl.focus();
-
-    //     this.element.value.labelForInputFormControl = document.createElement('label');
-    //     this.element.value.labelForInputFormControl.classList.add('value-label');
-    //     this.element.value.labelForInputFormControl.setAttribute('for', 'value-' + this.id);
-    //     this.element.value.labelForInputFormControl.textContent = this.element.value.inputTitle;
-    //     this.element.value.formFloating.append(this.element.value.labelForInputFormControl);
-
-    //     this.element.value.inputFormControl.addEventListener('input', (event) => {
-    //         this.value = Number(this.element.value.inputFormControl.value).toFixed(2);
-    //         console.log(this.value);
-    //     })
-    // }
-
-    /**
-         * Вывести значение комиссии
-         * - Выводит значение комиссии
-         * - При изменении значения меняет значение комиссии и пересчитывает юнит-экономику
-         */
+    * Вывести значение комиссии
+    * - Вывести значение комиссии
+    * - При изменении значения изменить значение комиссии и пересчитать юнит-экономику
+    */
     showPercent() {
         if(logs){
             console.log('commission showPercent:');
@@ -460,8 +444,8 @@ export class Expenditure {
 
     /**
      * Вывести значение расхода
-     * - Выводит значение расхода
-     * - При изменении значения меняет значение расхода и пересчитывает юнит-экономику
+     * - Вывести значение расхода
+     * - При изменении значения изменить значение расхода и пересчитать юнит-экономику
      */
     showValue() {
         if(logs){
@@ -516,49 +500,5 @@ export class Expenditure {
         if(logs){console.log('');}
 
         return this.element.value.block;
-    }
-
-    /**
-     * Удалить затрату
-     * - Удаляет затрату из массива для хранения экземпляров затрат
-     * - Удаляет HTML-элемент затраты
-     * - Пересчитывает юнит-экономику
-     */
-    delete() {
-        if(logs){
-            console.log('expenditure delete:')
-            console.log(this);
-        }
-
-        this.storage.splice(this.storage.indexOf(this), 1);
-
-        this.element.block.remove();
-
-        this.unit.marketplacePrice.change(this.unit);
-
-        if(logs){
-            console.log('this.storage:')
-            console.log(this.storage);
-        }
-            
-        if(logs){console.log('');}
-    }
-
-    /**
-     * Отладка
-     * Выводит кнопку отладки
-     */
-    debug() {
-        this.debugButton = document.createElement('button');
-        this.debugButton.classList.add('debug__btn', 'btn', 'btn-info', 'btn-sm');
-        this.debugButton.setAttribute('type', 'button');
-        this.debugButton.innerHTML = '<i class="bi bi-question-lg"></i>';
-        this.element.card.headerExtraCol.append(this.debugButton);
-        this.debugButton.addEventListener('click', (event) => {
-            console.log('expenditure debug:');
-            console.log(this);
-            console.log('');
-        })
-
     }
 }

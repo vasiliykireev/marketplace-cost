@@ -24,14 +24,12 @@ export class Commission extends Expenditure {
      */
     constructor(unit, expenditure, name, type, value){
         super(unit, expenditure, name);
-        // this.type = 'commission';
         Object.defineProperties(this.element.name, {
             newTitle: {value: 'Новая комиссия'},
             editTitle: {value: 'Редактировать комиссию'},
         });
         this.type = 'commission';
         this.commission.type = type;
-        // this.commission.type = 'commission-percent';
         console.log('new Commission:');
         console.log(this.type);
 
@@ -61,18 +59,73 @@ export class Commission extends Expenditure {
     // /** Значение комиссии */
     // value = new Number;
 
-    commission = {
-        percent: {
-            caption: 'Процент',
-        },
-        value: {
-            caption: 'Фиксированная',
-        },
+    commission = new Object;
+
+    /**
+     * Редактировать затрату
+     * - Убрать контент
+     * - Вывести заголовок
+     * - Вывести кнопку удаления
+     * - Вывести смену типа
+     * - Вывести ввод имени
+     */
+    edit() {
+        if(logs){console.log('commission edit:');}
+
+        this.removeContent();
+        this.showHeadingEdit();
+        this.showHeaderDeleteButton();
+        this.showChangeType(this.commission.type);
+        this.showName();
+
+        if(logs){console.log('');}
+    }
+    
+    /** Убрать контент
+    * - Убрать изменение типа
+    * - Если комиссия — процент, убрать процент
+    * - Если комиссия — значение, убрать значение
+    */
+    removeContent() {
+        this.removeChangeType();
+        switch(this.commission.type) {
+            case 'commission-percent':
+                this.removePercent();
+                break;
+            case 'commission-value':
+                this.removeValue();
+                break;
+            default:
+                // ...
+                break;
+          }
+    }
+
+    /** Убрать переключение типа комиссии */
+    removeChangeType() {
+        if(logs){console.log('remove value:');}
+        if(logs){console.log(this.element.percent.block);}
+        if(this.element.type.block != null) {
+            this.element.type.block.remove();
+        }
+    }
+    /** Переключить комиссию
+     * @param {String} type Тип комиссии
+    * - Установить комиссию из переданного типа
+    * - Убрать изменение типа
+    * - Вывести изменение типа
+    */
+    replaceCommission(type) {
+        this.commission.type = type;
+        this.removeChangeType();
+        this.showChangeType(type);
+
+        this.unit.marketplacePrice.change(this.unit);
     }
 
     /**
      * Вывести затрату
-     * - Убирает кнопку удаления затраты
+     * - Убрать кнопку удаления затраты
      * - Добавляет заголовок
      * - Добавляет кнопку редактирования затраты
      * - Добавляет значение
@@ -90,61 +143,8 @@ export class Commission extends Expenditure {
 
         if(logs){console.log('');}
     }
-    
-    edit() {
-        if(logs){console.log('commission edit:');}
-        // Убрать контент
-        this.removeContent();
-        
-        // Вывести заголовок
-        this.showHeadingEdit();
 
-        // Вывести кнопку удаления
-        this.showHeaderDeleteButton();
-
-        this.showChangeType(this.commission.type);
-
-        // Вывести ввод имени
-        this.showName();
-
-        if(logs){console.log('');}
-    }
-
-    showContent() {
-        // this.showChangeType(this.commission.type);
-        this.removeChangeType();
-        switch(this.commission.type) {
-            case 'commission-percent':
-                this.showPercent();
-                break;
-            case 'commission-value':
-                this.showValue();
-                break;
-            default:
-                // ...
-                break;
-          }
-    }
-    removeContent() {
-        // Удалить
-        this.removeChangeType();
-
-        // Удалить переключение типа комиссии
-        
-
-        switch(this.commission.type) {
-            case 'commission-percent':
-                this.removePercent();
-                break;
-            case 'commission-value':
-                this.removeValue();
-                break;
-            default:
-                // ...
-                break;
-          }
-    }
-
+    /** Вывести изменение типа */
     showChangeType(type) {
         console.log('function showChangeType:');
         console.log(type);
@@ -165,32 +165,24 @@ export class Commission extends Expenditure {
         this.element.type.inputFormControl = document.createElement('input');
         this.element.type.inputFormControl.classList.add('form__form-control', 'form-control');
         this.element.type.inputFormControl.setAttribute('type', 'string');
-        // this.element.type.inputFormControl.setAttribute('min', '0');
-        // this.element.type.inputFormControl.setAttribute('step', '0.01')
         this.element.type.inputFormControl.setAttribute('id', 'form-' + this.id);
         this.element.type.inputFormControl.setAttribute('placeholder', null);
         this.element.type.inputFormControl.setAttribute('disabled', null);
-        // this.element.type.inputFormControl.setAttribute('value', 'Комиссия');
         switch(type) {
             case 'commission-percent':
-                this.element.type.inputFormControl.setAttribute('value', this.commission.percent.caption);
+                this.element.type.inputFormControl.setAttribute('value', this.element.percent.inputTitle);
                 break;
           
             case 'commission-value':
-                this.element.type.inputFormControl.setAttribute('value', this.commission.value.caption);
+                this.element.type.inputFormControl.setAttribute('value', this.element.value.inputTitle);
                 break;
           
             default:
                 // ...
                 break;
           }
-        // if(this.value != 0) {
-        //     this.element.type.inputFormControl.setAttribute('value', this.value);
-        // }
         this.element.type.formFloating.append(this.element.type.inputFormControl);
-        // if(this.value == 0) {
-        //     this.element.type.inputFormControl.focus();
-        // }
+
         this.element.type.labelForInputFormControl = document.createElement('label');
         this.element.type.labelForInputFormControl.classList.add('type-label');
         this.element.type.labelForInputFormControl.setAttribute('for', 'type-' + this.id);
@@ -215,7 +207,7 @@ export class Commission extends Expenditure {
         this.element.type.dropdownButtonComissionPercent.classList.add('dropdown-item');
         this.element.type.dropdownButtonComissionPercent.setAttribute('type', 'button');
         if(type === 'commission-percent') {this.element.type.dropdownButtonComissionPercent.setAttribute('disabled', '');}
-        this.element.type.dropdownButtonComissionPercent.innerText = 'Процент';
+        this.element.type.dropdownButtonComissionPercent.innerText = this.element.percent.inputTitle;
         this.element.type.dropdownItemComissionPercent.append(this.element.type.dropdownButtonComissionPercent);
 
         this.element.type.dropdownItemComissionValue = document.createElement('li');
@@ -225,7 +217,7 @@ export class Commission extends Expenditure {
         this.element.type.dropdownButtonComissionValue.classList.add('dropdown-item');
         this.element.type.dropdownButtonComissionValue.setAttribute('type', 'button');
         if(type === 'commission-value') {this.element.type.dropdownButtonComissionValue.setAttribute('disabled', '');}
-        this.element.type.dropdownButtonComissionValue.innerText = this.commission.value.caption;//'Фиксированная';
+        this.element.type.dropdownButtonComissionValue.innerText = this.element.value.inputTitle;
         this.element.type.dropdownItemComissionValue.append(this.element.type.dropdownButtonComissionValue);
 
         this.element.type.dropdownButtonComissionPercent.addEventListener('click', (event) => {
@@ -237,39 +229,21 @@ export class Commission extends Expenditure {
         });
     }
 
-        // Удалить переключение типа комиссии
-        removeChangeType() {
-            if(logs){console.log('remove value:');}
-            if(logs){console.log(this.element.percent.block);}
-            if(this.element.type.block != null) {
-                this.element.type.block.remove();
-            }
-        }
-
-        // Переключение комиссий
-        replaceCommission(type) {
-            this.commission.type = type;
-            this.removeChangeType();
-            // this.removeValue();
-            // this.removePercent();
-            this.showChangeType(type);
-            switch(type) {
-                case 'commission-percent':
-                    // this.value = null;
-                    // this.showPercent();
-                    break;
-                case 'commission-value':
-                    // this.percent = null;
-                    // this.showValue();
-                    break;
-                default:
-                    // ...
-                    break;
-              }
-
-            // this.element.block.remove();
-    
-            this.unit.marketplacePrice.change(this.unit);
-        }
+    /** Вывести контент */
+    showContent() {
+        // this.showChangeType(this.commission.type);
+        this.removeChangeType();
+        switch(this.commission.type) {
+            case 'commission-percent':
+                this.showPercent();
+                break;
+            case 'commission-value':
+                this.showValue();
+                break;
+            default:
+                // ...
+                break;
+          }
+    }
 
 }

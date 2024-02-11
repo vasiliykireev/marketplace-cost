@@ -17,37 +17,51 @@ import { Commission } from './commission.js';
 let logs = true;
 if(logs){console.log('unit.js');}
 
-let debug = true;
 
 /**
- * Юнит
+ * Отладка
+ * @type {boolean} true: включена, false: выключена
  */
+let debug = true;
+
+/** Юнит */
 export class Unit {
-    /**
-     * Создает расход, комиссию и тариф, и добавляет создание новых по нажатию на кнопку
+    /** Создает новый юнит, который включает в себя:
+     * - Цену для маркетплейса
+     * - Цены поставщика: пока только Оптовую цену
+     * - Прибыль и расходы
+     * - Комиссии макетплейса
      */
     constructor() {
-        const PROFIT = new Cost(this, this.costs, "Прибыль", null)
+
+        /** Выручка */
+        const PROFIT = new Cost(this, this.costs, "Прибыль", 100);
+
+        /* Примеры расходов */
         const cost10 = new Cost(this, this.costs, 'Расход 10', 10);
+
+        /* Примеры комиссий */
+        const commission20 = new Commission(this, this.commissions, 'Процент 1', 'commission-percent', 1);
+        const fees30 = new Commission(this, this.commissions, 'Тариф 30', 'commission-value', 30);
+
+        /** Кнопка добавления расходов */
         this.costs.buttonAdd.addEventListener('click', () => {
             const costNull = new Cost(this, this.costs, null, null);
-        })
-        if(debug){this.debugCosts();}
+        });
 
-        const commission20 = new Commission(this, this.commissions, 'Процент 1', 'commission-percent', 1);
+        /** Кнопка добавления комиссий */
         this.commissions.buttonAdd.addEventListener('click', () => {
             const commissionNull = new Commission(this, this.commissions, null, 'commission-percent', null);
-        })
+        });
 
-        const fees30 = new Commission(this, this.commissions, 'Тариф 30', 'commission-value', 30);
-        // this.fees.buttonAdd.addEventListener('click', () => {
-        //     const feeNull = new Commission(this, this.commissions, null, 'commission-value', null);
-        // })
-
+        /** Оптовая цена */
         this.wholesalePrice = new WholesalePrice(this, 10000);
 
+        /** Цена для маркетплейса */
         this.marketplacePrice = new MarketplacePrice(this);
 
+        /** Кнопка отладки */
+        if(debug){this.debugUnit();}
 
     }
     /** Данные для расходов */
@@ -64,23 +78,15 @@ export class Unit {
         container: document.querySelector('.commissions'),
         storage: new Array(),
     }
-    /** Данные для тарифов */
-    // fees = {
-    //     // type: 'fee',
-    //     buttonAdd: document.querySelector('.add__fee'),
-    //     container: document.querySelector('.fees'),
-    //     storage: new Array(),
-    // }
     /** Кнопка для отладки */
-    debugCosts() {
-        this.debugCostsButton = document.createElement('button');
-        this.debugCostsButton.setAttribute('type', 'button');
-        this.debugCostsButton.classList.add('btn', 'btn-info', 'text-center');
-        this.debugCostsButton.innerHTML = '<i class="bi bi-question-lg"></i> Отладка';
-        document.querySelector('.debug').append(this.debugCostsButton);
-        this.debugCostsButton.addEventListener('click', () => {
+    debugUnit() {
+        this.debugUnitButton = document.createElement('button');
+        this.debugUnitButton.setAttribute('type', 'button');
+        this.debugUnitButton.classList.add('btn', 'btn-info', 'text-center');
+        this.debugUnitButton.innerHTML = '<i class="bi bi-question-lg"></i> Отладка';
+        document.querySelector('.debug').append(this.debugUnitButton);
+        this.debugUnitButton.addEventListener('click', () => {
             console.log(this);
         })
     }
-
 }
