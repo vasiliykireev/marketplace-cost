@@ -14,48 +14,48 @@ if(logs){console.log('commission.js');}
 /**
  * Процентная комиссия
  */
-export class CommissionPercent extends Commission {
-        /**
-     * Создает процентную комиссию. Выводит комиссию, но если не заполнено имя, выводит редактирование затраты.
-     * @param {Object} unit Объект юнита для расчета экономики
-     * @param {Object} expenditure Объект типа комиссии
-     * @param {String} name Название комиссии
-     * @param {Number} percent Процент комиссии
-     */
-        constructor(unit, expenditure, name, percent){
-            super(unit, expenditure, name);
-            this.type = 'commission-percent';
-            this.percent = roundToHundredths(percent);
+// export class CommissionPercent extends Commission {
+//         /**
+//      * Создает процентную комиссию. Выводит комиссию, но если не заполнено имя, выводит редактирование затраты.
+//      * @param {Object} unit Объект юнита для расчета экономики
+//      * @param {Object} expenditure Объект типа комиссии
+//      * @param {String} name Название комиссии
+//      * @param {Number} percent Процент комиссии
+//      */
+//         constructor(unit, expenditure, name, replace, percent){
+//             super(unit, expenditure, name);
+//             // this.commission.type = 'commission-percent';
+//             // this.percent = roundToHundredths(percent);
 
-            this.create(this.type);
-            if(this.name == null) {
-                this.edit();
-            } else {
-                this.show();
-            }
-        }
+//             // this.create(this.type);
+//             // if(this.name == null) {
+//             //     this.edit();
+//             // } else {
+//             //     this.show();
+//             // }
+//         }
     
-        /** Процент комиссии */
-        percent = new Number;
+//         // /** Процент комиссии */
+//         // percent = new Number;
 
-        showContent() {
-            this.showChangeType(this.type);
-            this.showPercent();
-        }
-        removeContent() {
-            // Удалить
-            this.removeChangeType();
+//         showContent() {
+//             this.showChangeType(this.commission.type);
+//             this.showPercent();
+//         }
+//         removeContent() {
+//             // Удалить
+//             this.removeChangeType();
     
-            // Удалить переключение типа комиссии
-            this.removePercent();
-        }
+//             // Удалить переключение типа комиссии
+//             this.removePercent();
+//         }
 
-        // Переключение комиссий
-        replaceCommissionValue() {
-            this.storage.splice(this.storage.indexOf(this), 1, new CommissionValue(this.unit, this.expenditure, this.name, this.value));
+//         // Переключение комиссий
+//         replaceCommissionValue() {
+//             this.storage.splice(this.storage.indexOf(this), 1, new CommissionValue(this.unit, this.expenditure, this.name, true, this.value));
 
-            this.element.block.remove();
+//             // this.element.block.remove();
     
-            this.unit.marketplacePrice.change(this.unit);
-        }
-}
+//             this.unit.marketplacePrice.change(this.unit);
+//         }
+// }

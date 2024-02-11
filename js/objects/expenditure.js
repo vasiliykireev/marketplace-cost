@@ -79,9 +79,9 @@ export class Expenditure {
     create(type) {
         if(logs){console.log('expenditure create:');}
 
-        this.storage.splice(this.storage.indexOf(this), 0, this)
+        // this.storage.splice(this.storage.indexOf(this), 0, this)
 
-        // this.storage.push(this);
+        this.storage.push(this);
 
         if(logs){
             console.log('expenditure.storage:');
@@ -518,7 +518,7 @@ export class Expenditure {
             console.log(this);
         }
 
-        this.storage.splice(this.storage.indexOf(this), 1, 'Deleted');
+        this.storage.splice(this.storage.indexOf(this), 1);
 
         this.element.block.remove();
 

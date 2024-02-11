@@ -19,16 +19,47 @@ export class Commission extends Expenditure {
      * @param {Object} unit Объект юнита для расчета экономики
      * @param {Object} expenditure Объект типа комиссии
      * @param {String} name Название комиссии
+     * @param {String} type Тип комиссии
+     * @param {Number} value Значение
      */
-    constructor(unit, expenditure, name){
+    constructor(unit, expenditure, name, type, value){
         super(unit, expenditure, name);
-        this.type = 'commission';
+        // this.type = 'commission';
         Object.defineProperties(this.element.name, {
             newTitle: {value: 'Новая комиссия'},
             editTitle: {value: 'Редактировать комиссию'},
         });
+        this.type = 'commission';
+        this.commission.type = type;
+        // this.commission.type = 'commission-percent';
+        console.log('new Commission:');
+        console.log(this.type);
+
+        switch(this.commission.type) {
+            case 'commission-percent':
+                this.percent = roundToHundredths(value);
+                break;
+            case 'commission-value':
+                this.value = roundToHundredths(value);
+                break;
+            default:
+                // ...
+                break;
+          }
+
+        this.create(this.type);
+        if(this.name == null) {
+            this.edit();
+        } else {
+            this.show();
+        }
 
     }
+
+    // /** Процент комиссии */
+    // percent = new Number;
+    // /** Значение комиссии */
+    // value = new Number;
 
     commission = {
         percent: {
@@ -75,6 +106,40 @@ export class Commission extends Expenditure {
         this.showName();
 
         if(logs){console.log('');}
+    }
+
+    showContent() {
+        this.showChangeType(this.commission.type);
+        switch(this.commission.type) {
+            case 'commission-percent':
+                this.showPercent();
+                break;
+            case 'commission-value':
+                this.showValue();
+                break;
+            default:
+                // ...
+                break;
+          }
+    }
+    removeContent() {
+        // Удалить
+        this.removeChangeType();
+
+        // Удалить переключение типа комиссии
+        
+
+        switch(this.commission.type) {
+            case 'commission-percent':
+                this.removePercent();
+                break;
+            case 'commission-value':
+                this.removeValue();
+                break;
+            default:
+                // ...
+                break;
+          }
     }
 
     showChangeType(type) {
@@ -159,12 +224,13 @@ export class Commission extends Expenditure {
         if(type === 'commission-value') {this.element.type.dropdownButtonComissionValue.setAttribute('disabled', '');}
         this.element.type.dropdownButtonComissionValue.innerText = this.commission.value.caption;//'Фиксированная';
         this.element.type.dropdownItemComissionValue.append(this.element.type.dropdownButtonComissionValue);
+
         this.element.type.dropdownButtonComissionPercent.addEventListener('click', (event) => {
-            this.replaceCommissionPercent();
+            this.replaceCommission('commission-percent');
         });
 
         this.element.type.dropdownButtonComissionValue.addEventListener('click', (event) => {
-            this.replaceCommissionValue();
+            this.replaceCommission('commission-value');
         });
     }
 
@@ -175,6 +241,32 @@ export class Commission extends Expenditure {
             if(this.element.type.block != null) {
                 this.element.type.block.remove();
             }
+        }
+
+        // Переключение комиссий
+        replaceCommission(type) {
+            this.commission.type = type;
+            this.removeChangeType();
+            this.removeValue();
+            this.removePercent();
+            this.showChangeType(type);
+            switch(type) {
+                case 'commission-percent':
+                    // this.value = null;
+                    this.showPercent();
+                    break;
+                case 'commission-value':
+                    // this.percent = null;
+                    this.showValue();
+                    break;
+                default:
+                    // ...
+                    break;
+              }
+
+            // this.element.block.remove();
+    
+            this.unit.marketplacePrice.change(this.unit);
         }
 
 }

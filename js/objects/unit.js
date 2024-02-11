@@ -4,10 +4,10 @@ import { WholesalePrice } from './wholesale-price.js';
 import { MarketplacePrice } from './marketplace-price.js';
 
 import { Cost } from './cost.js';
-// import { Commission } from './commission.js';
-import { CommissionPercent } from './commission-percent.js';
-import { CommissionValue } from './commission-value.js';
-import { Fee } from './fee.js';
+import { Commission } from './commission.js';
+// import { CommissionPercent } from './commission-percent.js';
+// import { CommissionValue } from './commission-value.js';
+// import { Fee } from './fee.js';
 
 
 /**
@@ -34,14 +34,14 @@ export class Unit {
         })
         if(debug){this.debugCosts();}
 
-        const commission20 = new CommissionPercent(this, this.commissions, 'Комиссия 1', 1);
+        const commission20 = new Commission(this, this.commissions, 'Процент 1', 'commission-percent', 1);
         this.commissions.buttonAdd.addEventListener('click', () => {
-            const commissionNull = new CommissionPercent(this, this.commissions, null, null);
+            const commissionNull = new Commission(this, this.commissions, null, 'commission-percent', null);
         })
 
-        const fees30 = new CommissionValue(this, this.commissions, 'Тариф 30', 30);
+        const fees30 = new Commission(this, this.commissions, 'Тариф 30', 'commission-value', 30);
         this.fees.buttonAdd.addEventListener('click', () => {
-            const feeNull = new CommissionValue(this, this.commissions, null, null);
+            const feeNull = new Commission(this, this.commissions, null, 'comission-value', null);
         })
 
         this.wholesalePrice = new WholesalePrice(this, 10000);

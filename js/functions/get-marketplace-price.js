@@ -59,10 +59,21 @@ export function getMaketplacePrice(wholesalePrice, costs, commissions) {
 
     /* Распределение массива комиссий на комиссии в процентах и тарифы со значением */
     commissions.forEach(function(commission) { // Для каждой комиссии в массиве комиссий
-        if(commission.value == undefined && commission.percent != undefined){
+        console.log('commissions => commission');
+        console.log(commission);
+        console.log('commission percent');
+        console.log(commission.percent);
+        // if(commission.value == undefined && commission.percent != undefined){
+        //     let commissionValue = roundToHundredths(commission.percent);
+        //     sumCommissions = sumCommissions + commissionValue; // Прибавляем комиссию в сумму комиссий
+        // } else if(commission.value != undefined) {
+        //     let feeValue = roundToHundredths(commission.value);
+        //     sumFees = sumFees + feeValue; // Прибавляем тариф в сумму тарифов
+        // } // else { alert('Нет комиссии или тарифа!');}
+        if(commission.commission.type === 'commission-percent' && commission.percent != undefined){
             let commissionValue = roundToHundredths(commission.percent);
             sumCommissions = sumCommissions + commissionValue; // Прибавляем комиссию в сумму комиссий
-        } else if(commission.value != undefined) {
+        } else if(commission.commission.type === 'commission-value' && commission.value != undefined) {
             let feeValue = roundToHundredths(commission.value);
             sumFees = sumFees + feeValue; // Прибавляем тариф в сумму тарифов
         }
