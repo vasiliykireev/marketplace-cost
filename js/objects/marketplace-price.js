@@ -1,6 +1,6 @@
 'use strict';
 
-import { getMaketplacePrice } from "../functions/get-marketplace-price.js";
+import { getMaketplacePrice } from "../functions/logic/get-marketplace-price.js";
 
 /**
  * Логи

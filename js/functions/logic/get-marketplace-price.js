@@ -1,6 +1,6 @@
 'use strict';
 
-import { roundToHundredths } from "./round-to-hundredths.js";
+import { roundToHundredths } from "../utilities/round-to-hundredths.js";
 
 /**
  * Логи

@@ -1,7 +1,7 @@
 'use strict';
 
 import { Expenditure } from "./expenditure.js";
-import { roundToHundredths } from "../functions/round-to-hundredths.js";
+import { roundToHundredths } from "../functions/utilities/round-to-hundredths.js";
 
 
 /**
