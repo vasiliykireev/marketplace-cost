@@ -190,7 +190,7 @@ export class Commission extends Expenditure {
         this.element.type.formFloating.append(this.element.type.labelForInputFormControl);
 
         this.element.type.dropdownToggle = document.createElement('button');
-        this.element.type.dropdownToggle.classList.add('btn', 'btn-secondary', 'dropdown-toggle');
+        this.element.type.dropdownToggle.classList.add('btn', 'btn-secondary', 'dropdown-toggle', 'w-42px');
         this.element.type.dropdownToggle.setAttribute('type', 'button');
         this.element.type.dropdownToggle.setAttribute('data-bs-toggle', 'dropdown');
         this.element.type.dropdownToggle.setAttribute('aria-expanded', 'false');

@@ -363,7 +363,7 @@ export class Expenditure {
         this.element.name.labelForInputFormControl.append(this.element.name.labelText);
     
         this.element.name.saveButton = document.createElement('button');
-        this.element.name.saveButton.classList.add('name__btn', 'btn', 'btn-primary');
+        this.element.name.saveButton.classList.add('name__btn', 'btn', 'btn-primary', 'w-42px');
         this.element.name.saveButton.setAttribute('type', 'button');
         this.element.name.saveButton.setAttribute('aria-label', this.element.button.saveCaption);
         this.element.name.saveButton.innerHTML = this.element.button.saveIcon;
@@ -433,7 +433,7 @@ export class Expenditure {
         })
     
         this.element.percent.inputGroupText = document.createElement('span');
-        this.element.percent.inputGroupText.classList.add('input-group-text');
+        this.element.percent.inputGroupText.classList.add('percent__input-group-text', 'input-group-text', 'w-42px');
         this.element.percent.inputGroupText.innerText = this.element.percent.inputCaption;
         this.element.percent.inputGroup.append(this.element.percent.inputGroupText);
     
