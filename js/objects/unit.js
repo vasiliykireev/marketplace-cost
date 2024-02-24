@@ -63,6 +63,9 @@ export class Unit {
         /** Кнопка отладки */
         if(debug){this.debugUnit();}
 
+        //
+        this.showPresets(this);
+
     }
     /** Данные для расходов */
     costs = {
@@ -77,7 +80,87 @@ export class Unit {
         buttonAdd: document.querySelector('.add__commission'),
         container: document.querySelector('.commissions'),
         storage: new Array(),
+        presets: {
+            dropdown: new Object,
+            menu: document.querySelector('.presets__menu'),
+            values: {
+                ozonFBS: {
+                    name: 'Ozon FBS',
+                    add(unit) {
+                        console.log('this =>');
+                        console.log(this);
+                        console.log('<= this');
+                        console.log(unit.commissions.storage);
+                        unit.deleteExpenditures(unit.commissions.storage);
+                        new Commission(unit, unit.commissions, 'Обработка отправления', 'commission-value', 25);
+                        new Commission(unit, unit.commissions, 'Логистика', 'commission-value', 76);
+                        // new Commission(unit, unit.commissions, null, 'commission-percent', null);
+                        // new Commission(unit, unit.commissions, null, 'commission-percent', null);
+                    }
+                },
+                ozonFBO: {
+                    name: 'Ozon FBO',
+                    add() {
+                        new Commission(this, this.commissions, 'Обработка отправления', 'commission-value', 25);
+                        new Commission(this, this.commissions, 'Логистика', 'commission-value', 76);
+                    }
+                }
+            }
+        },
+
+        // ozonFBS() {
+        //     new Commission(this, this.commissions, 'Обработка отправления', 'commission-value', 25);
+        //     new Commission(this, this.commissions, 'Логистика', 'commission-value', 76);
+
+        // }
     }
+
+    deleteExpenditures(expenditures) {
+
+        if(logs){
+            console.log('deleteExpenditures:');
+            console.log(expenditures);
+            console.log(expenditures.length);
+        }
+        
+        while (expenditures.length > 0) {
+            let counter = expenditures.length;
+            if(logs){
+                console.log('new counter:');
+                console.log(counter);
+            }
+            expenditures[0].delete();
+            if(logs){console.log(expenditures.length);}
+            if (counter === expenditures.length) {
+                if(logs){console.log('counter dont change!');}
+                break;
+            }
+        }
+    }
+
+    showPresets(unit) {
+        for (let key in this.commissions.presets.values) {
+
+            console.log('Тест');
+            console.log(this.commissions.presets.values[key].name);
+
+            this.commissions.presets.dropdown.li = document.createElement('li');
+            this.commissions.presets.menu.append(this.commissions.presets.dropdown.li);
+
+            this.commissions.presets.dropdown.button = document.createElement('button');
+            this.commissions.presets.dropdown.button.classList.add('btn', 'btn-default', 'dropdown-item');
+            this.commissions.presets.dropdown.button.setAttribute('type', 'button');
+            this.commissions.presets.dropdown.button.innerText = this.commissions.presets.values[key].name;
+            this.commissions.presets.dropdown.li.append(this.commissions.presets.dropdown.button);
+
+            this.commissions.presets.dropdown.button.addEventListener('click', () => {
+                console.log(this);
+                this.commissions.presets.values[key].add(unit);
+            });
+
+        };
+    }
+
     /** Кнопка для отладки */
     debugUnit() {
         this.debugUnitButton = document.createElement('button');
