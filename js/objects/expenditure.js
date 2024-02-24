@@ -16,7 +16,7 @@ let debug = false;
 /** Затрата */
 export class Expenditure {
 /**
- * Создает затрату.
+ * Создает затрату
  * @param {Object} unit Объект юнита для расчета экономики
  * @param {Object} expenditure Объект типа затраты
  * @param {String} name Название затраты
