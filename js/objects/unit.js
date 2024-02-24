@@ -34,16 +34,6 @@ export class Unit {
      */
     constructor() {
 
-        /** Выручка */
-        const PROFIT = new Cost(this, this.costs, "Прибыль", 100);
-
-        /* Примеры расходов */
-        const cost10 = new Cost(this, this.costs, 'Расход 10', 10);
-
-        /* Примеры комиссий */
-        const commission20 = new Commission(this, this.commissions, 'Процент 1', 'commission-percent', 1);
-        const fees30 = new Commission(this, this.commissions, 'Тариф 30', 'commission-value', 30);
-
         /** Кнопка добавления расходов */
         this.costs.buttonAdd.addEventListener('click', () => {
             const costNull = new Cost(this, this.costs, null, null);
@@ -59,6 +49,15 @@ export class Unit {
 
         /** Цена для маркетплейса */
         this.marketplacePrice = new MarketplacePrice(this);
+
+        /** Выручка */
+        const PROFIT = new Cost(this, this.costs, "Прибыль", 100);
+
+        /* Примеры расходов */
+        const cost10 = new Cost(this, this.costs, 'Упаковка', 30);
+
+        /* Примеры комиссий */
+        this.commissions.presets.values.ozonFBS.add(this);
 
         /** Кнопка отладки */
         if(debug){this.debugUnit();}
@@ -92,29 +91,37 @@ export class Unit {
                         console.log('<= this');
                         console.log(unit.commissions.storage);
                         unit.deleteExpenditures(unit.commissions.storage);
+                        new Commission(unit, unit.commissions, 'Комиссия за продажу', 'commission-percent', 12);
+                        new Commission(unit, unit.commissions, 'Эквайринг', 'commission-percent', 1.5);
                         new Commission(unit, unit.commissions, 'Обработка отправления', 'commission-value', 25);
                         new Commission(unit, unit.commissions, 'Логистика', 'commission-value', 76);
-                        // new Commission(unit, unit.commissions, null, 'commission-percent', null);
-                        // new Commission(unit, unit.commissions, null, 'commission-percent', null);
+                        new Commission(unit, unit.commissions, 'Последняя миля', 'commission-value', 500);
+                        unit.marketplacePrice.change(unit);
                     }
                 },
                 ozonFBO: {
                     name: 'Ozon FBO',
-                    add() {
-                        new Commission(this, this.commissions, 'Обработка отправления', 'commission-value', 25);
-                        new Commission(this, this.commissions, 'Логистика', 'commission-value', 76);
+                    add(unit) {
+                        console.log('this =>');
+                        console.log(this);
+                        console.log('<= this');
+                        console.log(unit.commissions.storage);
+                        unit.deleteExpenditures(unit.commissions.storage);
+                        new Commission(unit, unit.commissions, 'Комиссия за продажу', 'commission-percent', 11);
+                        new Commission(unit, unit.commissions, 'Эквайринг', 'commission-percent', 1.5);
+                        new Commission(unit, unit.commissions, 'Логистика', 'commission-value', 63);
+                        new Commission(unit, unit.commissions, 'Последняя миля', 'commission-value', 500);
+                        unit.marketplacePrice.change(unit);
                     }
-                }
+                },
             }
         },
-
-        // ozonFBS() {
-        //     new Commission(this, this.commissions, 'Обработка отправления', 'commission-value', 25);
-        //     new Commission(this, this.commissions, 'Логистика', 'commission-value', 76);
-
-        // }
     }
-
+/**
+ * Удалить затраты
+ * Удаляет все затраты из массива. Цикл запускает метод удаления объекта к ключом 0, пока в массиве есть элементы.
+ * @param {*} expenditures Массив для хранения затрат
+ */
     deleteExpenditures(expenditures) {
 
         if(logs){
@@ -122,7 +129,7 @@ export class Unit {
             console.log(expenditures);
             console.log(expenditures.length);
         }
-        
+
         while (expenditures.length > 0) {
             let counter = expenditures.length;
             if(logs){
@@ -137,12 +144,13 @@ export class Unit {
             }
         }
     }
-
+/**
+ * Показать пресеты.
+ * Показывает все пресеты, добавленные в commissions.presets.values.
+ * @param {*} unit При вызове нужно передать текущий Юнит (this)
+ */
     showPresets(unit) {
         for (let key in this.commissions.presets.values) {
-
-            console.log('Тест');
-            console.log(this.commissions.presets.values[key].name);
 
             this.commissions.presets.dropdown.li = document.createElement('li');
             this.commissions.presets.menu.append(this.commissions.presets.dropdown.li);
@@ -154,7 +162,6 @@ export class Unit {
             this.commissions.presets.dropdown.li.append(this.commissions.presets.dropdown.button);
 
             this.commissions.presets.dropdown.button.addEventListener('click', () => {
-                console.log(this);
                 this.commissions.presets.values[key].add(unit);
             });
 
