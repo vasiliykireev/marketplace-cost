@@ -8,7 +8,7 @@ import { roundToHundredths } from "../functions/utilities/round-to-hundredths.js
  * Логи
  * @type {boolean} true: выводить, false: не выводить
  */
-let logs = true;
+let logs = false;
 if(logs){console.log('cost.js');}
 
 /**

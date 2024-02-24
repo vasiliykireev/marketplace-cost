@@ -7,7 +7,7 @@ import { roundToHundredths } from "../functions/utilities/round-to-hundredths.js
  * Логи
  * @type {boolean} true: выводить, false: не выводить
  */
-let logs = true;
+let logs = false;
 if(logs){console.log('commission.js');}
 
 /**
@@ -30,8 +30,10 @@ export class Commission extends Expenditure {
         });
         this.type = 'commission';
         this.commission.type = type;
-        console.log('new Commission:');
-        console.log(this.type);
+        if(logs){
+            console.log('new Commission:');
+            console.log(this.type);
+        }
 
         switch(this.commission.type) {
             case 'commission-percent':

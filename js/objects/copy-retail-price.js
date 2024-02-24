@@ -1,7 +1,7 @@
 'use strict';
 
 /* Логи */
-let logs = true; // true - выводим логи, false - не выводим логи
+let logs = false; // true - выводим логи, false - не выводим логи
 if (logs) {console.log('add-type.js')};
 
 /* Импорт */

@@ -14,7 +14,7 @@ import { Commission } from './commission.js';
  * Логи
  * @type {boolean} true: выводить, false: не выводить
  */
-let logs = true;
+let logs = false;
 if(logs){console.log('unit.js');}
 
 
@@ -22,7 +22,7 @@ if(logs){console.log('unit.js');}
  * Отладка
  * @type {boolean} true: включена, false: выключена
  */
-let debug = true;
+let debug = false;
 
 /** Юнит */
 export class Unit {
@@ -86,10 +86,10 @@ export class Unit {
                 ozonFBS: {
                     name: 'Ozon FBS',
                     add(unit) {
-                        console.log('this =>');
-                        console.log(this);
-                        console.log('<= this');
-                        console.log(unit.commissions.storage);
+                        if(logs){
+                            console.log('commissions.presets.values.ozonFBS:');
+                            console.log(unit.commissions.storage);
+                        }
                         unit.deleteExpenditures(unit.commissions.storage);
                         new Commission(unit, unit.commissions, 'Комиссия за продажу', 'commission-percent', 12);
                         new Commission(unit, unit.commissions, 'Эквайринг', 'commission-percent', 1.5);
@@ -102,10 +102,10 @@ export class Unit {
                 ozonFBO: {
                     name: 'Ozon FBO',
                     add(unit) {
-                        console.log('this =>');
-                        console.log(this);
-                        console.log('<= this');
-                        console.log(unit.commissions.storage);
+                        if(logs){
+                            console.log('commissions.presets.values.ozonFBO:');
+                            console.log(unit.commissions.storage);
+                        }
                         unit.deleteExpenditures(unit.commissions.storage);
                         new Commission(unit, unit.commissions, 'Комиссия за продажу', 'commission-percent', 11);
                         new Commission(unit, unit.commissions, 'Эквайринг', 'commission-percent', 1.5);
